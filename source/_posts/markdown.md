@@ -11,7 +11,7 @@ tags:
 
     <img src="图片路径" width=256 height=256 />
 *还可以使用<u>百分比</u>的方式来给width,height传参*
-
+<!--more-->
     <img src="/images/mine.jpg" width="50%" height="50%" />
 *如果想给图像加个标注，可以这么做*
 
@@ -31,3 +31,5 @@ tags:
     </center>
   **Markdown 菜鸟教程**
   https://www.runoob.com/markdown/md-tutorial.html
+  **常用**
+  https://blog.csdn.net/u011732358/article/details/83098211
