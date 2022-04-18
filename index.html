@@ -323,25 +323,25 @@ document.addEventListener('visibilitychange', function () {
        
   <p>[TOC]</p>
 <h2 id="汇编中常见的寄存器"><a href="#汇编中常见的寄存器" class="headerlink" title="汇编中常见的寄存器"></a>汇编中常见的寄存器</h2><ul>
-<li>%rax 一般用作累加器(Accumulator)</li>
-<li>%rbx 一般用作基址寄存器( Base )</li>
-<li>%rxc 一般用来计数( Count )</li>
-<li>%rdx 一般用来存放数据( Data )</li>
-<li>%rsi一般用作源变址( Source Index )</li>
-<li>%rdi 一般用作目标变址( DestinatinIndex )</li>
-<li>%rbp 一般用作基址指针( Base Pointer )</li>
-<li>%rsp 一般用作堆栈指针( Stack Pointer )</li>
-<li>%rip 是指令指针，也称为 PC</li>
-<li>CF、ZF、SF 和 OF 条件码</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// ji&#x27;ben</span><br><span class="line">0x8(%rdx) = 0xf000 + 0x8 = 0xf008</span><br><span class="line">(%rdx, %rcx) = 0xf000 + 0x100 = 0xf100</span><br><span class="line">(%rdx, %rcx, 4) = 0xf000 + 4*0x100 = 0xf400</span><br><span class="line">0x80(, %rdx, 2) = 2*0xf000 + 0x80 = 0x1e080</span><br></pre></td></tr></table></figure>
-
-<h2 id="汇编常见指令"><a href="#汇编常见指令" class="headerlink" title="汇编常见指令"></a>汇编常见指令</h2><ul>
-<li>jmp无条件跳转</li>
-<li>jle条件转移指令：比如 <code>cmp a ,b</code> ，后面再接JLE，如果a&lt;=b的话，就跳转到别的命令上</li>
-<li>lea加载有效地址（load effective address）指令就是lea,他的指令形式就是从内存读取数据到寄存器</li>
-</ul>
- 
+<li><p>%rax 一般用作累加器(Accumulator)</p>
+</li>
+<li><p>%rbx 一般用作基址寄存器( Base )</p>
+</li>
+<li><p>%rxc 一般用来计数( Count )</p>
+</li>
+<li><p>%rdx 一般用来存放数据( Data )</p>
+</li>
+<li><p>%rsi一般用作源变址( Source Index )</p>
+</li>
+<li><p>%rdi 一般用作目标变址( DestinatinIndex )</p>
+</li>
+<li><p>%rbp 一般用作基址指针( Base Pointer )</p>
+</li>
+<li><p>%rsp 一般用作堆栈指针( Stack Pointer )</p> 
+      <a class="article-more-link" href="/2022/04/18/%E5%B8%B8%E8%A7%81%E6%B1%87%E7%BC%96%E5%AF%84%E5%AD%98%E5%99%A8/"
+        >阅读更多...</a
+      >
+       
       <!-- reward -->
       
     </div>
