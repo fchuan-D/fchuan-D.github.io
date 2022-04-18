@@ -1,0 +1,1007 @@
+<!DOCTYPE html>
+<!-- jquery，懒加载、统计、说说需要的jquery -->
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+<script type="text/javascript">
+// 鼠标点击显示文字
+var a_idx = 0;
+jQuery(document).ready(function($) {
+    $("body").click(function(e) {
+        var a = new Array
+        ("富强", "民主", "文明", "和谐", "自由", "平等", "公正", "法治", "爱国", "敬业", "诚信", "友善");
+        var $i = $("<span/>").text(a[a_idx]);
+        a_idx = (a_idx + 1) % a.length;
+        var x = e.pageX,
+        y = e.pageY;
+        $i.css({
+            "z-index": 5,
+            "top": y - 20,
+            "left": x,
+            "position": "absolute",
+            "font-weight": "bold",
+            "font-size":"18px",
+            "color": "rgb(" + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + ")"
+        });
+        $("body").append($i);
+        $i.animate({
+            "top": y - 180,
+            "opacity": 0
+        },
+			3000,
+			function() {
+			    $i.remove();
+			});
+    });
+    setTimeout('delay()', 2000);
+});
+</script>
+
+<script type="text/javascript">
+// 浏览器搞笑标题
+var OriginTitle = document.title;
+var titleTime;
+document.addEventListener('visibilitychange', function () {
+	if (location.href != "https://fanchuan77.github.io"){//主页不变
+		if (document.hidden) {
+			//$('[rel="icon"]').attr('href', "/funny.ico");
+			document.title = '/(ㄒoㄒ)/你弄丢了樊川';
+			clearTimeout(titleTime);
+		}else {
+			//$('[rel="icon"]').attr('href', "/favicon.ico");
+			document.title = '(ฅ>ω<*ฅ) 噫又找到啦~' + OriginTitle;
+			titleTime = setTimeout(function () {
+				document.title = OriginTitle;
+			}, 2000);
+		}
+	}
+});
+</script>
+
+</script>
+
+
+<html lang="zh-CN">
+  
+
+    <head>
+      <meta charset="utf-8" />
+       
+      <meta name="keywords" content="peace and love" />
+       
+      <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1, maximum-scale=1"
+      />
+      <title>计网期末 |  樊川</title>
+  <meta name="generator" content="hexo-theme-ayer">
+      
+      <link rel="shortcut icon" href="/favicon.ico" />
+       
+<link rel="stylesheet" href="/dist/main.css">
+
+      <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/Shen-Yu/cdn/css/remixicon.min.css"
+      />
+      
+<link rel="stylesheet" href="/css/custom.css">
+ 
+      <script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+       
+ 
+
+      <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-bulma@5.0.1/bulma.min.css"
+      />
+      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.js"></script>
+
+      <!-- mermaid -->
+      
+      <style>
+        .swal2-styled.swal2-confirm {
+          font-size: 1.6rem;
+        }
+        /*底部标签*/
+        .github-badge {
+        	display: inline-block;
+        	border-radius: 4px;
+        	text-shadow: none;
+        	font-size: 12px;
+        	color: #fff;
+        	line-height: 15px;
+        	background-color: #ABBAC3;
+          margin-bottom: 5px;
+        }
+        .github-badge .badge-subject {
+        	display: inline-block;
+        	background-color: #4D4D4D;
+        	padding: 4px 4px 4px 6px;
+        	border-top-left-radius: 4px;
+        	border-bottom-left-radius: 4px;
+        }
+        .github-badge .badge-value {
+        	display: inline-block;
+        	padding: 4px 6px 4px 4px;
+        	border-top-right-radius: 4px;
+        	border-bottom-right-radius: 4px;
+        }
+        .github-badge .bg-brightgreen {
+        	background-color: #4DC820 !important;
+        }
+        .github-badge .bg-cyan {
+        	background-color: #008B8B !important;
+        }
+        .github-badge .bg-orange {
+        	background-color: #FFA500 !important;
+        }
+        .github-badge .bg-yellow {
+        	background-color: #D8B024 !important;
+        }
+        .github-badge .bg-blueviolet {
+        	background-color: #8833D7 !important;
+        }
+        .github-badge .bg-pink {
+        	background-color: #F26BAE !important;
+        }
+        .github-badge .bg-red {
+        	background-color: #e05d44 !important;
+        }
+        .github-badge .bg-black {
+        	background-color: #000000 !important;
+        }
+        .github-badge .bg-blue {
+        	background-color: #007EC6 !important;
+        }
+        .github-badge .bg-lightgrey {
+        	background-color: #9F9F9F !important;
+        }
+        .github-badge .bg-grey, .github-badge .bg-gray {
+        	background-color: #555 !important;
+        }
+        .github-badge .bg-lightgrey, .github-badge .bg-lightgray {
+        	background-color: #9f9f9f !important;
+        }
+      </style>
+    </head>
+  </html>
+</html>
+
+
+<body>
+  <div id="app">
+    
+      
+      <canvas width="1777" height="841"
+        style="position: fixed; left: 0px; top: 0px; z-index: 99999; pointer-events: none;"></canvas>
+      
+    <main class="content on">
+      <section class="outer">
+  <article
+  id="post-计网"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  计网期末
+</h1>
+ 
+
+      
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2022/01/04/%E8%AE%A1%E7%BD%91/" class="article-date">
+  <time datetime="2022-01-04T07:33:36.000Z" itemprop="datePublished">2022-01-04</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a>
+  </div>
+  
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> 字数统计:</span>
+            <span class="post-count">2.1k</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> 阅读时长≈</span>
+            <span class="post-count">7 分钟</span>
+        </span>
+    </span>
+</div>
+ 
+    </div>
+      
+
+
+
+  
+    <div class="article-entry" itemprop="articleBody">
+       
+  <p>计算机网络知识点随记<br>1.分组交换的两种方式</p>
+<ul>
+<li>数据报方式是为网络层提供无连接服务<br>(无连接的服务:就是通信双方<strong>不需要</strong>事先建立一条通信线路，而是把每个带有目的地址的包（报文分组）送到线路上，由系统选定路线进行传输。它不要求发送方和接收方之间的会话连接，<strong>不保证数据以相同的顺序到达</strong>。)</li>
+<li>虚电路方式是为网络层提供面向连接服务<span id="more"></span>
+(面向连接服务:就是通信双方在通信时，<strong>要事先建立</strong>一条通信线路，其过程有建立连接（通过三次握手的方式建立，建立连接是需要分配相应的资源如缓冲区，以保证通信能正常进行）、使用连接和释放连接三个过程。<strong>它可以保证数据以相同的顺序到达</strong>。面向连接的服务在端系统之间建立通过网络的虚链路。 <strong>TCP协议</strong>就是一种面向连接服务的协议，电话系统是一个面向连接的模式。)</li>
+</ul>
+<p>2.在计算机网络中通常以一种包含五层协议的体系结构来讲解各层之间的功能与联系，这种体系结构结合OSI和TCP/IP的优点，分为<strong>应用层、传输层、网络层、数据链路层和物理层</strong>。 </p>
+<ul>
+<li>物理层。物理层是计算机体系结构的最底层，它为设备之间的数据传输提供可靠的环境</li>
+<li>数据链路层。数据链路层简称链路层，该层将从网络层获取的数据报组装成帧，在网络结点之间以帧为单位传输数据</li>
+<li>网络层。为分组交换网上的不同主机提供通信服务，在进行通信时，将从传输层获取的报文段或数据报封装成分组或包，数据或包通常称为数据报</li>
+<li>传输层。为应用进程提供连接服务，实现连接两端进程的会话</li>
+<li>应用层。为应用进程提供服务，定义了应用进程间通信和交互的规则</li>
+</ul>
+<p>3.TCP/IP实际上并不是协议，而是<u>协议族</u>，它由多种协议构成，包括TCP协议、UDP协议、IP协议等等，其中<strong>TCP、UDP协议应用在<u>传输层</u></strong>;<strong>IP协议应用在<u>网络层</u></strong></p>
+<p>4.累积确认这个概念应该不只适用于TCP协议，也适用其他层，比如数据链路层。<br>一般地讲，如果发送方发了包1，包2，包3，包4；接受方成功收到包1，包2，包3。那么接受方可以发回一个确认包，序号为4(4表示期望下一个收到的包的序号；当然你约定好用3表示也可以)，那么发送方就知道包1到包3都发送接收成功，必要时重发包4。一个确认包确认了累积到某一序号的所有包，而不是对每个序号都发确认包。<br>具体到TCP，它对字节编号。比如发送方发了包1，包2，包3；包1含字节0到10，包2含字节11到20，包3含字节21到30。接受方成功收到包1，包2。那么接受方发回一个包含确认序号21的包，发送方就知道字节0到20(包1，包2)都成功收到，必要时要重发的只需从字节21开始。</p>
+<p>5.各类协议简述</p>
+<p>***传输层：         常见的协议有  TCP,IP ,UDP 协议</p>
+<p>应用层：         常见的协议有 HTTP，FTP 协议</p>
+<p>网络层：         常见的协议有 IP 协议，ICMP 协议，IGMP 协议</p>
+<p>网络接口层(即物理层和数据链路层)：      常见的协议有 ARP 协议，RARP 协议***</p>
+<hr>
+<ul>
+<li><strong>TCP协议</strong>即传输控制协议(Transmission Control Protocol)，该协议是一种<strong>面向连接的、可靠的、基于字节流的传输协议</strong>。<br>因为TCP连接是<strong>全双工</strong>的(全双工指交换机在发送数据的同时也能够接收数据，两者同步进行，类似语音通话，双方在说话的同时也能够听到对方的声音)</li>
+<li><strong>UDP协议</strong>即用户数据报协议(User Datagram Protocol)，它是一种<strong>无连接的传输层协议</strong>，<u>UDP不对数据报进行编号</U>，它不保证接收方以正确的顺序接收到完整的数据，但会将数据报的长度随数据发送给接收方。虽然UDP面向无连接的通信，不能如TCP般很好地保证数据的完整性和正确性，但UDP处理速度快，耗费资源少，因此在对<strong>数据完整性要求低、对传输效率要求高</strong>的应用中一般使用UDP协议传输数据。</li>
+<li><strong>IP协议</strong>是TCP/IP体系中的<strong>网络层协议</strong>。设计IP协议的目的是提高网络的可扩展性：<u>一是解决互联网问题，实现大规模、异构网络的互联互通；二是分割顶层网络应用和底层网络技术之间的耦合关系，以利于两者的独立发展</u>。根据端到端的设计原则，IP协议只为主机提供一种<strong>无连接、不可靠的、尽力而为的数据包传输服务</strong>。IP协议的两个基本功能为<strong>寻址和分段</strong>。传输层的数据封装完成后没有直接发送到接收方，而是先递达网络层;网络层又在原数据报前添加IP首部，封装成IP数据报，并解析数据报中的目的地址，为其选择传输路径，将数据报发送到接收方，IP协议中这种选择道路的功能称为路由功能。此外，IP协议可重新组装数据报，改变数据报的大小，以适应不同网络对包大小的要求。需要说明的是，<u>IP协议不提供端到端或结点到结点的确认，只检测报头中的校验码，不提供可靠的传输服务。</u></li>
+<li><strong>ARP协议</strong>，即地址解析协议（Address Resolution Protocol），是根据IP地址获取物理地址的一个TCP/IP协议。主机发送信息时将包含目标IP地址的ARP请求广播到局域网络上的所有主机，并接收返回消息，以此确定目标的物理地址；收到返回消息后将该IP地址和物理地址存入本机ARP缓存中并保留一定时间，下次请求时直接查询ARP缓存以节约资源。</li>
+<li><strong>SR协议</strong>，即选择重传协议（Segment Routing），<strong>1.对数据帧逐一确认，收一个确认一个 2.只重传出错帧 3.接收方有缓存</strong></li>
+<li><strong>连续ARQ协议</strong>（Automatic Repeat reQuest）指发送方维持着一个一定大小的发送窗口，位于发送窗口内的所有分组都可连续发送出去，而中途不需要等待对方的确认。（<u>接收方一般都是采用积累确认的方式。这就是说，接收方不必对收到的分组逐个发送确认，而是在收到几个分组后，对按序到达的最后一个分组发送确认，这就表示：到这个分组为止的所有分组都已正确收到了。</u>）这样信道的利用率就提高了。而发送方每收到一个确认就把发送窗口向前滑动一个分组的位置。<strong>ARQ代表的是自动重传请求，而GBN与选择重传都属于其中</strong><br>(积累确认有优点也有缺点。优点是：容易实现，即使确认丢失也不必重传。但缺点是不能向发送方反映出接收方已经正确收到的所有分组的信息。例如，如果发送方发送了前5个分组，而中间的第3个分组丢失了。这时接收方只是对前两个分组发出确认。发送方无法知道后面三个分组的下落，而只好把后面的三个分组都再重传一次。这就叫做Go-back-N（回退N），表示需要再退回来重传已发送过的N个分组。可见当通信线路质量不好时，连续ARQ协议会带来负面的影响。)</li>
+</ul>
+ 
+      <!-- reward -->
+      
+      <div id="reword-out">
+        <div id="reward-btn">
+          打赏
+        </div>
+      </div>
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <div class="declare">
+      <ul class="post-copyright">
+        <li>
+          <i class="ri-copyright-line"></i>
+          <strong>版权声明： </strong>
+          
+          本博客所有文章除特别声明外，著作权归作者所有。转载请注明出处！
+          
+        </li>
+      </ul>
+    </div>
+    
+    <footer class="article-footer">
+       
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://fanchuan77.github.io/2022/01/04/%E8%AE%A1%E7%BD%91/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>  
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/" rel="tag">期末复习</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+  <nav class="article-nav">
+    
+      <a href="/2022/02/05/%E5%8F%91%E7%8E%B0%E4%B8%80%E4%B8%AA%E9%97%AE%E9%A2%98/" class="article-nav-link">
+        <strong class="article-nav-caption">上一篇</strong>
+        <div class="article-nav-title">
+          
+            发现一个问题
+          
+        </div>
+      </a>
+    
+    
+      <a href="/2022/01/01/2022/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">2021→2022</div>
+      </a>
+    
+  </nav>
+
+   
+<!-- valine评论 -->
+<div id="vcomments-box">
+    <div id="vcomments">
+    </div>
+</div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<!-- <script src='https://cdn.jsdelivr.net/npm/valine@1.3.10/dist/Valine.min.js'></script> -->
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+<!-- 评论背景 -->
+<style>
+    #veditor{min-height: 10rem;
+        background-image: url(/images/pinkpig.gif);
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: right;
+        background-color: rgba(255,255,255,0);
+        resize: none;}
+</style>
+<!-- Valine配置 -->
+<script>
+    new Valine({
+        el: '#vcomments',
+		enableQQ: true,
+        app_id: 'eCR8qPWwy7vTfHC1wEyDjrdH-gzGzoHsz',
+        app_key: 'Dc6OOKMw2Mir0DUSF9Hwtlm7',
+        path: window.location.pathname,
+        //notify: '',
+        //verify: '',
+        avatar: 'monsterid',
+        placeholder: '给我的文章加点评论吧~',
+        recordIP: true,
+
+		// 设置Bilibili表情包地址
+		emojiCDN: 'https://cdn.jsdelivr.net/gh/XXXZhy/Blog_Image/valine_emoticon/',
+		// 表情title和图片映射
+		emojiMaps: {
+			"墙角滑稽": "害怕滑稽.gif",
+			"仙女下凡": "仙女下凡.webp",
+			"听歌": "听歌.webp",
+			"嫌弃": "嫌弃.webp",
+			"害羞": "害羞.webp",
+			"彩虹滑稽": "彩虹滑稽.webp",
+			"快走": "快走.webp",
+			"扯脸": "扯脸.webp",
+			"摸脸": "摸脸.webp",
+			"流汗": "流汗.webp",
+			"滑滑板": "滑滑板.webp",
+			"点赞": "点赞.webp",
+			"斜眼笑": "tv_斜眼笑.png",
+			"二郎腿": "光头小人 (21).gif",
+			"跳舞": "光头小人 (32).gif",
+			"秃头": "掉头发.gif",
+			"点赞": "点赞.webp",
+			"手舞足蹈": "手舞足蹈.gif",
+			"生气": "小人儿 (6).png",
+			// ... 更多表情
+		}
+    });
+    const infoEle = document.querySelector('#vcomments .info');
+    if (infoEle && infoEle.childNodes && infoEle.childNodes.length > 0) {
+        infoEle.childNodes.forEach(function (item) {
+            item.parentNode.removeChild(item);
+        });
+    }
+</script>
+
+<style>
+    #vcomments-box {
+        padding: 5px 30px;
+    }
+
+    @media screen and (max-width: 800px) {
+        #vcomments-box {
+            padding: 5px 0px;
+        }
+    }
+
+    #vcomments-box #vcomments {
+        background-color: #fff;
+    }
+
+    .v .vlist .vcard .vh {
+        padding-right: 20px;
+    }
+
+    .v .vlist .vcard {
+        padding-left: 10px;
+    }
+</style>
+
+ 
+   
+     
+</article>
+
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul>
+      <li>
+        Copyrights &copy;
+        2021-2022
+        <i class="ri-heart-fill heart_icon"></i> 樊川
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+        
+        <span>
+  <span><i class="ri-user-3-fill"></i>访问人数:<span id="busuanzi_value_site_uv"></span></span>
+  <span class="division">|</span>
+  <span><i class="ri-eye-fill"></i>浏览次数:<span id="busuanzi_value_page_pv"></span></span>
+</span>
+        
+      </li>
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      <li>
+        <!-- cnzz统计 -->
+        
+        <script type="text/javascript" src='https://s9.cnzz.com/z_stat.php?id=1278069914&amp;web_id=1278069914'></script>
+        
+      </li>
+    </ul>
+     <!-- 运行天数 -->
+        <ul>
+            <li><span id="runtime_span"></span></li>
+        </ul>
+<script type="text/javascript">
+    function show_runtime() {
+        window.setTimeout("show_runtime()", 1000);
+        X = new Date("12/30/2021 08:00:00");
+        Y = new Date();
+        T = (Y.getTime() - X.getTime());
+        M = 24 * 60 * 60 * 1000;
+        a = T / M;
+        A = Math.floor(a);
+        b = (a - A) * 24;
+        B = Math.floor(b);
+        c = (b - B) * 60;
+        C = Math.floor((b - B) * 60);
+        D = Math.floor((c - C) * 60);
+        runtime_span.innerHTML = "小站在各种崩坏中坚持了: " + A + "天" + B + "小时" + C + "分" + D + "秒"
+    }
+	show_runtime();
+</script>
+
+    <!-- 底部标牌 -->
+    	<ul>
+    		<li>
+    		<div class="github-badge"><a style="color: #fff" href="https://hexo.io" target="_blank" title="Hexo强力驱动"><span class="badge-subject">Powered</span><span class="badge-value bg-blue">Hexo</span></a></div>&nbsp;
+    		<div class="github-badge"><a style="color: #fff" href="https://github.com/Shen-Yu/hexo-theme-ayer" target="_blank" title="主题Ayer"><span class="badge-subject">Theme</span><span class="badge-value bg-cyan">Ayer</span></a></div>&nbsp;
+    		<div class="github-badge"><a style="color: #fff" href="https://www.aliyun.com" target="_blank" title="网站托管于阿里云"><span class="badge-subject">Hosted</span><span class="badge-value bg-red">Aliyun</span></a></div>&nbsp;
+    		<div class="github-badge"><a style="color: #fff" href="https://su.baidu.com" target="_blank" title="百度云加速整站"><span class="badge-subject">DNS</span><span class="badge-value bg-blueviolet">Baidu</span></a></div>&nbsp;
+    		<div class="github-badge"><a style="color: #fff" href="https://www.jsdelivr.com" target="_blank" title="jsDelivr加速静态"><span class="badge-subject">CDN</span><span class="badge-value bg-orange">jsDelivr</span></a></div>&nbsp;
+    		<div class="github-badge"><a style="color: #fff" href="https://console.upyun.com/register/?invite=rkCZBHo38" target="_blank" title="又拍云全站加速"><span class="badge-subject">CDN</span><span class="badge-value bg-black"><img src="https://cdn.jsdelivr.net/gh/XXXZhy/Blog_Image/valine_emoticon/又拍云_logo6.png" width="34px" style="margin: -1.5px auto;"/></span></a></div>&nbsp;
+    		<div class="github-badge"><a style="color: #fff" href="" target="_blank" title="本站访客数"><span class="badge-subject">UV</span><span class="badge-value bg-brightgreen" id="busuanzi_value_site_uv"></span></a></div>&nbsp;
+    	    <div class="github-badge"><a style="color: #fff" href="" target="_blank" title="本站访问量"><span class="badge-subject">PV</span><span class="badge-value bg-pink" id="busuanzi_value_site_pv"></span></a></div>
+    		</li>
+    	</ul>
+
+  </div>
+</footer>
+
+    
+    </main>
+    <div class="float_btns">
+      <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+
+<div class="todark" id="todark">
+  <i class="ri-moon-line"></i>
+</div>
+
+    </div>
+    <aside class="sidebar on">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+    <div class="logo">
+      <a href="/"><img src="/images/ayer-side.svg" alt="樊川"></a>
+    </div>
+    
+      <ul class="nav nav-main">
+        
+          <li class="nav-item">
+            <!-- 找到这里，添加代码 -->
+            <a class="nav-item-link" href="/">
+              主页
+            </a>
+            
+                <!-- 到这里结束 -->
+          </li>
+          
+          <li class="nav-item">
+            <!-- 找到这里，添加代码 -->
+            <a class="nav-item-link" href="/archives">
+              归档
+            </a>
+            
+              <ul class="sub-menu">
+                
+                  <li>
+                    <small><a class="nav-item-link" href="/categories">
+                        分类
+                      </a></small>
+                  </li>
+                  
+                  <li>
+                    <small><a class="nav-item-link" href="/tags">
+                        标签
+                      </a></small>
+                  </li>
+                  
+              </ul>
+              
+                <!-- 到这里结束 -->
+          </li>
+          
+          <li class="nav-item">
+            <!-- 找到这里，添加代码 -->
+            <a class="nav-item-link" href="/photos">
+              相册
+            </a>
+            
+                <!-- 到这里结束 -->
+          </li>
+          
+          <li class="nav-item">
+            <!-- 找到这里，添加代码 -->
+            <a class="nav-item-link" href="/friends">
+              友链
+            </a>
+            
+                <!-- 到这里结束 -->
+          </li>
+          
+          <li class="nav-item">
+            <!-- 找到这里，添加代码 -->
+            <a class="nav-item-link" href="/about">
+              关于
+            </a>
+            
+                <!-- 到这里结束 -->
+          </li>
+          
+          <li class="nav-item">
+            <!-- 找到这里，添加代码 -->
+            <a class="nav-item-link" href="/analytics">
+              统计
+            </a>
+            
+                <!-- 到这里结束 -->
+          </li>
+          
+          <li class="nav-item">
+            <!-- 找到这里，添加代码 -->
+            <a class="nav-item-link" href="/WebNav.html">
+              导航
+            </a>
+            
+              <ul class="sub-menu">
+                
+                  <li>
+                    <small><a class="nav-item-link" target="_blank" rel="noopener" href="https://github.com/fanchuan77">
+                        github
+                      </a></small>
+                  </li>
+                  
+                  <li>
+                    <small><a class="nav-item-link" target="_blank" rel="noopener" href="https://gitee.com/issac-damon">
+                        gitee
+                      </a></small>
+                  </li>
+                  
+                  <li>
+                    <small><a class="nav-item-link" target="_blank" rel="noopener" href="https://console.leancloud.cn/apps">
+                        leancloud
+                      </a></small>
+                  </li>
+                  
+              </ul>
+              
+                <!-- 到这里结束 -->
+          </li>
+          
+      </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+        <a class="nav-item-link nav-item-search" title="搜索">
+          <i class="ri-search-line"></i>
+        </a>
+        
+          
+            <a class="nav-item-link" target="_blank" href="/atom.xml" title="RSS Feed">
+              <i class="ri-rss-line"></i>
+            </a>
+            
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+
+<!-- 二级导航CSS -->
+<style>
+  .nav-main li ul {
+    display: none;
+  }
+
+  .nav-main li:hover ul {
+    display: block;
+  }
+
+  .sub-menu {
+    position: absolute;
+    background: #fff;
+    padding: 5px;
+    width: 8rem;
+    z-index: 1000;
+    text-align: center;
+    border-radius: 5px;
+    box-shadow: 0 1px 40px -8px rgba(0, 0, 0, .5);
+    -webkit-animation: fadeInUp .3s .1s ease both;
+    list-style: none;
+  }
+
+  .nav-main li ul::before {
+    content: "";
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    margin-left: -10px;
+    border-width: 10px;
+    border-style: solid;
+    border-color: transparent transparent #fff transparent;
+  }
+</style>
+    </aside>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯奶茶吧~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/alipay.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/wechat.jpg">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+    
+<script src="/js/jquery-3.6.0.min.js"></script>
+ 
+<script src="/js/lazyload.min.js"></script>
+
+<!-- Tocbot -->
+ 
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  tocbot.init({
+    tocSelector: ".tocbot",
+    contentSelector: ".article-entry",
+    headingSelector: "h1, h2, h3, h4, h5, h6",
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer: "main",
+    positionFixedSelector: ".tocbot",
+    positionFixedClass: "is-position-fixed",
+    fixedSidebarOffset: "auto",
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.css"
+/>
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/dist/main.js"></script>
+
+<!-- ImageViewer -->
+ <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css">
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script> 
+<!-- MathJax -->
+
+<!-- Katex -->
+
+<!-- busuanzi  -->
+ 
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+ 
+<!-- ClickLove -->
+
+<!-- ClickBoom1 -->
+
+<!-- ClickBoom2 -->
+ 
+<script src="/js/clickBoom2.js"></script>
+ 
+<!-- CodeCopy -->
+ 
+<link rel="stylesheet" href="/css/clipboard.css">
+ <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="ri-file-copy-2-line"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-checkbox-circle-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-checkbox-circle-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-time-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-time-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+ 
+<!-- CanvasBackground -->
+ 
+<script src="/js/dz.js"></script>
+ 
+<script>
+  if (window.mermaid) {
+    mermaid.initialize({ theme: "forest" });
+  }
+</script>
+
+
+    
+    <div id="music">
+    
+    
+    
+    <iframe frameborder="no" border="1" marginwidth="0" marginheight="0" width="200" height="52"
+        src="//music.163.com/outchain/player?type=2&id=19548896&auto=1&height=32"></iframe>
+</div>
+
+<style>
+    #music {
+        position: fixed;
+        left: 0px;
+        bottom: 0px;
+        z-index: 998;
+    }
+</style>
+    
+    
+
+  </div>
+</body>
+
+</html>
