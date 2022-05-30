@@ -1,0 +1,1515 @@
+<!DOCTYPE html>
+<!-- jquery，懒加载、统计、说说需要的jquery -->
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script>
+  (function () {
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+      bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+      bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+
+<script type="text/javascript">
+  // 鼠标点击显示文字
+  var a_idx = 0;
+  jQuery(document).ready(function ($) {
+    $("body").click(function (e) {
+      var a = new Array
+        ("富强", "民主", "文明", "和谐", "自由", "平等", "公正", "法治", "爱国", "敬业", "诚信", "友善");
+      var $i = $("<span/>").text(a[a_idx]);
+      a_idx = (a_idx + 1) % a.length;
+      var x = e.pageX,
+        y = e.pageY;
+      $i.css({
+        "z-index": 5,
+        "top": y - 20,
+        "left": x,
+        "position": "absolute",
+        "font-weight": "bold",
+        "font-size": "18px",
+        "color": "rgb(" + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + ")"
+      });
+      $("body").append($i);
+      $i.animate({
+        "top": y - 180,
+        "opacity": 0
+      },
+        3000,
+        function () {
+          $i.remove();
+        });
+    });
+    setTimeout('delay()', 2000);
+  });
+</script>
+
+<script type="text/javascript">
+  // 浏览器搞笑标题
+  var OriginTitle = document.title;
+  var titleTime;
+  document.addEventListener('visibilitychange', function () {
+    if (location.href != "https://fanchuan77.github.io") {//主页不变
+      if (document.hidden) {
+        //$('[rel="icon"]').attr('href', "/funny.ico");
+        document.title = '樊川';
+        clearTimeout(titleTime);
+      } else {
+        //$('[rel="icon"]').attr('href', "/favicon.ico");
+        document.title = '樊川' + OriginTitle;
+        titleTime = setTimeout(function () {
+          document.title = OriginTitle;
+        }, 2000);
+      }
+    }
+  });
+</script>
+
+
+
+
+
+
+  <html lang="zh-CN">
+  
+
+      <head>
+        <meta charset="utf-8" />
+        
+          
+              <meta name="keywords" content="peace and love" />
+              
+                
+                      <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+                      <title>
+                        
+                          SpringCloud笔记（一） | 
+                              樊川
+                      </title>
+  <meta name="generator" content="hexo-theme-ayer">
+                      
+                        <link rel="shortcut icon" href="/images/index.jpg" />
+                        
+                          
+<link rel="stylesheet" href="/dist/main.css">
+
+                            <link rel="stylesheet"
+                              href="https://cdn.jsdelivr.net/gh/Shen-Yu/cdn/css/remixicon.min.css" />
+                            
+<link rel="stylesheet" href="/css/custom.css">
+
+                              
+                                <script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+                                
+                                  
+
+                                    
+
+                                      <link rel="stylesheet"
+                                        href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-bulma@5.0.1/bulma.min.css" />
+                                      <script
+                                        src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.js"></script>
+
+                                      <!-- mermaid -->
+                                      
+                                          <style>
+                                            .swal2-styled.swal2-confirm {
+                                              font-size: 1.6rem;
+                                            }
+
+                                            /*底部标签*/
+                                            .github-badge {
+                                              display: inline-block;
+                                              border-radius: 4px;
+                                              text-shadow: none;
+                                              font-size: 12px;
+                                              color: #fff;
+                                              line-height: 15px;
+                                              background-color: #ABBAC3;
+                                              margin-bottom: 5px;
+                                            }
+
+                                            .github-badge .badge-subject {
+                                              display: inline-block;
+                                              background-color: #4D4D4D;
+                                              padding: 4px 4px 4px 6px;
+                                              border-top-left-radius: 4px;
+                                              border-bottom-left-radius: 4px;
+                                            }
+
+                                            .github-badge .badge-value {
+                                              display: inline-block;
+                                              padding: 4px 6px 4px 4px;
+                                              border-top-right-radius: 4px;
+                                              border-bottom-right-radius: 4px;
+                                            }
+
+                                            .github-badge .bg-brightgreen {
+                                              background-color: #4DC820 !important;
+                                            }
+
+                                            .github-badge .bg-cyan {
+                                              background-color: #008B8B !important;
+                                            }
+
+                                            .github-badge .bg-orange {
+                                              background-color: #FFA500 !important;
+                                            }
+
+                                            .github-badge .bg-yellow {
+                                              background-color: #D8B024 !important;
+                                            }
+
+                                            .github-badge .bg-blueviolet {
+                                              background-color: #8833D7 !important;
+                                            }
+
+                                            .github-badge .bg-pink {
+                                              background-color: #F26BAE !important;
+                                            }
+
+                                            .github-badge .bg-red {
+                                              background-color: #e05d44 !important;
+                                            }
+
+                                            .github-badge .bg-black {
+                                              background-color: #000000 !important;
+                                            }
+
+                                            .github-badge .bg-blue {
+                                              background-color: #007EC6 !important;
+                                            }
+
+                                            .github-badge .bg-lightgrey {
+                                              background-color: #9F9F9F !important;
+                                            }
+
+                                            .github-badge .bg-grey,
+                                            .github-badge .bg-gray {
+                                              background-color: #555 !important;
+                                            }
+
+                                            .github-badge .bg-lightgrey,
+                                            .github-badge .bg-lightgray {
+                                              background-color: #9f9f9f !important;
+                                            }
+                                          </style>
+      </head>
+
+    </html>
+
+  </html>
+
+<body>
+  <div id="app">
+    
+      
+      <canvas width="1777" height="841"
+        style="position: fixed; left: 0px; top: 0px; z-index: 99999; pointer-events: none;"></canvas>
+      
+    <main class="content on">
+      <section class="outer">
+  <article
+  id="post-SpringCloud笔记（一）"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  SpringCloud笔记（一）
+</h1>
+ 
+
+      
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2022/05/30/SpringCloud%E7%AC%94%E8%AE%B0%EF%BC%88%E4%B8%80%EF%BC%89/" class="article-date">
+  <time datetime="2022-05-30T02:42:28.720Z" itemprop="datePublished">2022-05-30</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E5%90%8E%E7%AB%AF%E6%A1%86%E6%9E%B6/">后端框架</a>
+  </div>
+  
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> 字数统计:</span>
+            <span class="post-count">15k</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> 阅读时长≈</span>
+            <span class="post-count">57 分钟</span>
+        </span>
+    </span>
+</div>
+ 
+    </div>
+      
+    <div class="tocbot"></div>
+
+
+
+
+  
+    <div class="article-entry" itemprop="articleBody">
+       
+  <p><img src="https://tva1.sinaimg.cn/large/e6c9d24ely1h0d0lfurfij21o40d275h.jpg" alt="image-20220317173734208"></p>
+<h1 id="微服务基础"><a href="#微服务基础" class="headerlink" title="微服务基础"></a>微服务基础</h1><p><strong>注意：</strong>此阶段学习推荐的电脑配置，至少配备4核心CPU（主频3.0Ghz以上）+16GB内存，否则卡到你怀疑人生。</p>
+<p>前面我们讲解了SpringBoot框架，通过使用SpringBoot框架，我们的项目开发速度可以说是得到了质的提升。同时，我们对于项目的维护和理解，也会更加的轻松。可见，SpringBoot为我们的开发带来了巨大便捷。而这一部分，我们将基于SpringBoot，继续深入到企业实际场景，探讨微服务架构下的SpringCloud。这个部分我们会更加注重于架构设计上的讲解，弱化实现原理方面的研究。</p>
+<h2 id="传统项目转型"><a href="#传统项目转型" class="headerlink" title="传统项目转型"></a>传统项目转型</h2><p>要说近几年最火热的话题，那还得是微服务，那么什么是微服务呢？</p>
+<p>我们可以先从技术的演变开始看起，在我们学习JavaWeb之后，一般的网站开发模式为Servlet+JSP，但是实际上我们在学习了SSM之后，会发现这种模式已经远远落后了，第一，一个公司不可能去招那么多同时会前端+后端的开发人员，就算招到，也并不一定能保证两个方面都比较擅长，相比前后端分开学习的开发人员，显然后者的学习成本更低，专注度更高。因此前后端分离成为了一种新的趋势。通过使用SpringBoot，我们几乎可以很快速地开发一个高性能的单体应用，只需要启动一个服务端，我们整个项目就开始运行了，各项功能融于一体，开发起来也更加轻松。</p>
+<p>但是随着我们项目的不断扩大，单体应用似乎显得有点乏力了。</p>
+<p>随着越来越多的功能不断地加入到一个SpringBoot项目中，随着接口不断增加，整个系统就要在同一时间内响应更多类型的请求，显然，这种扩展方式是不可能无限使用下去的，总有一天，这个SpringBoot项目会庞大到运行缓慢。并且所有的功能如果都集成在单端上，那么所有的请求都会全部汇集到一台服务器上，对此服务器造成巨大压力。</p>
+<p>可以试想一下，如果我们的电脑已经升级到i9-12900K，但是依然在运行项目的时候缓慢，无法同一时间响应成千上万的请求，那么这个问题就已经不是单纯升级机器配置可以解决的了。</p>
+<p><img src="https://tva1.sinaimg.cn/large/e6c9d24ely1h0ghpknvdvj21zg0go78r.jpg" alt="image-20220320174622739"></p>
+<p>传统单体架构应用随着项目规模的扩大，实际上会暴露越来越多的问题，尤其是一台服务器无法承受庞大的单体应用部署，并且单体应用的维护也会越来越困难，我们得寻找一种新的开发架构来解决这些问题了。</p>
+<blockquote>
+<p> In short, the microservice architectural style is an approach to developing a single application as a suite of small services, each running in its own process and communicating with lightweight mechanisms, often an HTTP resource API. These services are built around business capabilities and independently deployable by fully automated deployment machinery. There is a bare minimum of centralized management of these services, which may be written in different programming languages and use different data storage technologies.</p>
+</blockquote>
+<p>Martin Fowler在2014年提出了“微服务”架构，它是一种全新的架构风格。</p>
+<ul>
+<li>微服务把一个庞大的单体应用拆分为一个个的小型服务，比如我们原来的图书管理项目中，有登录、注册、添加、删除、搜索等功能，那么我们可以将这些功能单独做成一个个小型的SpringBoot项目，独立运行。</li>
+<li>每个小型的微服务，都可以独立部署和升级，这样，就算整个系统崩溃，那么也只会影响一个服务的运行。</li>
+<li>微服务之间使用HTTP进行数据交互，不再是单体应用内部交互了，虽然这样会显得更麻烦，但是带来的好处也是很直接的，甚至能突破语言限制，使用不同的编程语言进行微服务开发，只需要使用HTTP进行数据交互即可。</li>
+<li>我们可以同时购买多台主机来分别部署这些微服务，这样，单机的压力就被分散到多台机器，并且每台机器的配置不一定需要太高，这样就能节省大量的成本，同时安全性也得到很大的保证。</li>
+<li>甚至同一个微服务可以同时存在多个，这样当其中一个服务器出现问题时，其他服务器也在运行同样的微服务，这样就可以保证一个微服务的高可用。</li>
+</ul>
+<p><img src="https://tva1.sinaimg.cn/large/e6c9d24egy1h0idyqgp12j21m00im0wa.jpg" alt="image-20220322090754438"></p>
+<p>当然，这里只是简单的演示一下微服务架构，实际开发中肯定是比这个复杂得多的。</p>
+<p>可见，采用微服务架构，更加能够应对当今时代下的种种考验，传统项目的开发模式，需要进行架构上的升级。</p>
+<h2 id="走进SpringCloud"><a href="#走进SpringCloud" class="headerlink" title="走进SpringCloud"></a>走进SpringCloud</h2><p>前面我们介绍了微服务架构的优点，那么同样的，这些优点的背后也存在着诸多的问题：</p>
+<ul>
+<li>要实现微服务并不是说只需要简单地将项目进行拆分，我们还需要考虑对各个微服务进行管理、监控等，这样我们才能够及时地寻找和排查问题。因此微服务往往需要的是一整套解决方案，包括服务注册和发现、容灾处理、负载均衡、配置管理等。</li>
+<li>它不像单体架构那种方便维护，由于部署在多个服务器，我们不得不去保证各个微服务能够稳定运行，在管理难度上肯定是高于传统单体应用的。</li>
+<li>在分布式的环境下，单体应用的某些功能可能会变得比较麻烦，比如分布式事务。</li>
+</ul>
+<p>所以，为了更好地解决这些问题，SpringCloud正式登场。</p>
+<p>SpringCloud是Spring提供的一套分布式解决方案，集合了一些大型互联网公司的开源产品，包括诸多组件，共同组成SpringCloud框架。并且，它利用Spring Boot的开发便利性巧妙地简化了分布式系统基础设施的开发，如服务发现注册、配置中心、消息总线、负载均衡、熔断机制、数据监控等，都可以用Spring Boot的开发风格做到一键启动和部署。</p>
+<p>由于中小型公司没有独立开发自己的分布式基础设施的能力，使用SpringCloud解决方案能够以最低的成本应对当前时代的业务发展。</p>
+<p><img src="https://tva1.sinaimg.cn/large/e6c9d24egy1h0ig93rk52j21ss0nytbj.jpg" alt="image-20220322102706256"></p>
+<p>可以看到，SpringCloud整体架构的亮点是非常明显的，分布式架构下的各个场景，都有对应的组件来处理，比如基于Netflix（奈飞）的开源分布式解决方案提供的组件：</p>
+<ul>
+<li>Eureka  -  实现服务治理（服务注册与发现），我们可以对所有的微服务进行集中管理，包括他们的运行状态、信息等。</li>
+<li>Ribbon  -  为服务之间相互调用提供负载均衡算法（现在被SpringCloudLoadBalancer取代）</li>
+<li>Hystrix  -  断路器，保护系统，控制故障范围。暂时可以跟家里电闸的保险丝类比，当触电危险发生时能够防止进一步的发展。</li>
+<li>Zuul   -     api网关，路由，负载均衡等多种作用，就像我们的路由器，可能有很多个设备都连接了路由器，但是数据包要转发给谁则是由路由器在进行（已经被SpringCloudGateway取代）</li>
+<li>Config  -  配置管理，可以实现配置文件集中管理</li>
+</ul>
+<p>当然，这里只是进行简单的了解即可，实际上微服务的玩法非常多，我们后面的学习中将会逐步进行探索。</p>
+<p>那么首先，我们就从注册中心开始说起。</p>
+<hr>
+<h2 id="Eureka-注册中心"><a href="#Eureka-注册中心" class="headerlink" title="Eureka 注册中心"></a>Eureka 注册中心</h2><p>官方文档：<a target="_blank" rel="noopener" href="https://docs.spring.io/spring-cloud-netflix/docs/current/reference/html/">https://docs.spring.io/spring-cloud-netflix/docs/current/reference/html/</a></p>
+<p><strong>小贴士：</strong>各位小伙伴在学习的过程中觉得有什么疑惑的可以直接查阅官方文档，我们会在每一个技术开始之前贴上官方文档的地址，方便各位进行查阅，同时在我们的课程中并不一定会完完整整地讲完整个框架的内容，有关详细的功能和使用方法文档中也是写的非常清楚的，感兴趣的可以深入学习哦。</p>
+<h3 id="微服务项目结构"><a href="#微服务项目结构" class="headerlink" title="微服务项目结构"></a>微服务项目结构</h3><p>现在我们重新设计一下之前的图书管理系统项目，将原有的大型（也许 项目进行拆分，注意项目拆分一定要尽可能保证单一职责，相同的业务不要在多个微服务中重复出现，如果出现需要借助其他业务完成的服务，那么可以使用服务之间相互调用的形式来实现（之后会介绍）：</p>
+<ul>
+<li>登录验证服务：用于处理用户注册、登录、密码重置等，反正就是一切与账户相关的内容，包括用户信息获取等。</li>
+<li>图书管理服务：用于进行图书添加、删除、更新等操作，图书管理相关的服务，包括图书的存储等和信息获取。</li>
+<li>图书借阅服务：交互性比较强的服务，需要和登陆验证服务和图书管理服务进行交互。</li>
+</ul>
+<p>那么既然要将单体应用拆分为多个小型服务，我们就需要重新设计一下整个项目目录结构，这里我们就创建多个子项目，每一个子项目都是一个服务，这样由父项目统一管理依赖，就无需每个子项目都去单独管理依赖了，也更方便一点。</p>
+<p>我们首先创建一个普通的SpringBoot项目：</p>
+<p><img src="https://tva1.sinaimg.cn/large/e6c9d24ely1h0jmp0yg1lj21zh0u0q8t.jpg" alt="image-20220323105531867"></p>
+<p>然后不需要勾选任何依赖，直接创建即可，项目创建完成并初始化后，我们删除父工程的无用文件，只保留必要文件，像下面这样：</p>
+<p><img src="https://tva1.sinaimg.cn/large/e6c9d24ely1h0jmsk8wcrj21rw0lojt4.jpg" alt="image-20220323105859454"></p>
+<p>接着我们就可以按照我们划分的服务，进行子工程创建了，创建一个新的Maven项目，注意父项目要指定为我们一开始创建的的项目，子项目命名随意：</p>
+<p><img src="https://tva1.sinaimg.cn/large/e6c9d24ely1h0jmv8tewij21rc0f640q.jpg" alt="image-20220323110133466"></p>
+<p>子项目创建好之后，接着我们在子项目中创建SpringBoot的启动主类：</p>
+<p><img src="https://tva1.sinaimg.cn/large/e6c9d24ely1h0jn1w0ru4j21ra0kedkk.jpg" alt="image-20220323110756722"></p>
+<p>接着我们点击运行，即可启动子项目了，实际上这个子项目就一个最简单的SpringBoot web项目，注意启动之后最下方有弹窗，我们点击”使用 服务”，这样我们就可以实时查看当前整个大项目中有哪些微服务了：</p>
+<p><img src="https://tva1.sinaimg.cn/large/e6c9d24ely1h0jn3ah2t1j21by078t9h.jpg" alt="image-20220323110917997"></p>
+<p><img src="https://tva1.sinaimg.cn/large/e6c9d24ely1h0jn50f7aqj22po0kygus.jpg" alt="image-20220323111056940"></p>
+<p>接着我们以同样的方法，创建其他的子项目，注意我们最好将其他子项目的端口设置得不一样，不然会导致端口占用，我们分别为它们创建<code>application.yml</code>文件：</p>
+<p><img src="https://tva1.sinaimg.cn/large/e6c9d24ely1h0jnbw1wi8j22ci0i2778.jpg" alt="image-20220323111733605"></p>
+<p>接着我们来尝试启动一下这三个服务，正常情况下都是可以直接启动的：</p>
+<p><img src="https://tva1.sinaimg.cn/large/e6c9d24ely1h0jnd7uz99j22q40ks7dw.jpg" alt="image-20220323111849846"></p>
+<p>可以看到它们分别运行在不同的端口上，这样，就方便不同的程序员编写不同的服务了，提交当前项目代码时的冲突率也会降低。</p>
+<p>接着我们来创建一下数据库，这里还是老样子，创建三个表即可，当然实际上每个微服务单独使用一个数据库服务器也是可以的，因为按照单一职责服务只会操作自己对应的表，这里UP主比较穷，就只用一个数据库演示了：</p>
+<p><img src="https://tva1.sinaimg.cn/large/e6c9d24ely1h0jni9lpt1j214w09w3zd.jpg" alt="image-20220323112340995"></p>
+<p><img src="https://tva1.sinaimg.cn/large/e6c9d24ely1h0jnkydk2mj214y090t9h.jpg" alt="image-20220323112616538"></p>
+<p><img src="https://tva1.sinaimg.cn/large/e6c9d24ely1h0jnnhmt9vj214a072t99.jpg" alt="image-20220323112842758"></p>
+<p><img src="https://tva1.sinaimg.cn/large/e6c9d24ely1h0jnmlc81qj214806a0th.jpg" alt="image-20220323112750936"></p>
+<p><img src="https://tva1.sinaimg.cn/large/e6c9d24ely1h0jnn6v8jrj214o04y3yw.jpg" alt="image-20220323112825430"></p>
+<p>创建好之后，结果如下，一共三张表，各位可以自行添加一些数据到里面，这就不贴出来了：</p>
+<p><img src="https://tva1.sinaimg.cn/large/e6c9d24ely1h0jno6ge9hj21go07mab1.jpg" alt="image-20220323112922396"></p>
+<p>如果各位嫌麻烦的话可以下载<code>.sql</code>文件自行导入。</p>
+<p>接着我们来稍微写一点业务，比如用户信息查询业务，我们先把数据库相关的依赖进行导入，这里依然使用Mybatis框架，首先在父项目中添加MySQL驱动和Lombok依赖：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>mysql<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>mysql-connector-java<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">     <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.projectlombok<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">     <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>lombok<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>由于不是所有的子项目都需要用到Mybatis，我们在父项目中只进行版本管理即可：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependencyManagement</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.mybatis.spring.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>mybatis-spring-boot-starter<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.2.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependencyManagement</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>接着我们就可以在用户服务子项目中添加此依赖了：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.mybatis.spring.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>mybatis-spring-boot-starter<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>接着添加数据源信息（UP用到是阿里云的MySQL云数据库，各位注意修改一下数据库地址）：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line">  <span class="attr">datasource:</span></span><br><span class="line">    <span class="attr">driver-class-name:</span> <span class="string">com.mysql.cj.jdbc.Driver</span></span><br><span class="line">    <span class="attr">url:</span> <span class="string">jdbc:mysql://cloudstudy.mysql.cn-chengdu.rds.aliyuncs.com:3306/cloudstudy</span></span><br><span class="line">    <span class="attr">username:</span> <span class="string">test</span></span><br><span class="line">    <span class="attr">password:</span> <span class="number">123456</span></span><br></pre></td></tr></table></figure>
+
+<p>接着我们来写用户查询相关的业务：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">User</span> &#123;</span><br><span class="line">    <span class="type">int</span> uid;</span><br><span class="line">    String name;</span><br><span class="line">    String sex;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Mapper</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">UserMapper</span> &#123;</span><br><span class="line">    <span class="meta">@Select(&quot;select * from DB_USER where uid = #&#123;uid&#125;&quot;)</span></span><br><span class="line">    User <span class="title function_">getUserById</span><span class="params">(<span class="type">int</span> uid)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">UserService</span> &#123;</span><br><span class="line">    User <span class="title function_">getUserById</span><span class="params">(<span class="type">int</span> uid)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">UserServiceImpl</span> <span class="keyword">implements</span> <span class="title class_">UserService</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Resource</span></span><br><span class="line">    UserMapper mapper;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> User <span class="title function_">getUserById</span><span class="params">(<span class="type">int</span> uid)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> mapper.getUserById(uid);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">UserController</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Resource</span></span><br><span class="line">    UserService service;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//这里以RESTFul风格为例</span></span><br><span class="line">    <span class="meta">@RequestMapping(&quot;/user/&#123;uid&#125;&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> User <span class="title function_">findUserById</span><span class="params">(<span class="meta">@PathVariable(&quot;uid&quot;)</span> <span class="type">int</span> uid)</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> service.getUserById(uid);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>现在我们访问即可拿到数据：</p>
+<p><img src="https://tva1.sinaimg.cn/large/e6c9d24egy1h0jredurecj213m06s74p.jpg" alt="image-20220323133820304"></p>
+<p>同样的方式，我们完成一下图书查询业务，注意现在是在图书管理微服务中编写（别忘了导入Mybatis依赖以及配置数据源）：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Book</span> &#123;</span><br><span class="line">    <span class="type">int</span> bid;</span><br><span class="line">    String title;</span><br><span class="line">    String desc;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Mapper</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">BookMapper</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Select(&quot;select * from DB_BOOK where bid = #&#123;bid&#125;&quot;)</span></span><br><span class="line">    Book <span class="title function_">getBookById</span><span class="params">(<span class="type">int</span> bid)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">BookService</span> &#123;</span><br><span class="line">    Book <span class="title function_">getBookById</span><span class="params">(<span class="type">int</span> bid)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">BookServiceImpl</span> <span class="keyword">implements</span> <span class="title class_">BookService</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Resource</span></span><br><span class="line">    BookMapper mapper;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> Book <span class="title function_">getBookById</span><span class="params">(<span class="type">int</span> bid)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> mapper.getBookById(bid);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">BookController</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Resource</span></span><br><span class="line">    BookService service;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@RequestMapping(&quot;/book/&#123;bid&#125;&quot;)</span></span><br><span class="line">    Book <span class="title function_">findBookById</span><span class="params">(<span class="meta">@PathVariable(&quot;bid&quot;)</span> <span class="type">int</span> bid)</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> service.getBookById(bid);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>同样进行一下测试：</p>
+<p><img src="https://tva1.sinaimg.cn/large/e6c9d24egy1h0jro4g42vj215006sdgg.jpg" alt="image-20220323134742618"></p>
+<p>这样，我们一个完整项目的就拆分成了多个微服务，不同微服务之间是独立进行开发和部署的。</p>
+<h3 id="服务间调用"><a href="#服务间调用" class="headerlink" title="服务间调用"></a>服务间调用</h3><p>前面我们完成了用户信息查询和图书信息查询，现在我们来接着完成借阅服务。</p>
+<p>借阅服务是一个关联性比较强的服务，它不仅仅需要查询借阅信息，同时可能还需要获取借阅信息下的详细信息，比如具体那个用户借阅了哪本书，并且用户和书籍的详情也需要同时出现，那么这种情况下，我们就需要去访问除了借阅表以外的用户表和图书表。</p>
+<p><img src="https://tva1.sinaimg.cn/large/e6c9d24egy1h0js1udjp6j21oa0aw40q.jpg" alt="image-20220323140053749"></p>
+<p>但是这显然是违反我们之前所说的单一职责的，相同的业务功能不应该重复出现，但是现在由需要在此服务中查询用户的信息和图书信息，那怎么办呢？我们可以让一个服务去调用另一个服务来获取信息。</p>
+<p><img src="https://tva1.sinaimg.cn/large/e6c9d24egy1h0js4et40uj21q20agq52.jpg" alt="image-20220323140322502"></p>
+<p>这样，图书管理微服务和用户管理微服务相对于借阅记录，就形成了一个生产者和消费者的关系，前者是生产者，后者便是消费者。</p>
+<p>现在我们先将借阅关联信息查询完善了：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Borrow</span> &#123;</span><br><span class="line">    <span class="type">int</span> id;</span><br><span class="line">    <span class="type">int</span> uid;</span><br><span class="line">    <span class="type">int</span> bid;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Mapper</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">BorrowMapper</span> &#123;</span><br><span class="line">    <span class="meta">@Select(&quot;select * from DB_BORROW where uid = #&#123;uid&#125;&quot;)</span></span><br><span class="line">    List&lt;Borrow&gt; <span class="title function_">getBorrowsByUid</span><span class="params">(<span class="type">int</span> uid)</span>;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Select(&quot;select * from DB_BORROW where bid = #&#123;bid&#125;&quot;)</span></span><br><span class="line">    List&lt;Borrow&gt; <span class="title function_">getBorrowsByBid</span><span class="params">(<span class="type">int</span> bid)</span>;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Select(&quot;select * from DB_BORROW where bid = #&#123;bid&#125; and uid = #&#123;uid&#125;&quot;)</span></span><br><span class="line">    Borrow <span class="title function_">getBorrow</span><span class="params">(<span class="type">int</span> uid, <span class="type">int</span> bid)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>现在有一个需求，需要查询用户的借阅详细信息，也就是说需要查询某个用户具体借了那些书，并且需要此用户的信息和所有已借阅的书籍信息一起返回，那么我们先来设计一下返回实体：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="meta">@AllArgsConstructor</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">UserBorrowDetail</span> &#123;</span><br><span class="line">    User user;</span><br><span class="line">    List&lt;Book&gt; bookList;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>但是有一个问题，我们发现User和Book实体实际上是在另外两个微服务中定义的，相当于当前项目并没有定义这些实体类，那么怎么解决呢？</p>
+<p>因此，我们可以将所有服务需要用到的实体类单独放入另一个一个项目中，然后让这些项目引用集中存放实体类的那个项目，这样就可以保证每个微服务的实体类信息都可以共用了：</p>
+<p><img src="https://tva1.sinaimg.cn/large/e6c9d24egy1h0jsl18z1fj221e0bi0w1.jpg" alt="image-20220323141919836"></p>
+<p>然后只需要在对应的类中引用此项目作为依赖即可：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.example<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>commons<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>0.0.1-SNAPSHOT<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>之后新的公共实体类都可以在<code>commons</code>项目中进行定义了，现在我们接着来完成刚刚的需求，先定义接口：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">BorrowService</span> &#123;</span><br><span class="line"></span><br><span class="line">    UserBorrowDetail <span class="title function_">getUserBorrowDetailByUid</span><span class="params">(<span class="type">int</span> uid)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">BorrowServiceImpl</span> <span class="keyword">implements</span> <span class="title class_">BorrowService</span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Resource</span></span><br><span class="line">    BorrowMapper mapper;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> UserBorrowDetail <span class="title function_">getUserBorrowDetailByUid</span><span class="params">(<span class="type">int</span> uid)</span> &#123;</span><br><span class="line">        List&lt;Borrow&gt; borrow = mapper.getBorrowsByUid(uid);</span><br><span class="line">        <span class="comment">//那么问题来了，现在拿到借阅关联信息了，怎么调用其他服务获取信息呢？</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>需要进行服务远程调用我们需要用到<code>RestTemplate</code>来进行：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">BorrowServiceImpl</span> <span class="keyword">implements</span> <span class="title class_">BorrowService</span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Resource</span></span><br><span class="line">    BorrowMapper mapper;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> UserBorrowDetail <span class="title function_">getUserBorrowDetailByUid</span><span class="params">(<span class="type">int</span> uid)</span> &#123;</span><br><span class="line">        List&lt;Borrow&gt; borrow = mapper.getBorrowsByUid(uid);</span><br><span class="line">        <span class="comment">//RestTemplate支持多种方式的远程调用</span></span><br><span class="line">        <span class="type">RestTemplate</span> <span class="variable">template</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">RestTemplate</span>();</span><br><span class="line">        <span class="comment">//这里通过调用getForObject来请求其他服务，并将结果自动进行封装</span></span><br><span class="line">        <span class="comment">//获取User信息</span></span><br><span class="line">        <span class="type">User</span> <span class="variable">user</span> <span class="operator">=</span> template.getForObject(<span class="string">&quot;http://localhost:8082/user/&quot;</span>+uid, User.class);</span><br><span class="line">        <span class="comment">//获取每一本书的详细信息</span></span><br><span class="line">        List&lt;Book&gt; bookList = borrow</span><br><span class="line">                .stream()</span><br><span class="line">                .map(b -&gt; template.getForObject(<span class="string">&quot;http://localhost:8080/book/&quot;</span>+b.getBid(), Book.class))</span><br><span class="line">                .collect(Collectors.toList());</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">UserBorrowDetail</span>(user, bookList);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>现在我们再最后完善一下Controller：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">BorrowController</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Resource</span></span><br><span class="line">    BorrowService service;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@RequestMapping(&quot;/borrow/&#123;uid&#125;&quot;)</span></span><br><span class="line">    UserBorrowDetail <span class="title function_">findUserBorrows</span><span class="params">(<span class="meta">@PathVariable(&quot;uid&quot;)</span> <span class="type">int</span> uid)</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> service.getUserBorrowDetailByUid(uid);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在数据库中添加一点借阅信息，测试看看能不能正常获取（注意一定要保证三个服务都处于开启状态，否则远程调用会失败）：</p>
+<p><img src="https://tva1.sinaimg.cn/large/e6c9d24egy1h0jt4ccuywj226i06wdh5.jpg" alt="image-20220323143753567"></p>
+<p>可以看到，结果正常，没有问题，远程调用成功。</p>
+<p>这样，一个简易的图书管理系统的分布式项目就搭建完成了，<strong>这里记得把整个项目压缩打包备份一下</strong>，下一章学习SpringCloud Alibaba也需要进行配置。</p>
+<h3 id="服务注册与发现"><a href="#服务注册与发现" class="headerlink" title="服务注册与发现"></a>服务注册与发现</h3><p>前面我们了解了如何对单体应用进行拆分，并且也学习了如何进行服务之间的相互调用，但是存在一个问题，就是虽然服务拆分完成，但是没有一个比较合理的管理机制，如果单纯只是这样编写，在部署和维护起来，肯定是很麻烦的。可以想象一下，如果某一天这些微服务的端口或是地址大规模地发生改变，我们就不得不将服务之间的调用路径大规模的同步进行修改，这是多么可怕的事情。我们需要削弱这种服务之间的强关联性，因此我们需要一个集中管理微服务的平台，这时就要借助我们这一部分的主角了。</p>
+<p>Eureka能够自动注册并发现微服务，然后对服务的状态、信息进行集中管理，这样当我们需要获取其他服务的信息时，我们只需要向Eureka进行查询就可以了。</p>
+<p><img src="https://tva1.sinaimg.cn/large/e6c9d24egy1h0jthur4u0j21lu0dytam.jpg" alt="image-20220323145051821"></p>
+<p>像这样的话，服务之间的强关联性就会被进一步削弱。</p>
+<p>那么现在我们就来搭建一个Eureka服务器，只需要创建一个新的Maven项目即可，然后我们需要在父工程中添加一下SpringCloud的依赖，这里选用<code>2021.0.1</code>版本（Spring Cloud 最新的版本命名方式变更了，现在是 <em><strong>YEAR.x</strong></em> 这种命名方式，具体可以在官网查看：<a target="_blank" rel="noopener" href="https://spring.io/projects/spring-cloud#learn%EF%BC%89%EF%BC%9A">https://spring.io/projects/spring-cloud#learn）：</a></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-dependencies<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2021.0.1<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">type</span>&gt;</span>pom<span class="tag">&lt;/<span class="name">type</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">scope</span>&gt;</span>import<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>接着我们为新创建的项目添加依赖：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-netflix-eureka-server<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>下载内容有点多，首次导入请耐心等待一下。</p>
+<p>接着我们来创建主类，还是一样的操作：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@EnableEurekaServer</span></span><br><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">EurekaServerApplication</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        SpringApplication.run(EurekaServerApplication.class, args);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>别着急启动！！！接着我们需要修改一下配置文件：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">server:</span></span><br><span class="line">  <span class="attr">port:</span> <span class="number">8888</span></span><br><span class="line"><span class="attr">eureka:</span></span><br><span class="line">	<span class="comment"># 开启之前需要修改一下客户端设置（虽然是服务端</span></span><br><span class="line">  <span class="attr">client:</span></span><br><span class="line">  	<span class="comment"># 由于我们是作为服务端角色，所以不需要获取服务端，改为false，默认为true</span></span><br><span class="line">		<span class="attr">fetch-registry:</span> <span class="literal">false</span></span><br><span class="line">		<span class="comment"># 暂时不需要将自己也注册到Eureka</span></span><br><span class="line">    <span class="attr">register-with-eureka:</span> <span class="literal">false</span></span><br><span class="line">    <span class="comment"># 将eureka服务端指向自己</span></span><br><span class="line">    <span class="attr">service-url:</span></span><br><span class="line">      <span class="attr">defaultZone:</span> <span class="string">http://localhost:8888/eureka</span></span><br></pre></td></tr></table></figure>
+
+<p>好了，现在差不多可以启动了，启动完成后，直接输入地址+端口即可访问Eureka的管理后台：</p>
+<p><img src="https://tva1.sinaimg.cn/large/e6c9d24egy1h0jui0bzpvj21l60u0wi1.jpg" alt="image-20220323152537322"></p>
+<p>可以看到目前还没有任何的服务注册到Eureka，我们接着来配置一下我们的三个微服务，首先还是需要导入Eureka依赖（注意别导错了，名称里面有个starter的才是）：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-netflix-eureka-client<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>然后修改配置文件：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">eureka:</span></span><br><span class="line">  <span class="attr">client:</span></span><br><span class="line">  	<span class="comment"># 跟上面一样，需要指向Eureka服务端地址，这样才能进行注册</span></span><br><span class="line">    <span class="attr">service-url:</span></span><br><span class="line">      <span class="attr">defaultZone:</span> <span class="string">http://localhost:8888/eureka</span></span><br></pre></td></tr></table></figure>
+
+<p>OK，无需在启动类添加注解，直接启动就可以了，然后打开Eureka的服务管理页面，可以看到我们刚刚开启的服务：</p>
+<p><img src="https://tva1.sinaimg.cn/large/e6c9d24egy1h0jv4mtugqj22lm0ec40f.jpg" alt="image-20220323154722373"></p>
+<p>可以看到<code>8082</code>端口上的服务器，已经成功注册到Eureka了，但是这个服务名称怎么会显示为UNKNOWN，我们需要修改一下：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line">  <span class="attr">application:</span></span><br><span class="line">    <span class="attr">name:</span> <span class="string">userservice</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="https://tva1.sinaimg.cn/large/e6c9d24egy1h0jval83b7j22ls0c60ul.jpg" alt="image-20220323155305545"></p>
+<p>当我们的服务启动之后，会每隔一段时间跟Eureka发送一次心跳包，这样Eureka就能够感知到我们的服务是否处于正常运行状态。</p>
+<p>现在我们用同样的方法，将另外两个微服务也注册进来：</p>
+<p><img src="https://tva1.sinaimg.cn/large/e6c9d24egy1h0jvhkpma7j22m80c2mzo.jpg" alt="image-20220323155948425"></p>
+<p>那么，现在我们怎么实现服务发现呢？</p>
+<p>也就是说，我们之前如果需要对其他微服务进行远程调用，那么就必须要知道其他服务的地址：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">User</span> <span class="variable">user</span> <span class="operator">=</span> template.getForObject(<span class="string">&quot;http://localhost:8082/user/&quot;</span>+uid, User.class);</span><br></pre></td></tr></table></figure>
+
+<p>而现在有了Eureka之后，我们可以直接向其进行查询，得到对应的微服务地址，这里直接将服务名称替换即可：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">BorrowServiceImpl</span> <span class="keyword">implements</span> <span class="title class_">BorrowService</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Resource</span></span><br><span class="line">    BorrowMapper mapper;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Resource</span></span><br><span class="line">    RestTemplate template;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> UserBorrowDetail <span class="title function_">getUserBorrowDetailByUid</span><span class="params">(<span class="type">int</span> uid)</span> &#123;</span><br><span class="line">        List&lt;Borrow&gt; borrow = mapper.getBorrowsByUid(uid);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//这里不用再写IP，直接写服务名称userservice</span></span><br><span class="line">        <span class="type">User</span> <span class="variable">user</span> <span class="operator">=</span> template.getForObject(<span class="string">&quot;http://userservice/user/&quot;</span>+uid, User.class);</span><br><span class="line">        <span class="comment">//这里不用再写IP，直接写服务名称bookservice</span></span><br><span class="line">        List&lt;Book&gt; bookList = borrow</span><br><span class="line">                .stream()</span><br><span class="line">                .map(b -&gt; template.getForObject(<span class="string">&quot;http://bookservice/book/&quot;</span>+b.getBid(), Book.class))</span><br><span class="line">                .collect(Collectors.toList());</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">UserBorrowDetail</span>(user, bookList);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>接着我们手动将RestTemplate声明为一个Bean，然后添加<code>@LoadBalanced</code>注解，这样Eureka就会对服务的调用进行自动发现，并提供负载均衡：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">BeanConfig</span> &#123;</span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="meta">@LoadBalanced</span></span><br><span class="line">    RestTemplate <span class="title function_">template</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">RestTemplate</span>();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>现在我们就可以正常调用了：</p>
+<p><img src="https://tva1.sinaimg.cn/large/e6c9d24egy1h0jw0nxoykj22720bqjsw.jpg" alt="image-20220323161809122"></p>
+<p>不对啊，不是说有负载均衡的能力吗，怎么个负载均衡呢？</p>
+<p>我们先来看看，同一个服务器实际上是可以注册很多个的，但是它们的端口不同，比如我们这里创建多个用户查询服务，我们现在将原有的端口配置修改一下，由IDEA中设定启动参数来决定，这样就可以多创建几个不同端口的启动项了：</p>
+<p><img src="https://tva1.sinaimg.cn/large/e6c9d24egy1h0jwbxq00pj21ue0rcgqf.jpg" alt="image-20220323162858616"></p>
+<p><img src="https://tva1.sinaimg.cn/large/e6c9d24egy1h0jwch1eb2j21ng08ead5.jpg" alt="image-20220323162926482"></p>
+<p>可以看到，在Eureka中，同一个服务出现了两个实例：</p>
+<p><img src="https://tva1.sinaimg.cn/large/e6c9d24egy1h0jwd5r9bgj21w00c8mz4.jpg" alt="image-20220323163010052"></p>
+<p>现在我们稍微修改一下用户查询，然后进行远程调用，看看请求是不是均匀地分配到这两个服务端：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">UserController</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Resource</span></span><br><span class="line">    UserService service;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@RequestMapping(&quot;/user/&#123;uid&#125;&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> User <span class="title function_">findUserById</span><span class="params">(<span class="meta">@PathVariable(&quot;uid&quot;)</span> <span class="type">int</span> uid)</span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;我被调用拉！&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> service.getUserById(uid);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://tva1.sinaimg.cn/large/e6c9d24egy1h0jwgqas0qj22ci0batb0.jpg" alt="image-20220323163335257"></p>
+<p>可以看到，两个实例都能够均匀地被分配请求：</p>
+<p><img src="https://tva1.sinaimg.cn/large/e6c9d24egy1h0jwi0a3yhj21tk0gqq9l.jpg" alt="image-20220323163448765"></p>
+<p><img src="https://tva1.sinaimg.cn/large/e6c9d24egy1h0jwi5kezyj21me0hmq83.jpg" alt="image-20220323163457877"></p>
+<p>这样，服务自动发现以及简单的负载均衡就实现完成了，并且，如果某个微服务挂掉了，只要存在其他同样的微服务实例在运行，那么就不会导致整个微服务不可用，极大地保证了安全性。</p>
+<h3 id="注册中心高可用"><a href="#注册中心高可用" class="headerlink" title="注册中心高可用"></a>注册中心高可用</h3><p>各位可否想过这样的一个问题？虽然Eureka能够实现服务注册和发现，但是如果Eureka服务器崩溃了，岂不是所有需要用到服务发现的微服务就GG了？</p>
+<p>为了避免，这种问题，我们也可以像上面那样，搭建Eureka集群，存在多个Eureka服务器，这样就算挂掉其中一个，其他的也还在正常运行，就不会使得服务注册与发现不可用。当然，要是物理黑客直接炸了整个机房，那还是算了吧。</p>
+<p><img src="https://tva1.sinaimg.cn/large/e6c9d24ely1h0k41ady28j21jy0iwmzt.jpg" alt="image-20220323205531185"></p>
+<p>我们来看看如何搭建Eureka集群，这里由于机器配置不高，就搭建两个Eureka服务器组成集群。</p>
+<p>首先我们需要修改一下Eureka服务端的配置文件，这里我们创建两个配置文件，：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">server:</span></span><br><span class="line">  <span class="attr">port:</span> <span class="number">8801</span></span><br><span class="line"><span class="attr">spring:</span></span><br><span class="line">  <span class="attr">application:</span></span><br><span class="line">    <span class="attr">name:</span> <span class="string">eurekaserver</span></span><br><span class="line"><span class="attr">eureka:</span></span><br><span class="line">  <span class="attr">instance:</span></span><br><span class="line">  	<span class="comment"># 由于不支持多个localhost的Eureka服务器，但是又只有本地测试环境，所以就只能自定义主机名称了</span></span><br><span class="line">  	<span class="comment"># 主机名称改为eureka01</span></span><br><span class="line">    <span class="attr">hostname:</span> <span class="string">eureka01</span></span><br><span class="line">  <span class="attr">client:</span></span><br><span class="line">    <span class="attr">fetch-registry:</span> <span class="literal">false</span></span><br><span class="line">    <span class="comment"># 去掉register-with-eureka选项，让Eureka服务器自己注册到其他Eureka服务器，这样才能相互启用</span></span><br><span class="line">    <span class="attr">service-url:</span></span><br><span class="line">    	<span class="comment"># 注意这里填写其他Eureka服务器的地址，不用写自己的</span></span><br><span class="line">      <span class="attr">defaultZone:</span> <span class="string">http://eureka01:8801/eureka</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">server:</span></span><br><span class="line">  <span class="attr">port:</span> <span class="number">8802</span></span><br><span class="line"><span class="attr">spring:</span></span><br><span class="line">  <span class="attr">application:</span></span><br><span class="line">    <span class="attr">name:</span> <span class="string">eurekaserver</span></span><br><span class="line"><span class="attr">eureka:</span></span><br><span class="line">  <span class="attr">instance:</span></span><br><span class="line">    <span class="attr">hostname:</span> <span class="string">eureka02</span></span><br><span class="line">  <span class="attr">client:</span></span><br><span class="line">    <span class="attr">fetch-registry:</span> <span class="literal">false</span></span><br><span class="line">    <span class="attr">service-url:</span></span><br><span class="line">      <span class="attr">defaultZone:</span> <span class="string">http://eureka01:8801/eureka</span></span><br></pre></td></tr></table></figure>
+
+<p>这里由于我们修改成自定义的地址，需要在hosts文件中将其解析到172.0.0.1才能回到localhost，Mac下文件路径为<code>/etc/hosts</code>，Windows下为<code>C:\Windows\system32\drivers\etc\hosts</code>：</p>
+<p><img src="https://tva1.sinaimg.cn/large/e6c9d24ely1h0k48bkgyoj212q07a0te.jpg" alt="image-20220323210218653"></p>
+<p>对创建的两个配置文件分别添加启动配置，直接使用<code>spring.profiles.active</code>指定启用的配置文件即可：</p>
+<p><img src="https://tva1.sinaimg.cn/large/e6c9d24ely1h0k4u09lpxj22aw0py0y5.jpg" alt="image-20220323212308857"></p>
+<p>接着启动这两个注册中心，这两个Eureka管理页面都可以被访问，我们访问其中一个：</p>
+<p><img src="https://tva1.sinaimg.cn/large/e6c9d24ely1h0k4fxnlxtj21yk0cytao.jpg" alt="image-20220323210937341"></p>
+<p><img src="https://tva1.sinaimg.cn/large/e6c9d24ely1h0k4chvjv8j21rq07it9k.jpg" alt="image-20220323210619533"></p>
+<p>可以看到下方<code>replicas</code>中已经包含了另一个Eureka服务器的地址，并且是可用状态。</p>
+<p>接着我们需要将我们的微服务配置也进行修改：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">eureka:</span></span><br><span class="line">  <span class="attr">client:</span></span><br><span class="line">    <span class="attr">service-url:</span></span><br><span class="line">    	<span class="comment"># 将两个Eureka的地址都加入，这样就算有一个Eureka挂掉，也能完成注册</span></span><br><span class="line">      <span class="attr">defaultZone:</span> <span class="string">http://localhost:8801/eureka,</span> <span class="string">http://localhost:8802/eureka</span></span><br></pre></td></tr></table></figure>
+
+<p>可以看到，服务全部成功注册，并且两个Eureka服务端都显示为已注册：</p>
+<p><img src="https://tva1.sinaimg.cn/large/e6c9d24ely1h0k4gvpxdtj21vc0dm41j.jpg" alt="image-20220323211032311"></p>
+<p>接着我们模拟一下，将其中一个Eureka服务器关闭掉，可以看到它会直接变成不可用状态：</p>
+<p><img src="https://tva1.sinaimg.cn/large/e6c9d24ely1h0k4ke207fj21rm06w75k.jpg" alt="image-20220323211354516"></p>
+<p>当然，如果这个时候我们重启刚刚关闭的Eureka服务器，会自动同步其他Eureka服务器的数据。</p>
+<hr>
+<h2 id="LoadBalancer-负载均衡"><a href="#LoadBalancer-负载均衡" class="headerlink" title="LoadBalancer 负载均衡"></a>LoadBalancer 负载均衡</h2><p>前面我们讲解了如何对服务进行拆分、如何通过Eureka服务器进行服务注册与发现，那么现在我们来看看，它的负载均衡到底是如何实现的，实际上之前演示的负载均衡是依靠LoadBalancer实现的。</p>
+<p>在2020年前的SpringCloud版本是采用Ribbon作为负载均衡实现，但是2020年的版本之后SpringCloud把Ribbon移除了，进而用自己编写的LoadBalancer替代。</p>
+<p>那么，负载均衡是如何进行的呢？</p>
+<h3 id="负载均衡"><a href="#负载均衡" class="headerlink" title="负载均衡"></a>负载均衡</h3><p>实际上，在添加<code>@LoadBalanced</code>注解之后，会启用拦截器对我们发起的服务调用请求进行拦截（注意这里是针对我们发起的请求进行拦截），叫做<code>LoadBalancerInterceptor</code>，它实现<code>ClientHttpRequestInterceptor</code>接口：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@FunctionalInterface</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">ClientHttpRequestInterceptor</span> &#123;</span><br><span class="line">    ClientHttpResponse <span class="title function_">intercept</span><span class="params">(HttpRequest request, <span class="type">byte</span>[] body, ClientHttpRequestExecution execution)</span> <span class="keyword">throws</span> IOException;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>主要是对<code>intercept</code>方法的实现：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> ClientHttpResponse <span class="title function_">intercept</span><span class="params">(<span class="keyword">final</span> HttpRequest request, <span class="keyword">final</span> <span class="type">byte</span>[] body, <span class="keyword">final</span> ClientHttpRequestExecution execution)</span> <span class="keyword">throws</span> IOException &#123;</span><br><span class="line">    <span class="type">URI</span> <span class="variable">originalUri</span> <span class="operator">=</span> request.getURI();</span><br><span class="line">    <span class="type">String</span> <span class="variable">serviceName</span> <span class="operator">=</span> originalUri.getHost();</span><br><span class="line">    Assert.state(serviceName != <span class="literal">null</span>, <span class="string">&quot;Request URI does not contain a valid hostname: &quot;</span> + originalUri);</span><br><span class="line">    <span class="keyword">return</span> (ClientHttpResponse)<span class="built_in">this</span>.loadBalancer.execute(serviceName, <span class="built_in">this</span>.requestFactory.createRequest(request, body, execution));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>我们可以打个断点看看实际是怎么在执行的，可以看到：</p>
+<p><img src="https://tva1.sinaimg.cn/large/e6c9d24ely1h0k61wb6pxj222y0cm77n.jpg" alt="image-20220323220519463"></p>
+<p><img src="https://tva1.sinaimg.cn/large/e6c9d24ely1h0k62dm3knj21yi0fgwiz.jpg" alt="image-20220323220548051"></p>
+<p>服务端会在发起请求时执行这些拦截器。</p>
+<p>那么这个拦截器做了什么事情呢，首先我们要明确，我们给过来的请求地址，并不是一个有效的主机名称，而是服务名称，那么怎么才能得到真正需要访问的主机名称呢，肯定是得找Eureka获取的。</p>
+<p>我们来看看<code>loadBalancer.execute()</code>做了什么，它的具体实现为<code>BlockingLoadBalancerClient</code>：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//从上面给进来了服务的名称和具体的请求实体</span></span><br><span class="line"><span class="keyword">public</span> &lt;T&gt; T <span class="title function_">execute</span><span class="params">(String serviceId, LoadBalancerRequest&lt;T&gt; request)</span> <span class="keyword">throws</span> IOException &#123;</span><br><span class="line">    <span class="type">String</span> <span class="variable">hint</span> <span class="operator">=</span> <span class="built_in">this</span>.getHint(serviceId);</span><br><span class="line">    LoadBalancerRequestAdapter&lt;T, DefaultRequestContext&gt; lbRequest = <span class="keyword">new</span> <span class="title class_">LoadBalancerRequestAdapter</span>(request, <span class="keyword">new</span> <span class="title class_">DefaultRequestContext</span>(request, hint));</span><br><span class="line">    Set&lt;LoadBalancerLifecycle&gt; supportedLifecycleProcessors = <span class="built_in">this</span>.getSupportedLifecycleProcessors(serviceId);</span><br><span class="line">    supportedLifecycleProcessors.forEach((lifecycle) -&gt; &#123;</span><br><span class="line">        lifecycle.onStart(lbRequest);</span><br><span class="line">    &#125;);</span><br><span class="line">  	<span class="comment">//可以看到在这里会调用choose方法自动获取对应的服务实例信息</span></span><br><span class="line">    <span class="type">ServiceInstance</span> <span class="variable">serviceInstance</span> <span class="operator">=</span> <span class="built_in">this</span>.choose(serviceId, lbRequest);</span><br><span class="line">    <span class="keyword">if</span> (serviceInstance == <span class="literal">null</span>) &#123;</span><br><span class="line">        supportedLifecycleProcessors.forEach((lifecycle) -&gt; &#123;</span><br><span class="line">            lifecycle.onComplete(<span class="keyword">new</span> <span class="title class_">CompletionContext</span>(Status.DISCARD, lbRequest, <span class="keyword">new</span> <span class="title class_">EmptyResponse</span>()));</span><br><span class="line">        &#125;);</span><br><span class="line">      	<span class="comment">//没有发现任何此服务的实例就抛异常（之前的测试中可能已经遇到了）</span></span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">IllegalStateException</span>(<span class="string">&quot;No instances available for &quot;</span> + serviceId);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      	<span class="comment">//成功获取到对应服务的实例，这时就可以发起HTTP请求获取信息了</span></span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">this</span>.execute(serviceId, serviceInstance, lbRequest);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>所以，实际上在进行负载均衡的时候，会向Eureka发起请求，选择一个可用的对应服务，然后会返回此服务的主机地址等信息：</p>
+<p><img src="https://tva1.sinaimg.cn/large/e6c9d24ely1h0kuedkhinj221e0jin2y.jpg" alt="image-20220324120741736"></p>
+<h3 id="自定义负载均衡策略"><a href="#自定义负载均衡策略" class="headerlink" title="自定义负载均衡策略"></a>自定义负载均衡策略</h3><p>LoadBalancer默认提供了两种负载均衡策略：</p>
+<ul>
+<li>RandomLoadBalancer  -  随机分配策略</li>
+<li><strong>(默认)</strong> RoundRobinLoadBalancer  -  轮询分配策略</li>
+</ul>
+<p>现在我们希望修改默认的负载均衡策略，可以进行指定，比如我们现在希望用户服务采用随机分配策略，我们需要先创建随机分配策略的配置类（不用加<code>@Configuration</code>）：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">LoadBalancerConfig</span> &#123;</span><br><span class="line">  	<span class="comment">//将官方提供的 RandomLoadBalancer 注册为Bean</span></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="keyword">public</span> ReactorLoadBalancer&lt;ServiceInstance&gt; <span class="title function_">randomLoadBalancer</span><span class="params">(Environment environment, LoadBalancerClientFactory loadBalancerClientFactory)</span>&#123;</span><br><span class="line">        <span class="type">String</span> <span class="variable">name</span> <span class="operator">=</span> environment.getProperty(LoadBalancerClientFactory.PROPERTY_NAME);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">RandomLoadBalancer</span>(loadBalancerClientFactory.getLazyProvider(name, ServiceInstanceListSupplier.class), name);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>接着我们需要为对应的服务指定负载均衡策略，直接使用注解即可：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@LoadBalancerClient(value = &quot;userservice&quot;,      //指定为 userservice 服务，只要是调用此服务都会使用我们指定的策略</span></span><br><span class="line"><span class="meta">                    configuration = LoadBalancerConfig.class)</span>   <span class="comment">//指定我们刚刚定义好的配置类</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">BeanConfig</span> &#123;</span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="meta">@LoadBalanced</span></span><br><span class="line">    RestTemplate <span class="title function_">template</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">RestTemplate</span>();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>接着我们在<code>BlockingLoadBalancerClient</code>中添加断点，观察是否采用我们指定的策略进行请求：</p>
+<p><img src="https://tva1.sinaimg.cn/large/e6c9d24ely1h0lc17or9aj221y07swhq.jpg" alt="image-20220324221750289"></p>
+<p><img src="https://tva1.sinaimg.cn/large/e6c9d24ely1h0lc0mbsmqj21ye07yjuh.jpg" alt="image-20220324221713964"></p>
+<p>发现访问userservice服务的策略已经更改为我们指定的策略了。</p>
+<h3 id="OpenFeign实现负载均衡"><a href="#OpenFeign实现负载均衡" class="headerlink" title="OpenFeign实现负载均衡"></a>OpenFeign实现负载均衡</h3><p>官方文档：<a target="_blank" rel="noopener" href="https://docs.spring.io/spring-cloud-openfeign/docs/current/reference/html/">https://docs.spring.io/spring-cloud-openfeign/docs/current/reference/html/</a></p>
+<p>Feign和RestTemplate一样，也是HTTP客户端请求工具，但是它的使用方式更加便捷。首先是依赖：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-openfeign<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>接着在启动类添加<code>@EnableFeignClients</code>注解：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="meta">@EnableFeignClients</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">BorrowApplication</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        SpringApplication.run(BorrowApplication.class, args);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>那么现在我们需要调用其他微服务提供的接口，该怎么做呢？我们直接创建一个对应服务的接口类即可：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@FeignClient(&quot;userservice&quot;)</span>   <span class="comment">//声明为userservice服务的HTTP请求客户端</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">UserClient</span> &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>接着我们直接创建所需类型的方法，比如我们之前的：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">RestTemplate</span> <span class="variable">template</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">RestTemplate</span>();</span><br><span class="line"><span class="type">User</span> <span class="variable">user</span> <span class="operator">=</span> template.getForObject(<span class="string">&quot;http://userservice/user/&quot;</span>+uid, User.class);</span><br></pre></td></tr></table></figure>
+
+<p>现在可以直接写成这样：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@FeignClient(&quot;userservice&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">UserClient</span> &#123;</span><br><span class="line"></span><br><span class="line">  	<span class="comment">//路径保证和其他微服务提供的一致即可</span></span><br><span class="line">    <span class="meta">@RequestMapping(&quot;/user/&#123;uid&#125;&quot;)</span></span><br><span class="line">    User <span class="title function_">getUserById</span><span class="params">(<span class="meta">@PathVariable(&quot;uid&quot;)</span> <span class="type">int</span> uid)</span>;  <span class="comment">//参数和返回值也保持一致</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>接着我们直接注入使用（有Mybatis那味了）：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Resource</span></span><br><span class="line">UserClient userClient;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">public</span> UserBorrowDetail <span class="title function_">getUserBorrowDetailByUid</span><span class="params">(<span class="type">int</span> uid)</span> &#123;</span><br><span class="line">    List&lt;Borrow&gt; borrow = mapper.getBorrowsByUid(uid);</span><br><span class="line">    </span><br><span class="line">    <span class="type">User</span> <span class="variable">user</span> <span class="operator">=</span> userClient.getUserById(uid);</span><br><span class="line">    <span class="comment">//这里不用再写IP，直接写服务名称bookservice</span></span><br><span class="line">    List&lt;Book&gt; bookList = borrow</span><br><span class="line">            .stream()</span><br><span class="line">            .map(b -&gt; template.getForObject(<span class="string">&quot;http://bookservice/book/&quot;</span>+b.getBid(), Book.class))</span><br><span class="line">            .collect(Collectors.toList());</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">UserBorrowDetail</span>(user, bookList);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>访问，可以看到结果依然是正确的：</p>
+<p><img src="https://tva1.sinaimg.cn/large/e6c9d24ely1h0l51tto72j229e080dhe.jpg" alt="image-20220324181614387"></p>
+<p>并且我们可以观察一下两个用户微服务的调用情况，也是以负载均衡的形式进行的。</p>
+<p>按照同样的方法，我们接着将图书管理服务的调用也改成接口形式：</p>
+<p><img src="https://tva1.sinaimg.cn/large/e6c9d24ely1h0l53boxmlj21j60bgq51.jpg" alt="image-20220324181740566"></p>
+<p>最后我们的Service代码就变成了：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">BorrowServiceImpl</span> <span class="keyword">implements</span> <span class="title class_">BorrowService</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Resource</span></span><br><span class="line">    BorrowMapper mapper;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Resource</span></span><br><span class="line">    UserClient userClient;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Resource</span></span><br><span class="line">    BookClient bookClient;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> UserBorrowDetail <span class="title function_">getUserBorrowDetailByUid</span><span class="params">(<span class="type">int</span> uid)</span> &#123;</span><br><span class="line">        List&lt;Borrow&gt; borrow = mapper.getBorrowsByUid(uid);</span><br><span class="line"></span><br><span class="line">        <span class="type">User</span> <span class="variable">user</span> <span class="operator">=</span> userClient.getUserById(uid);</span><br><span class="line">        List&lt;Book&gt; bookList = borrow</span><br><span class="line">                .stream()</span><br><span class="line">                .map(b -&gt; bookClient.getBookById(b.getBid()))</span><br><span class="line">                .collect(Collectors.toList());</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">UserBorrowDetail</span>(user, bookList);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>继续访问进行测试：</p>
+<p><img src="https://tva1.sinaimg.cn/large/e6c9d24ely1h0l54vuecvj226206igmz.jpg" alt="image-20220324181910173"></p>
+<p>OK，正常。</p>
+<p>当然，Feign也有很多的其他配置选项，这里就不多做介绍了，详细请查阅官方文档。</p>
+<hr>
+<h2 id="Hystrix-服务熔断"><a href="#Hystrix-服务熔断" class="headerlink" title="Hystrix 服务熔断"></a>Hystrix 服务熔断</h2><p>官方文档：<a target="_blank" rel="noopener" href="https://cloud.spring.io/spring-cloud-static/spring-cloud-netflix/1.3.5.RELEASE/single/spring-cloud-netflix.html#_circuit_breaker_hystrix_clients">https://cloud.spring.io/spring-cloud-static/spring-cloud-netflix/1.3.5.RELEASE/single/spring-cloud-netflix.html#_circuit_breaker_hystrix_clients</a></p>
+<p>我们知道，微服务之间是可以进行相互调用的，那么如果出现了下面的情况会导致什么问题？</p>
+<p><img src="https://tva1.sinaimg.cn/large/e6c9d24ely1h0ky07zn6tj219g07adgz.jpg" alt="image-20220324141230070"></p>
+<p>由于位于最底端的服务提供者E发生故障，那么此时会直接导致服务ABCD全线崩溃，就像雪崩了一样。</p>
+<p><img src="https://tva1.sinaimg.cn/large/e6c9d24ely1h0ky50sw4jj219s07yabg.jpg" alt="image-20220324141706946"></p>
+<p>这种问题实际上是不可避免的，由于多种因素，比如网络卡顿、系统故障、硬件问题等，都存在一定可能，会导致这种极端的情况发生。因此，我们需要寻找一个应对这种极端情况的解决方案。</p>
+<p>为了解决分布式系统的雪崩问题，SpringCloud提供了Hystrix熔断器组件，他就像我们家中的保险丝一样，当电流过载就会直接熔断，防止危险进一步发生，从而保证家庭用电安全。可以想象一下，如果整条链路上的服务已经全线崩溃，这时还在不断地有大量的请求到达，需要各个服务进行处理，肯定是会使得情况越来越糟糕的。</p>
+<p>我们来详细看看它的工作机制。</p>
+<h3 id="服务降级"><a href="#服务降级" class="headerlink" title="服务降级"></a>服务降级</h3><p>首先我们来看看服务降级，注意一定要区分开服务降级和服务熔断的区别，服务降级并不会直接返回错误，而是可以提供一个补救措施，正常响应给请求者。这样相当于服务依然可用，但是服务能力肯定是下降了的。</p>
+<p>我们就基于借阅管理服务来进行讲解，我们不开启用户服务和图书服务，表示用户服务和图书服务已经挂掉了。</p>
+<p>这里我们导入Hystrix的依赖（此项目已经停止维护，SpringCloud依赖中已经不自带了，所以说需要自己单独导入）：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">     <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">     <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-netflix-hystrix<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">  		<span class="tag">&lt;<span class="name">version</span>&gt;</span>2.2.10.RELEASE<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>接着我们需要在启动类添加注解开启：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="meta">@EnableHystrix</span>   <span class="comment">//启用Hystrix</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">BorrowApplication</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        SpringApplication.run(BorrowApplication.class, args);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>那么现在，由于用户服务和图书服务不可用，所以查询借阅信息的请求肯定是没办法正常响应的，这时我们可以提供一个备选方案，也就是说当服务出现异常时，返回我们的备选方案：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">BorrowController</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Resource</span></span><br><span class="line">    BorrowService service;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@HystrixCommand(fallbackMethod = &quot;onError&quot;)</span>    <span class="comment">//使用@HystrixCommand来指定备选方案</span></span><br><span class="line">    <span class="meta">@RequestMapping(&quot;/borrow/&#123;uid&#125;&quot;)</span></span><br><span class="line">    UserBorrowDetail <span class="title function_">findUserBorrows</span><span class="params">(<span class="meta">@PathVariable(&quot;uid&quot;)</span> <span class="type">int</span> uid)</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> service.getUserBorrowDetailByUid(uid);</span><br><span class="line">    &#125;</span><br><span class="line">		</span><br><span class="line">  	<span class="comment">//备选方案，这里直接返回空列表了</span></span><br><span class="line">  	<span class="comment">//注意参数和返回值要和上面的一致</span></span><br><span class="line">    UserBorrowDetail <span class="title function_">onError</span><span class="params">(<span class="type">int</span> uid)</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">UserBorrowDetail</span>(<span class="literal">null</span>, Collections.emptyList());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>可以看到，虽然我们的服务无法正常运行了，但是依然可以给浏览器正常返回响应数据：</p>
+<p><img src="https://tva1.sinaimg.cn/large/e6c9d24ely1h0kzgnuv0ej21x406ujvb.jpg" alt="image-20220324150253610"></p>
+<p><img src="https://tva1.sinaimg.cn/large/e6c9d24ely1h0kzgygdd3j218s06qjru.jpg" alt="image-20220324150310955"></p>
+<p>服务降级是一种比较温柔的解决方案，虽然服务本身的不可用，但是能够保证正常响应数据。</p>
+<h3 id="服务熔断"><a href="#服务熔断" class="headerlink" title="服务熔断"></a>服务熔断</h3><p>熔断机制是应对雪崩效应的一种微服务链路保护机制，当检测出链路的某个微服务不可用或者响应时间太长时，会进行服务的降级，进而熔断该节点微服务的调用，快速返回”错误”的响应信息。当检测到该节点微服务响应正常后恢复调用链路。</p>
+<p>实际上，熔断就是在降级的基础上进一步升级形成的，也就是说，在一段时间内多次调用失败，那么就直接升级为熔断。</p>
+<p>我们可以添加两条输出语句：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">BorrowController</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Resource</span></span><br><span class="line">    BorrowService service;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@HystrixCommand(fallbackMethod = &quot;onError&quot;)</span></span><br><span class="line">    <span class="meta">@RequestMapping(&quot;/borrow/&#123;uid&#125;&quot;)</span></span><br><span class="line">    UserBorrowDetail <span class="title function_">findUserBorrows</span><span class="params">(<span class="meta">@PathVariable(&quot;uid&quot;)</span> <span class="type">int</span> uid)</span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;开始向其他服务获取信息&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> service.getUserBorrowDetailByUid(uid);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    UserBorrowDetail <span class="title function_">onError</span><span class="params">(<span class="type">int</span> uid)</span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;服务错误，进入备选方法！&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">UserBorrowDetail</span>(<span class="literal">null</span>, Collections.emptyList());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>接着，我们在浏览器中疯狂点击刷新按钮，对此服务疯狂发起请求，可以看到后台：</p>
+<p><img src="https://tva1.sinaimg.cn/large/e6c9d24ely1h0kzz87azgj21960hwwhz.jpg" alt="image-20220324152044551"></p>
+<p>一开始的时候，会正常地去调用Controller对应的方法<code>findUserBorrows</code>，发现失败然后进入备选方法，但是我们发现在持续请求一段时间之后，没有再调用这个方法，而是直接调用备选方案，这便是升级到了熔断状态。</p>
+<p>我们可以继续不断点击，继续不断地发起请求：</p>
+<p><img src="https://tva1.sinaimg.cn/large/e6c9d24ely1h0l06mgm5yj21uy0b0gns.jpg" alt="image-20220324152750797"></p>
+<p>可以看到，过了一段时间之后，会尝试正常执行一次<code>findUserBorrows</code>，但是依然是失败状态，所以继续保持熔断状态。</p>
+<p>所以得到结论，它能够对一段时间内出现的错误进行侦测，当侦测到出错次数过多时，熔断器会打开，所有的请求会直接响应失败，一段时间后，只执行一定数量的请求，如果还是出现错误，那么则继续保持打开状态，否则说明服务恢复正常运行，关闭熔断器。</p>
+<p>我们可以测试一下，开启另外两个服务之后，继续点击：</p>
+<p><img src="https://tva1.sinaimg.cn/large/e6c9d24ely1h0l09mmg95j21ue0eatb5.jpg" alt="image-20220324153044583"></p>
+<p>可以看到，当另外两个服务正常运行之后，当再次尝试调用<code>findUserBorrows</code>之后会成功，于是熔断机制就关闭了，服务恢复运行。</p>
+<p>总结一下：</p>
+<p><img src="https://tva1.sinaimg.cn/large/e6c9d24ely1h0l0iulmatj21rc0ba0vj.jpg" alt="image-20220324153935858"></p>
+<h3 id="OpenFeign实现降级"><a href="#OpenFeign实现降级" class="headerlink" title="OpenFeign实现降级"></a>OpenFeign实现降级</h3><p>Hystrix也可以配合Feign进行降级，我们可以对应接口中定义的远程调用单独进行降级操作。</p>
+<p>比如我们还是以用户服务挂掉为例，那么这个时候肯定是会远程调用失败的，也就是说我们的Controller中的方法在执行过程中会直接抛出异常，进而被Hystrix监控到并进行服务降级。</p>
+<p>而实际上导致方法执行异常的根源就是远程调用失败，所以我们换个思路，既然用户服务调用失败，那么我就给这个远程调用添加一个替代方案，如果此远程调用失败，那么就直接上替代方案。那么怎么实现替代方案呢？我们知道Feign都是以接口的形式来声明远程调用，那么既然远程调用已经失效，我们就自行对其进行实现，创建一个实现类，对原有的接口方法进行替代方案实现：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Component</span>   <span class="comment">//注意，需要将其注册为Bean，Feign才能自动注入</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">UserFallbackClient</span> <span class="keyword">implements</span> <span class="title class_">UserClient</span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> User <span class="title function_">getUserById</span><span class="params">(<span class="type">int</span> uid)</span> &#123;   <span class="comment">//这里我们自行对其进行实现，并返回我们的替代方案</span></span><br><span class="line">        <span class="type">User</span> <span class="variable">user</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">User</span>();</span><br><span class="line">        user.setName(<span class="string">&quot;我是替代方案&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> user;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>实现完成后，我们只需要在原有的接口中指定失败替代实现即可：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//fallback参数指定为我们刚刚编写的实现类</span></span><br><span class="line"><span class="meta">@FeignClient(value = &quot;userservice&quot;, fallback = UserFallbackClient.class)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">UserClient</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@RequestMapping(&quot;/user/&#123;uid&#125;&quot;)</span></span><br><span class="line">    User <span class="title function_">getUserById</span><span class="params">(<span class="meta">@PathVariable(&quot;uid&quot;)</span> <span class="type">int</span> uid)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>现在去掉<code>BorrowController</code>的<code>@HystrixCommand</code>注解和备选方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">BorrowController</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Resource</span></span><br><span class="line">    BorrowService service;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@RequestMapping(&quot;/borrow/&#123;uid&#125;&quot;)</span></span><br><span class="line">    UserBorrowDetail <span class="title function_">findUserBorrows</span><span class="params">(<span class="meta">@PathVariable(&quot;uid&quot;)</span> <span class="type">int</span> uid)</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> service.getUserBorrowDetailByUid(uid);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>最后我们在配置文件中开启熔断支持：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">feign:</span></span><br><span class="line">  <span class="attr">circuitbreaker:</span></span><br><span class="line">    <span class="attr">enabled:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+
+<p>启动服务，调用接口试试看：</p>
+<p><img src="https://tva1.sinaimg.cn/large/e6c9d24ely1h0m0k7jve9j21zq03kdi6.jpg" alt="image-20220325122629016"></p>
+<p><img src="https://tva1.sinaimg.cn/large/e6c9d24ely1h0m0gmj8ayj229c07q75v.jpg" alt="image-20220325122301779"></p>
+<p>可以看到，现在已经采用我们的替代方案作为结果。</p>
+<h3 id="监控页面部署"><a href="#监控页面部署" class="headerlink" title="监控页面部署"></a>监控页面部署</h3><p>除了对服务的降级和熔断处理，我们也可以对其进行实时监控，只需要安装监控页面即可，这里我们创建一个新的项目，导入依赖：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-netflix-hystrix-dashboard<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.2.10.RELEASE<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>接着添加配置文件：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">server:</span></span><br><span class="line">  <span class="attr">port:</span> <span class="number">8900</span></span><br><span class="line"><span class="attr">hystrix:</span></span><br><span class="line">  <span class="attr">dashboard:</span></span><br><span class="line">    <span class="comment"># 将localhost添加到白名单，默认是不允许的</span></span><br><span class="line">    <span class="attr">proxy-stream-allow-list:</span> <span class="string">&quot;localhost&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>接着创建主类，注意需要添加<code>@EnableHystrixDashboard</code>注解开启管理页面：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="meta">@EnableHystrixDashboard</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">HystrixDashBoardApplication</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        SpringApplication.run(HystrixDashBoardApplication.class, args);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>启动Hystrix管理页面服务，然后我们需要在要进行监控的服务中添加Actuator依赖：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-actuator<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>Actuator是SpringBoot程序的监控系统，可以实现健康检查，记录信息等。在使用之前需要引入spring-boot-starter-actuator，并做简单的配置即可。</p>
+</blockquote>
+<p>添加此依赖后，我们可以在IDEA中查看运行情况：</p>
+<p><img src="https://tva1.sinaimg.cn/large/e6c9d24ely1h0ld5ia0z8j21uw0e6god.jpg" alt="image-20220324225633805"></p>
+<p>然后在配置文件中配置Actuator添加暴露：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">management:</span></span><br><span class="line">  <span class="attr">endpoints:</span></span><br><span class="line">    <span class="attr">web:</span></span><br><span class="line">      <span class="attr">exposure:</span></span><br><span class="line">        <span class="attr">include:</span> <span class="string">&#x27;*&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>接着我们打开刚刚启动的管理页面，地址为：<a target="_blank" rel="noopener" href="http://localhost:8900/hystrix/">http://localhost:8900/hystrix/</a></p>
+<p><img src="https://tva1.sinaimg.cn/large/e6c9d24ely1h0ld6jtiijj22ij0u042v.jpg" alt="image-20220324225733550"></p>
+<p>在中间填写要监控的服务：比如借阅服务：<a target="_blank" rel="noopener" href="http://localhost:8301/actuator/hystrix.stream%EF%BC%8C%E6%B3%A8%E6%84%8F%E5%90%8E%E9%9D%A2%E8%A6%81%E6%B7%BB%E5%8A%A0%60/actuator/hystrix.stream%60%EF%BC%8C%E7%84%B6%E5%90%8E%E7%82%B9%E5%87%BBMonitor">http://localhost:8301/actuator/hystrix.stream，注意后面要添加`/actuator/hystrix.stream`，然后点击Monitor</a> Stream即可进入监控页面：</p>
+<p><img src="https://tva1.sinaimg.cn/large/e6c9d24ely1h0ldejq3n0j22ly0puwhu.jpg" alt="image-20220324230515009"></p>
+<p>可以看到现在都是Loading状态，这是因为还没有开始统计，我们现在尝试调用几次我们的服务：</p>
+<p><img src="https://tva1.sinaimg.cn/large/e6c9d24ely1h0ldfbaoi5j22660bqgnc.jpg" alt="image-20220324230559068"></p>
+<p>可以看到，在调用之后，监控页面出现了信息：</p>
+<p><img src="https://tva1.sinaimg.cn/large/e6c9d24ely1h0ldgfihczj21wq0ksn03.jpg" alt="image-20220324230703600"></p>
+<p>可以看到5次访问都是正常的，所以显示为绿色，接着我们来尝试将图书服务关闭，这样就会导致服务降级甚至熔断，然后再多次访问此服务看看监控会如何变化：</p>
+<p><img src="https://tva1.sinaimg.cn/large/e6c9d24ely1h0ldiuq9naj222a0l2whx.jpg" alt="image-20220324230923472"></p>
+<p>可以看到，错误率直接飙升到100%，并且一段时间内持续出现错误，中心的圆圈也变成了红色，我们继续进行访问：</p>
+<p><img src="https://tva1.sinaimg.cn/large/e6c9d24ely1h0ldjvo0ppj21j20iy0v3.jpg" alt="image-20220324231022133"></p>
+<p>在出现大量错误的情况下保持持续访问，可以看到此时已经将服务熔断，<code>Circuit</code>更改为Open状态，并且图中的圆圈也变得更大，表示压力在持续上升。</p>
+<hr>
+<h2 id="Gateway-路由网关"><a href="#Gateway-路由网关" class="headerlink" title="Gateway 路由网关"></a>Gateway 路由网关</h2><p>官网地址：<a target="_blank" rel="noopener" href="https://docs.spring.io/spring-cloud-gateway/docs/current/reference/html/">https://docs.spring.io/spring-cloud-gateway/docs/current/reference/html/</a></p>
+<p>说到路由，想必各位一定最先想到的就是家里的路由器了，那么我们家里的路由器充当的是一个什么角色呢？</p>
+<p>我们知道，如果我们需要连接互联网，那么就需要将手机或是电脑连接到家里的路由器才可以，而路由器则连接光猫，光猫再通过光纤连接到互联网，也就是说，互联网方向发送过来的数据，需要经过路由器才能到达我们的设备。而路由器充当的就是数据包中转站，所有的局域网设备都无法直接与互联网连接，而是需要经过路由器进行中转，我们一般说路由器下的网络是内网，而互联网那一端是外网。</p>
+<p><img src="https://tva1.sinaimg.cn/large/e6c9d24ely1h0l2ejn70ej21di0b4wfr.jpg" alt="image-20220324164439809"></p>
+<p>我们的局域网设备，无法被互联网上的其他设备直接访问，肯定是能够保证到安全性的。并互联网发送过来的数据，需要经过路由器进行解析，识别到底是哪一个设备的数据包，然后再发送给对应的设备。</p>
+<p>而我们的微服务也是这样，一般情况下，可能并不是所有的微服务都需要直接暴露给外部调用，这时我们就可以使用路由机制，添加一层防护，让所有的请求全部通过路由来转发到各个微服务，并且转发给多个相同微服务实例也可以实现负载均衡。</p>
+<p><img src="https://tva1.sinaimg.cn/large/e6c9d24ely1h0m1kz3kycj21iq0huwhb.jpg" alt="image-20220325130147758"></p>
+<p>在之前，路由的实现一般使用Zuul，但是已经停更，而现在新出现了由SpringCloud官方开发的Gateway路由，它相比Zuul不仅性能上得到了一定的提升，并且是官方推出，契合性也会更好，所以我们这里就主要讲解Gateway。</p>
+<h3 id="部署网关"><a href="#部署网关" class="headerlink" title="部署网关"></a>部署网关</h3><p>现在我们来创建一个新的项目，作为我们的网关，这里需要添加两个依赖：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-gateway<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-netflix-eureka-client<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>第一个依赖就是网关的依赖，而第二个则跟其他微服务一样，需要注册到Eureka才能生效，注意别添加Web依赖，使用的是WebFlux框架。</p>
+<p>然后我们来完善一下配置文件：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">server:</span></span><br><span class="line">  <span class="attr">port:</span> <span class="number">8500</span></span><br><span class="line"><span class="attr">eureka:</span></span><br><span class="line">  <span class="attr">client:</span></span><br><span class="line">    <span class="attr">service-url:</span></span><br><span class="line">      <span class="attr">defaultZone:</span> <span class="string">http://localhost:8801/eureka,</span> <span class="string">http://localhost:8802/eureka</span></span><br><span class="line"><span class="attr">spring:</span></span><br><span class="line">  <span class="attr">application:</span></span><br><span class="line">    <span class="attr">name:</span> <span class="string">gateway</span></span><br></pre></td></tr></table></figure>
+
+<p>现在就可以启动了：</p>
+<p><img src="https://tva1.sinaimg.cn/large/e6c9d24ely1h0l34rlri8j22dw0b80ve.jpg" alt="image-20220324170951878"></p>
+<p>但是现在还没有配置任何的路由功能，我们接着将路由功能进行配置：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line">  <span class="attr">cloud:</span></span><br><span class="line">    <span class="attr">gateway:</span></span><br><span class="line">    	<span class="comment"># 配置路由，注意这里是个列表，每一项都包含了很多信息</span></span><br><span class="line">      <span class="attr">routes:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">id:</span> <span class="string">borrow-service</span>   <span class="comment"># 路由名称</span></span><br><span class="line">          <span class="attr">uri:</span> <span class="string">lb://borrowservice</span>  <span class="comment"># 路由的地址，lb表示使用负载均衡到微服务，也可以使用http正常转发</span></span><br><span class="line">          <span class="attr">predicates:</span> <span class="comment"># 路由规则，断言什么请求会被路由</span></span><br><span class="line">            <span class="bullet">-</span> <span class="string">Path=/borrow/**</span>  <span class="comment"># 只要是访问的这个路径，一律都被路由到上面指定的服务</span></span><br></pre></td></tr></table></figure>
+
+<p>路由规则的详细列表（断言工厂列表）在这里：<a target="_blank" rel="noopener" href="https://docs.spring.io/spring-cloud-gateway/docs/current/reference/html/#gateway-request-predicates-factories%EF%BC%8C%E5%8F%AF%E4%BB%A5%E6%8C%87%E5%AE%9A%E5%A4%9A%E7%A7%8D%E7%B1%BB%E5%9E%8B%EF%BC%8C%E5%8C%85%E6%8B%AC%E6%8C%87%E5%AE%9A%E6%97%B6%E9%97%B4%E6%AE%B5%E3%80%81Cookie%E6%90%BA%E5%B8%A6%E6%83%85%E5%86%B5%E3%80%81Header%E6%90%BA%E5%B8%A6%E6%83%85%E5%86%B5%E3%80%81%E8%AE%BF%E9%97%AE%E7%9A%84%E5%9F%9F%E5%90%8D%E5%9C%B0%E5%9D%80%E3%80%81%E8%AE%BF%E9%97%AE%E7%9A%84%E6%96%B9%E6%B3%95%E3%80%81%E8%B7%AF%E5%BE%84%E3%80%81%E5%8F%82%E6%95%B0%E3%80%81%E8%AE%BF%E9%97%AE%E8%80%85IP%E7%AD%89%E3%80%82%E4%B9%9F%E5%8F%AF%E4%BB%A5%E4%BD%BF%E7%94%A8%E9%85%8D%E7%BD%AE%E7%B1%BB%E8%BF%9B%E8%A1%8C%E9%85%8D%E7%BD%AE%EF%BC%8C%E4%BD%86%E6%98%AF%E8%BF%98%E6%98%AF%E6%8E%A8%E8%8D%90%E7%9B%B4%E6%8E%A5%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%EF%BC%8C%E7%9C%81%E4%BA%8B%E3%80%82">https://docs.spring.io/spring-cloud-gateway/docs/current/reference/html/#gateway-request-predicates-factories，可以指定多种类型，包括指定时间段、Cookie携带情况、Header携带情况、访问的域名地址、访问的方法、路径、参数、访问者IP等。也可以使用配置类进行配置，但是还是推荐直接配置文件，省事。</a></p>
+<p>接着启动网关，搭载Arm架构芯片的Mac电脑可能会遇到这个问题：</p>
+<p><img src="https://tva1.sinaimg.cn/large/e6c9d24ely1h0m59qpakvj21og074q5a.jpg" alt="image-20220325150924472"></p>
+<p>这是因为没有找到适用于此架构的动态链接库，不影响使用，无视即可，希望以后的版本能修复吧。</p>
+<p>可以看到，我们现在可以直接通过路由来访问我们的服务了：</p>
+<p><img src="https://tva1.sinaimg.cn/large/e6c9d24ely1h0l3cme88qj226g0a6abq.jpg" alt="image-20220324171724493"></p>
+<p>注意此时依然可以通过原有的服务地址进行访问：</p>
+<p><img src="https://tva1.sinaimg.cn/large/e6c9d24ely1h0l3efx1npj225c070400.jpg" alt="image-20220324171909828"></p>
+<p>这样我们就可以将不需要外网直接访问的微服务全部放到内网环境下，而只依靠网关来对外进行交涉。</p>
+<h3 id="路由过滤器"><a href="#路由过滤器" class="headerlink" title="路由过滤器"></a>路由过滤器</h3><p>路由过滤器支持以某种方式修改传入的 HTTP 请求或传出的 HTTP 响应，路由过滤器的范围是某一个路由，跟之前的断言一样，Spring Cloud Gateway 也包含许多内置的路由过滤器工厂，详细列表：<a target="_blank" rel="noopener" href="https://docs.spring.io/spring-cloud-gateway/docs/current/reference/html/#gatewayfilter-factories">https://docs.spring.io/spring-cloud-gateway/docs/current/reference/html/#gatewayfilter-factories</a></p>
+<p>比如我们现在希望在请求到达时，在请求头中添加一些信息再转发给我们的服务，那么这个时候就可以使用路由过滤器来完成，我们只需要对配置文件进行修改：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line">  <span class="attr">application:</span></span><br><span class="line">    <span class="attr">name:</span> <span class="string">gateway</span></span><br><span class="line">  <span class="attr">cloud:</span></span><br><span class="line">    <span class="attr">gateway:</span></span><br><span class="line">      <span class="attr">routes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">id:</span> <span class="string">borrow-service</span></span><br><span class="line">        <span class="attr">uri:</span> <span class="string">lb://borrowservice</span></span><br><span class="line">        <span class="attr">predicates:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="string">Path=/borrow/**</span></span><br><span class="line">      <span class="comment"># 继续添加新的路由配置，这里就以书籍管理服务为例</span></span><br><span class="line">      <span class="comment"># 注意-要对齐routes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">id:</span> <span class="string">book-service</span></span><br><span class="line">        <span class="attr">uri:</span> <span class="string">lb://bookservice</span></span><br><span class="line">        <span class="attr">predicates:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="string">Path=/book/**</span></span><br><span class="line">        <span class="attr">filters:</span>   <span class="comment"># 添加过滤器</span></span><br><span class="line">        <span class="bullet">-</span> <span class="string">AddRequestHeader=Test,</span> <span class="string">HelloWorld!</span></span><br><span class="line">        <span class="comment"># AddRequestHeader 就是添加请求头信息，其他工厂请查阅官网</span></span><br></pre></td></tr></table></figure>
+
+<p>接着我们在BookController中获取并输出一下，看看是不是成功添加了：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">BookController</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Resource</span></span><br><span class="line">    BookService service;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@RequestMapping(&quot;/book/&#123;bid&#125;&quot;)</span></span><br><span class="line">    Book <span class="title function_">findBookById</span><span class="params">(<span class="meta">@PathVariable(&quot;bid&quot;)</span> <span class="type">int</span> bid,</span></span><br><span class="line"><span class="params">                      HttpServletRequest request)</span>&#123;</span><br><span class="line">        System.out.println(request.getHeader(<span class="string">&quot;Test&quot;</span>));</span><br><span class="line">        <span class="keyword">return</span> service.getBookById(bid);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>现在我们通过Gateway访问我们的图书管理服务：</p>
+<p><img src="https://tva1.sinaimg.cn/large/e6c9d24ely1h0m57rm7t4j21bq07kt9c.jpg" alt="image-20220325150730814"></p>
+<p><img src="https://tva1.sinaimg.cn/large/e6c9d24ely1h0m5cstkq3j21v403q0ud.jpg" alt="image-20220325151220776"></p>
+<p>可以看到这里成功获取到由网关添加的请求头信息了。</p>
+<p>除了针对于某一个路由配置过滤器之外，我们也可以自定义全局过滤器，它能够作用于全局。但是我们需要通过代码的方式进行编写，比如我们要实现拦截没有携带指定请求参数的请求：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Component</span>   <span class="comment">//需要注册为Bean</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">TestFilter</span> <span class="keyword">implements</span> <span class="title class_">GlobalFilter</span> &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> Mono&lt;Void&gt; <span class="title function_">filter</span><span class="params">(ServerWebExchange exchange, GatewayFilterChain chain)</span> &#123;   <span class="comment">//只需要实现此方法</span></span><br><span class="line">        <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>接着我们编写判断：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">public</span> Mono&lt;Void&gt; <span class="title function_">filter</span><span class="params">(ServerWebExchange exchange, GatewayFilterChain chain)</span> &#123;</span><br><span class="line">    <span class="comment">//先获取ServerHttpRequest对象，注意不是HttpServletRequest</span></span><br><span class="line">    <span class="type">ServerHttpRequest</span> <span class="variable">request</span> <span class="operator">=</span> exchange.getRequest();</span><br><span class="line">    <span class="comment">//打印一下所有的请求参数</span></span><br><span class="line">    System.out.println(request.getQueryParams());</span><br><span class="line">    <span class="comment">//判断是否包含test参数，且参数值为1</span></span><br><span class="line">    List&lt;String&gt; value = request.getQueryParams().get(<span class="string">&quot;test&quot;</span>);</span><br><span class="line">    <span class="keyword">if</span>(value != <span class="literal">null</span> &amp;&amp; value.contains(<span class="string">&quot;1&quot;</span>)) &#123;</span><br><span class="line">        <span class="comment">//将ServerWebExchange向过滤链的下一级传递（跟JavaWeb中介绍的过滤器其实是差不多的）</span></span><br><span class="line">        <span class="keyword">return</span> chain.filter(exchange);</span><br><span class="line">    &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">//直接在这里不再向下传递，然后返回响应</span></span><br><span class="line">        <span class="keyword">return</span> exchange.getResponse().setComplete();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>可以看到结果：</p>
+<p><img src="https://tva1.sinaimg.cn/large/e6c9d24ely1h0m6ahb0zvj21ak07qaah.jpg" alt="image-20220325154443063"></p>
+<p><img src="https://tva1.sinaimg.cn/large/e6c9d24ely1h0m6axjl3oj21ai072t9h.jpg" alt="image-20220325154508853"></p>
+<p>成功实现规则判断和拦截操作。</p>
+<p>当然，过滤器肯定是可以存在很多个的，所以我们可以手动指定过滤器之间的顺序：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">TestFilter</span> <span class="keyword">implements</span> <span class="title class_">GlobalFilter</span>, Ordered &#123;   <span class="comment">//实现Ordered接口</span></span><br><span class="line">  </span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">getOrder</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>注意Order的值越小优先级越高，并且无论是在配置文件中编写的单个路由过滤器还是全局路由过滤器，都会受到Order值影响（单个路由的过滤器Order值按从上往下的顺序从1开始递增），最终是按照Order值决定哪个过滤器优先执行，当Order值一样时 全局路由过滤器执行 <code>优于</code> 单独的路由过滤器执行。</p>
+<hr>
+<h2 id="Config-配置中心"><a href="#Config-配置中心" class="headerlink" title="Config 配置中心"></a>Config 配置中心</h2><p><strong>官方文档：</strong><a target="_blank" rel="noopener" href="https://docs.spring.io/spring-cloud-config/docs/current/reference/html/">https://docs.spring.io/spring-cloud-config/docs/current/reference/html/</a></p>
+<p>经过前面的学习，我们对于一个分布式应用的技术选型和搭建已经了解得比较多了，但是各位有没有发现一个问题，如果我们的微服务项目需要部署很多个实例，那么配置文件我们岂不是得一个一个去改，可能十几个实例还好，要是有几十个上百个呢？那我们一个一个去配置，岂不直接猝死在工位上。</p>
+<p>所以，我们需要一种更加高级的集中化地配置文件管理工具，集中地对配置文件进行配置。</p>
+<blockquote>
+<p>Spring Cloud Config 为分布式系统中的外部配置提供服务器端和客户端支持。使用 Config Server，您可以集中管理所有环境中应用程序的外部配置。</p>
+</blockquote>
+<p><img src="https://tva1.sinaimg.cn/large/e6c9d24ely1h0m8zggbzyj21ha0csjt5.jpg" alt="image-20220325171754862"></p>
+<p>实际上Spring Cloud Config就是一个配置中心，所有的服务都可以从配置中心取出配置，而配置中心又可以从GitHub远程仓库中获取云端的配置文件，这样我们只需要修改GitHub中的配置即可对所有的服务进行配置管理了。</p>
+<h3 id="部署配置中心"><a href="#部署配置中心" class="headerlink" title="部署配置中心"></a>部署配置中心</h3><p>这里我们接着创建一个新的项目，并导入依赖：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-config-server<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">  	<span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-netflix-eureka-client<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>老规矩，启动类：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="meta">@EnableConfigServer</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ConfigApplication</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        SpringApplication.run(ConfigApplication.class, args);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>接着就是配置文件：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">server:</span></span><br><span class="line">  <span class="attr">port:</span> <span class="number">8700</span></span><br><span class="line"><span class="attr">spring:</span></span><br><span class="line">  <span class="attr">application:</span></span><br><span class="line">    <span class="attr">name:</span> <span class="string">configserver</span></span><br><span class="line"><span class="attr">eureka:</span></span><br><span class="line">  <span class="attr">client:</span></span><br><span class="line">    <span class="attr">service-url:</span></span><br><span class="line">      <span class="attr">defaultZone:</span> <span class="string">http://localhost:8801/eureka,</span> <span class="string">http://localhost:8802/eureka</span></span><br></pre></td></tr></table></figure>
+
+<p>先启动一次看看，能不能成功：</p>
+<p><img src="https://tva1.sinaimg.cn/large/e6c9d24ely1h0m9lyfoz2j226409uabs.jpg" alt="image-20220325173932623"></p>
+<p>这里我们以本地仓库为例（就不用GitHub了，卡到怀疑人生了），首先在项目目录下创建一个本地Git仓库，打开终端，在桌面上创建一个新的本地仓库：</p>
+<p><img src="https://tva1.sinaimg.cn/large/e6c9d24ely1h0mhe24rhjj211q05cabb.jpg" alt="image-20220325220843990"></p>
+<p>然后我们在文件夹中随便创建一些配置文件，注意名称最好是{服务名称}-{环境}.yml：</p>
+<p><img src="https://tva1.sinaimg.cn/large/e6c9d24ely1h0mhjqi2o6j216205gaan.jpg" alt="image-20220325221411834"></p>
+<p>然后我们在配置文件中，添加本地仓库的一些信息（远程仓库同理），详细使用教程：<a target="_blank" rel="noopener" href="https://docs.spring.io/spring-cloud-config/docs/current/reference/html/#_git_backend">https://docs.spring.io/spring-cloud-config/docs/current/reference/html/#_git_backend</a></p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line">  <span class="attr">cloud:</span></span><br><span class="line">    <span class="attr">config:</span></span><br><span class="line">      <span class="attr">server:</span></span><br><span class="line">        <span class="attr">git:</span></span><br><span class="line">        	<span class="comment"># 这里填写的是本地仓库地址，远程仓库直接填写远程仓库地址 http://git...</span></span><br><span class="line">          <span class="attr">uri:</span> <span class="string">file://$&#123;user.home&#125;/Desktop/config-repo</span></span><br><span class="line">          <span class="comment"># 默认分支设定为你自己本地或是远程分支的名称</span></span><br><span class="line">          <span class="attr">default-label:</span> <span class="string">main</span></span><br></pre></td></tr></table></figure>
+
+<p>然后启动我们的配置服务器，通过以下格式进行访问：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="http://localhost:8700/%7B%E6%9C%8D%E5%8A%A1%E5%90%8D%E7%A7%B0%7D/%7B%E7%8E%AF%E5%A2%83%7D/%7BGit%E5%88%86%E6%94%AF%7D">http://localhost:8700/{服务名称}/{环境}/{Git分支}</a></li>
+<li><a target="_blank" rel="noopener" href="http://localhost:8700/%7BGit%E5%88%86%E6%94%AF%7D/%7B%E6%9C%8D%E5%8A%A1%E5%90%8D%E7%A7%B0%7D-%7B%E7%8E%AF%E5%A2%83%7D.yml">http://localhost:8700/{Git分支}/{服务名称}-{环境}.yml</a></li>
+</ul>
+<p>比如我们要访问图书服务的生产环境代码，可以使用 <a target="_blank" rel="noopener" href="http://localhost:8700/bookservice/prod/main">http://localhost:8700/bookservice/prod/main</a> 链接，它会显示详细信息：</p>
+<p><img src="https://tva1.sinaimg.cn/large/e6c9d24ely1h0mhpjeaiyj22is0cadjs.jpg" alt="image-20220325221946363"></p>
+<p>也可以使用 <a target="_blank" rel="noopener" href="http://localhost:8700/main/bookservice-prod.yml">http://localhost:8700/main/bookservice-prod.yml</a> 链接，它仅显示配置文件原文：</p>
+<p><img src="https://tva1.sinaimg.cn/large/e6c9d24ely1h0mht1siqdj21ro0hu41a.jpg" alt="image-20220325222309095"></p>
+<p>当然，除了使用Git来保存之外，还支持一些其他的方式，详细情况请查阅官网。</p>
+<h3 id="客户端配置"><a href="#客户端配置" class="headerlink" title="客户端配置"></a>客户端配置</h3><p>服务端配置完成之后，我们接着来配置一下客户端，那么现在我们的服务既然需要从服务器读取配置文件，那么就需要进行一些配置，我们删除原来的<code>application.yml</code>文件（也可以保留，最后无论是远端配置还是本地配置都会被加载），改用<code>bootstrap.yml</code>（在application.yml之前加载，可以实现配置文件远程获取）：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-config<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-bootstrap<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line">  <span class="attr">cloud:</span></span><br><span class="line">    <span class="attr">config:</span></span><br><span class="line">    	<span class="comment"># 名称，其实就是文件名称</span></span><br><span class="line">      <span class="attr">name:</span> <span class="string">bookservice</span></span><br><span class="line">      <span class="comment"># 配置服务器的地址</span></span><br><span class="line">      <span class="attr">uri:</span> <span class="string">http://localhost:8700</span></span><br><span class="line">      <span class="comment"># 环境</span></span><br><span class="line">      <span class="attr">profile:</span> <span class="string">prod</span></span><br><span class="line">      <span class="comment"># 分支</span></span><br><span class="line">      <span class="attr">label:</span> <span class="string">main</span></span><br></pre></td></tr></table></figure>
+
+<p>配置完成之后，启动图书服务：</p>
+<p><img src="https://tva1.sinaimg.cn/large/e6c9d24ely1h0mii0tbegj22l208k43a.jpg" alt="image-20220325224708591"></p>
+<p>可以看到已经从远端获取到了配置，并进行启动。</p>
+<hr>
+<h2 id="微服务CAP原则"><a href="#微服务CAP原则" class="headerlink" title="微服务CAP原则"></a>微服务CAP原则</h2><p>经过前面的学习，我们对SpringCloud Netflix以及SpringCloud官方整个生态下的组件认识也差不多了，入门教学就到此为止，下一章将开启真正精彩的正片部分，本章的最后我们还是来了解一些理论上的知识。</p>
+<p><img src="https://tva1.sinaimg.cn/large/e6c9d24ely1h0mj50oc1zj212e0jw756.jpg" alt="image-20220325230915356"></p>
+<blockquote>
+<p>CAP原则又称CAP定理，指的是在一个分布式系统中，存在Consistency（一致性）、Availability（可用性）、Partition tolerance（分区容错性），三者不可同时保证，最多只能保证其中的两者。   </p>
+<p>一致性（C）：在分布式系统中的所有数据备份，在同一时刻都是同样的值（所有的节点无论何时访问都能拿到最新的值）</p>
+<p>可用性（A）：系统中非故障节点收到的每个请求都必须得到响应（比如我们之前使用的服务降级和熔断，其实就是一种维持可用性的措施，虽然服务返回的是没有什么意义的数据，但是不至于用户的请求会被服务器忽略）</p>
+<p>分区容错性（P）：一个分布式系统里面，节点之间组成的网络本来应该是连通的，然而可能因为一些故障（比如网络丢包等，这是很难避免的），使得有些节点之间不连通了，整个网络就分成了几块区域，数据就散布在了这些不连通的区域中（这样就可能出现某些被分区节点存放的数据访问失败，我们需要来容忍这些不可靠的情况）</p>
+</blockquote>
+<p>总的来说，数据存放的节点数越多，分区容忍性就越高，但是要复制更新的次数就越多，一致性就越难保证。同时为了保证一致性，更新所有节点数据所需要的时间就越长，那么可用性就会降低。</p>
+<p>所以说，只能存在以下三种方案：</p>
+<h3 id="AC-可用性-一致性"><a href="#AC-可用性-一致性" class="headerlink" title="AC 可用性+一致性"></a>AC 可用性+一致性</h3><p>要同时保证可用性和一致性，代表着某个节点数据更新之后，需要立即将结果通知给其他节点，并且要尽可能的快，这样才能及时响应保证可用性，这就对网络的稳定性要求非常高，但是实际情况下，网络很容易出现丢包等情况，并不是一个可靠的传输，如果需要避免这种问题，就只能将节点全部放在一起，但是这显然违背了分布式系统的概念，所以对于我们的分布式系统来说，很难接受。</p>
+<h3 id="CP-一致性-分区容错性"><a href="#CP-一致性-分区容错性" class="headerlink" title="CP 一致性+分区容错性"></a>CP 一致性+分区容错性</h3><p>为了保证一致性，那么就得将某个节点的最新数据发送给其他节点，并且需要等到所有节点都得到数据才能进行响应，同时有了分区容错性，那么代表我们可以容忍网络的不可靠问题，所以就算网络出现卡顿，那么也必须等待所有节点完成数据同步，才能进行响应，因此就会导致服务在一段时间内完全失效，所以可用性是无法得到保证的。</p>
+<h3 id="AP-可用性-分区容错性"><a href="#AP-可用性-分区容错性" class="headerlink" title="AP 可用性+分区容错性"></a>AP 可用性+分区容错性</h3><p>既然CP可能会导致一段时间内服务得不到任何响应，那么要保证可用性，就只能放弃节点之间数据的高度统一，也就是说可以在数据不统一的情况下，进行响应，因此就无法保证一致性了。虽然这样会导致拿不到最新的数据，但是只要数据同步操作在后台继续运行，一定能够在某一时刻完成所有节点数据的同步，那么就能实现<strong>最终一致性</strong>，所以AP实际上是最能接受的一种方案。</p>
+<p>比如我们实现的Eureka集群，它使用的就是AP方案，Eureka各个节点都是平等的，少数节点挂掉不会影响正常节点的工作，剩余的节点依然可以提供注册和查询服务。而Eureka客户端在向某个Eureka服务端注册时如果发现连接失败，则会自动切换至其他节点。只要有一台Eureka服务器正常运行，那么就能保证服务可用<strong>（A）</strong>，只不过查询到的信息可能不是最新的<strong>（C）</strong></p>
+<p>在之后的章节，我们还会继续了解这些理论的其他实际应用。</p>
+ 
+      <!-- reward -->
+      
+      <div id="reword-out">
+        <div id="reward-btn">
+          打赏
+        </div>
+      </div>
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <div class="declare">
+      <ul class="post-copyright">
+        <li>
+          <i class="ri-copyright-line"></i>
+          <strong>版权声明： </strong>
+          
+          本博客所有文章除特别声明外，著作权归作者所有。转载请注明出处！
+          
+        </li>
+      </ul>
+    </div>
+    
+    <footer class="article-footer">
+       
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://fanchuan77.github.io/2022/05/30/SpringCloud%E7%AC%94%E8%AE%B0%EF%BC%88%E4%B8%80%EF%BC%89/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>  
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/spring-cloud/" rel="tag">spring cloud</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+  <nav class="article-nav">
+    
+      <a href="/2022/05/30/SpringCloud%E7%AC%94%E8%AE%B0%EF%BC%88%E5%9B%9B%EF%BC%89/" class="article-nav-link">
+        <strong class="article-nav-caption">上一篇</strong>
+        <div class="article-nav-title">
+          
+            SpringCloud笔记（四）
+          
+        </div>
+      </a>
+    
+    
+      <a href="/2022/05/30/SpringCould%E7%AC%94%E8%AE%B0%EF%BC%88%E4%BA%8C%EF%BC%89/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">SpringCloud笔记（二）</div>
+      </a>
+    
+  </nav>
+
+   
+<!-- valine评论 -->
+<div id="vcomments-box">
+    <div id="vcomments">
+    </div>
+</div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<!-- <script src='https://cdn.jsdelivr.net/npm/valine@1.3.10/dist/Valine.min.js'></script> -->
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+<!-- 评论背景 -->
+<style>
+    #veditor{min-height: 10rem;
+        background-image: url(/images/pinkpig.gif);
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: right;
+        background-color: rgba(255,255,255,0);
+        resize: none;}
+</style>
+<!-- Valine配置 -->
+<script>
+    new Valine({
+        el: '#vcomments',
+		enableQQ: true,
+        app_id: 'eCR8qPWwy7vTfHC1wEyDjrdH-gzGzoHsz',
+        app_key: 'Dc6OOKMw2Mir0DUSF9Hwtlm7',
+        path: window.location.pathname,
+        //notify: '',
+        //verify: '',
+        avatar: 'monsterid',
+        placeholder: '给我的文章加点评论吧~',
+        recordIP: true,
+
+		// 设置Bilibili表情包地址
+		emojiCDN: 'https://cdn.jsdelivr.net/gh/XXXZhy/Blog_Image/valine_emoticon/',
+		// 表情title和图片映射
+		emojiMaps: {
+			"墙角滑稽": "害怕滑稽.gif",
+			"仙女下凡": "仙女下凡.webp",
+			"听歌": "听歌.webp",
+			"嫌弃": "嫌弃.webp",
+			"害羞": "害羞.webp",
+			"彩虹滑稽": "彩虹滑稽.webp",
+			"快走": "快走.webp",
+			"扯脸": "扯脸.webp",
+			"摸脸": "摸脸.webp",
+			"流汗": "流汗.webp",
+			"滑滑板": "滑滑板.webp",
+			"点赞": "点赞.webp",
+			"斜眼笑": "tv_斜眼笑.png",
+			"二郎腿": "光头小人 (21).gif",
+			"跳舞": "光头小人 (32).gif",
+			"秃头": "掉头发.gif",
+			"点赞": "点赞.webp",
+			"手舞足蹈": "手舞足蹈.gif",
+			"生气": "小人儿 (6).png",
+			// ... 更多表情
+		}
+    });
+    const infoEle = document.querySelector('#vcomments .info');
+    if (infoEle && infoEle.childNodes && infoEle.childNodes.length > 0) {
+        infoEle.childNodes.forEach(function (item) {
+            item.parentNode.removeChild(item);
+        });
+    }
+</script>
+
+<style>
+    #vcomments-box {
+        padding: 5px 30px;
+    }
+
+    @media screen and (max-width: 800px) {
+        #vcomments-box {
+            padding: 5px 0px;
+        }
+    }
+
+    #vcomments-box #vcomments {
+        background-color: #fff;
+    }
+
+    .v .vlist .vcard .vh {
+        padding-right: 20px;
+    }
+
+    .v .vlist .vcard {
+        padding-left: 10px;
+    }
+</style>
+
+ 
+   
+     
+</article>
+
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul>
+      <li>
+        Copyrights &copy;
+        2021-2022
+        <i class="ri-heart-fill heart_icon"></i> 樊川
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+        
+        <span>
+  <span><i class="ri-user-3-fill"></i>访问人数:<span id="busuanzi_value_site_uv"></span></span>
+  <span class="division">|</span>
+  <span><i class="ri-eye-fill"></i>浏览次数:<span id="busuanzi_value_page_pv"></span></span>
+</span>
+        
+      </li>
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      <li>
+        <!-- cnzz统计 -->
+        
+        <script type="text/javascript" src='https://s9.cnzz.com/z_stat.php?id=1278069914&amp;web_id=1278069914'></script>
+        
+      </li>
+    </ul>
+     <!-- 运行天数 -->
+        <ul>
+            <li><span id="runtime_span"></span></li>
+        </ul>
+<script type="text/javascript">
+    function show_runtime() {
+        window.setTimeout("show_runtime()", 1000);
+        X = new Date("12/30/2021 08:00:00");
+        Y = new Date();
+        T = (Y.getTime() - X.getTime());
+        M = 24 * 60 * 60 * 1000;
+        a = T / M;
+        A = Math.floor(a);
+        b = (a - A) * 24;
+        B = Math.floor(b);
+        c = (b - B) * 60;
+        C = Math.floor((b - B) * 60);
+        D = Math.floor((c - C) * 60);
+        runtime_span.innerHTML = "小站在各种崩坏中坚持了: " + A + "天" + B + "小时" + C + "分" + D + "秒"
+    }
+	show_runtime();
+</script>
+
+    <!-- 底部标牌 -->
+    	<ul>
+    		<li>
+    		<div class="github-badge"><a style="color: #fff" href="https://hexo.io" target="_blank" title="Hexo强力驱动"><span class="badge-subject">Powered</span><span class="badge-value bg-blue">Hexo</span></a></div>&nbsp;
+    		<div class="github-badge"><a style="color: #fff" href="https://github.com/Shen-Yu/hexo-theme-ayer" target="_blank" title="主题Ayer"><span class="badge-subject">Theme</span><span class="badge-value bg-cyan">Ayer</span></a></div>&nbsp;
+    		<div class="github-badge"><a style="color: #fff" href="https://www.aliyun.com" target="_blank" title="网站托管于阿里云"><span class="badge-subject">Hosted</span><span class="badge-value bg-red">Aliyun</span></a></div>&nbsp;
+    		<div class="github-badge"><a style="color: #fff" href="https://su.baidu.com" target="_blank" title="百度云加速整站"><span class="badge-subject">DNS</span><span class="badge-value bg-blueviolet">Baidu</span></a></div>&nbsp;
+    		<div class="github-badge"><a style="color: #fff" href="https://www.jsdelivr.com" target="_blank" title="jsDelivr加速静态"><span class="badge-subject">CDN</span><span class="badge-value bg-orange">jsDelivr</span></a></div>&nbsp;
+    		<div class="github-badge"><a style="color: #fff" href="https://console.upyun.com/register/?invite=rkCZBHo38" target="_blank" title="又拍云全站加速"><span class="badge-subject">CDN</span><span class="badge-value bg-black"><img src="https://cdn.jsdelivr.net/gh/XXXZhy/Blog_Image/valine_emoticon/又拍云_logo6.png" width="34px" style="margin: -1.5px auto;"/></span></a></div>&nbsp;
+    		<div class="github-badge"><a style="color: #fff" href="" target="_blank" title="本站访客数"><span class="badge-subject">UV</span><span class="badge-value bg-brightgreen" id="busuanzi_value_site_uv"></span></a></div>&nbsp;
+    	    <div class="github-badge"><a style="color: #fff" href="" target="_blank" title="本站访问量"><span class="badge-subject">PV</span><span class="badge-value bg-pink" id="busuanzi_value_site_pv"></span></a></div>
+    		</li>
+    	</ul>
+
+  </div>
+</footer>
+
+    
+    </main>
+    <div class="float_btns">
+      <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+
+<div class="todark" id="todark">
+  <i class="ri-moon-line"></i>
+</div>
+
+    </div>
+    <aside class="sidebar on">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+    <div class="logo">
+      <a href="/"><img src="/images/index.png" alt="樊川"></a>
+    </div>
+    
+      <ul class="nav nav-main">
+        
+          <li class="nav-item">
+            <!-- 找到这里，添加代码 -->
+            <a class="nav-item-link" href="/">
+              主页
+            </a>
+            
+                <!-- 到这里结束 -->
+          </li>
+          
+          <li class="nav-item">
+            <!-- 找到这里，添加代码 -->
+            <a class="nav-item-link" href="/archives">
+              归档
+            </a>
+            
+              <ul class="sub-menu">
+                
+                  <li>
+                    <small><a class="nav-item-link" href="/categories">
+                        分类
+                      </a></small>
+                  </li>
+                  
+                  <li>
+                    <small><a class="nav-item-link" href="/tags">
+                        标签
+                      </a></small>
+                  </li>
+                  
+              </ul>
+              
+                <!-- 到这里结束 -->
+          </li>
+          
+          <li class="nav-item">
+            <!-- 找到这里，添加代码 -->
+            <a class="nav-item-link" href="/photos">
+              相册
+            </a>
+            
+                <!-- 到这里结束 -->
+          </li>
+          
+          <li class="nav-item">
+            <!-- 找到这里，添加代码 -->
+            <a class="nav-item-link" href="/friends">
+              友链
+            </a>
+            
+                <!-- 到这里结束 -->
+          </li>
+          
+          <li class="nav-item">
+            <!-- 找到这里，添加代码 -->
+            <a class="nav-item-link" href="/about">
+              关于
+            </a>
+            
+                <!-- 到这里结束 -->
+          </li>
+          
+          <li class="nav-item">
+            <!-- 找到这里，添加代码 -->
+            <a class="nav-item-link" href="/analytics">
+              统计
+            </a>
+            
+                <!-- 到这里结束 -->
+          </li>
+          
+          <li class="nav-item">
+            <!-- 找到这里，添加代码 -->
+            <a class="nav-item-link" href="/WebNav.html">
+              导航
+            </a>
+            
+              <ul class="sub-menu">
+                
+                  <li>
+                    <small><a class="nav-item-link" target="_blank" rel="noopener" href="https://github.com/fanchuan77">
+                        github
+                      </a></small>
+                  </li>
+                  
+                  <li>
+                    <small><a class="nav-item-link" target="_blank" rel="noopener" href="https://gitee.com/issac-damon">
+                        gitee
+                      </a></small>
+                  </li>
+                  
+                  <li>
+                    <small><a class="nav-item-link" target="_blank" rel="noopener" href="https://console.leancloud.cn/apps">
+                        leancloud
+                      </a></small>
+                  </li>
+                  
+              </ul>
+              
+                <!-- 到这里结束 -->
+          </li>
+          
+      </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+        <a class="nav-item-link nav-item-search" title="搜索">
+          <i class="ri-search-line"></i>
+        </a>
+        
+          
+            <a class="nav-item-link" target="_blank" href="/atom.xml" title="RSS Feed">
+              <i class="ri-rss-line"></i>
+            </a>
+            
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+
+<!-- 二级导航CSS -->
+<style>
+  .nav-main li ul {
+    display: none;
+  }
+
+  .nav-main li:hover ul {
+    display: block;
+  }
+
+  .sub-menu {
+    position: absolute;
+    background: #fff;
+    padding: 5px;
+    width: 8rem;
+    z-index: 1000;
+    text-align: center;
+    border-radius: 5px;
+    box-shadow: 0 1px 40px -8px rgba(0, 0, 0, .5);
+    -webkit-animation: fadeInUp .3s .1s ease both;
+    list-style: none;
+  }
+
+  .nav-main li ul::before {
+    content: "";
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    margin-left: -10px;
+    border-width: 10px;
+    border-style: solid;
+    border-color: transparent transparent #fff transparent;
+  }
+</style>
+    </aside>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯奶茶吧~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/alipay.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/wechat.jpg">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+    
+<script src="/js/jquery-3.6.0.min.js"></script>
+ 
+<script src="/js/lazyload.min.js"></script>
+
+<!-- Tocbot -->
+ 
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  tocbot.init({
+    tocSelector: ".tocbot",
+    contentSelector: ".article-entry",
+    headingSelector: "h1, h2, h3, h4, h5, h6",
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer: "main",
+    positionFixedSelector: ".tocbot",
+    positionFixedClass: "is-position-fixed",
+    fixedSidebarOffset: "auto",
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.css"
+/>
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/dist/main.js"></script>
+
+<!-- ImageViewer -->
+ <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css">
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script> 
+<!-- MathJax -->
+
+<!-- Katex -->
+
+<!-- busuanzi  -->
+ 
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+ 
+<!-- ClickLove -->
+
+<!-- ClickBoom1 -->
+
+<!-- ClickBoom2 -->
+ 
+<script src="/js/clickBoom2.js"></script>
+ 
+<!-- CodeCopy -->
+ 
+<link rel="stylesheet" href="/css/clipboard.css">
+ <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="ri-file-copy-2-line"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-checkbox-circle-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-checkbox-circle-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-time-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-time-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+ 
+<!-- CanvasBackground -->
+ 
+<script src="/js/dz.js"></script>
+ 
+<script>
+  if (window.mermaid) {
+    mermaid.initialize({ theme: "forest" });
+  }
+</script>
+
+
+    
+    <div id="music">
+    
+    
+    
+    <iframe frameborder="no" border="1" marginwidth="0" marginheight="0" width="200" height="52"
+        src="//music.163.com/outchain/player?type=2&id=19548896&auto=1&height=32"></iframe>
+</div>
+
+<style>
+    #music {
+        position: fixed;
+        left: 0px;
+        bottom: 0px;
+        z-index: 998;
+    }
+</style>
+    
+    
+
+  </div>
+</body>
+
+</html>
