@@ -1,4 +1,4 @@
-## [樊川's blog](https://fchuan-D.github.io/)
+## [樊川's blog](https://fanchuan77.github.io/)
 
 基于[Hexo](https://hexo.io/zh-cn/)，主题[Ayer](https://shen-yu.gitee.io/2019/ayer/)
 
