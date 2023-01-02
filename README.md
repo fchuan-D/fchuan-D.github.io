@@ -1,6 +1,6 @@
 ## [樊川's blog](https://fchuan-D.github.io/)
 
-基于[Hexo](https://hexo.io/zh-cn/)，主题[Ayer](https://shen-yu.gitee.io/2019/ayer/)
+基于[Hexo](https://hexo.io/zh-cn/)，主题[Next](https://theme-next.iissnan.com/)
 
 个人博客
 
