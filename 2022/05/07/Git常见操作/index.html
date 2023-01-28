@@ -20,15 +20,15 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"fchuan-d.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":false,"version":"8.13.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":null},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="1、 前置知识git：分布式的版本控制系统GitHub:远程代码托管仓库 2、连接gita.本地生成公钥私钥：ssh-keygen -t rsa -C &quot;xxx@qq.com&quot;b.验证本地仓库能不能和远程GitHub通信：ssh -T git@github.comc.设置邮箱和用户名，以后在GitHub上提交信息，都会附带你的邮箱和用户名信息  git config --glo">
+    <meta name="description" content="前言项目需要迭代我们开发的应用程序是需要不断的迭代的，比如 version 1.0 、version 2.5 、version 3.9.11，这些指的都是版本号。不同版本号的应用程序，里面的功能都是不一样的，比如我们做一个名字叫做 project1 的应用，v1.0时可能仅仅只是基础框架，v1.1时增加用户中心模块，然后用了一段时间出现了一个致命的bug，然后我们把 project1 升级到了 v">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="Git常见操作">
 <meta property="og:url" content="https://fchuan-d.github.io/2022/05/07/Git%E5%B8%B8%E8%A7%81%E6%93%8D%E4%BD%9C/index.html">
 <meta property="og:site_name" content="樊川">
-<meta property="og:description" content="1、 前置知识git：分布式的版本控制系统GitHub:远程代码托管仓库 2、连接gita.本地生成公钥私钥：ssh-keygen -t rsa -C &quot;xxx@qq.com&quot;b.验证本地仓库能不能和远程GitHub通信：ssh -T git@github.comc.设置邮箱和用户名，以后在GitHub上提交信息，都会附带你的邮箱和用户名信息  git config --glo">
+<meta property="og:description" content="前言项目需要迭代我们开发的应用程序是需要不断的迭代的，比如 version 1.0 、version 2.5 、version 3.9.11，这些指的都是版本号。不同版本号的应用程序，里面的功能都是不一样的，比如我们做一个名字叫做 project1 的应用，v1.0时可能仅仅只是基础框架，v1.1时增加用户中心模块，然后用了一段时间出现了一个致命的bug，然后我们把 project1 升级到了 v">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-05-07T08:05:58.909Z">
-<meta property="article:modified_time" content="2023-01-02T04:39:11.290Z">
+<meta property="article:modified_time" content="2023-01-28T03:56:08.272Z">
 <meta property="article:author" content="樊川">
 <meta property="article:tag" content="Git">
 <meta name="twitter:card" content="summary">
@@ -131,7 +131,7 @@
 
   <aside class="sidebar">
 
-    <div class="sidebar-inner sidebar-overview-active">
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
       <ul class="sidebar-nav">
         <li class="sidebar-nav-toc">
           文章目录
@@ -144,6 +144,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A1%B9%E7%9B%AE%E9%9C%80%E8%A6%81%E8%BF%AD%E4%BB%A3"><span class="nav-number">1.1.</span> <span class="nav-text">项目需要迭代</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86"><span class="nav-number">1.2.</span> <span class="nav-text">版本管理</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Git%E5%88%86%E5%B8%83%E5%BC%8F%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F"><span class="nav-number">2.</span> <span class="nav-text">Git分布式版本控制系统</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Git-%E7%9A%84%E8%AF%9E%E7%94%9F"><span class="nav-number">2.1.</span> <span class="nav-text">Git 的诞生</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Git%E7%9A%84%E4%B8%89%E6%A3%B5%E6%A0%91"><span class="nav-number">2.2.</span> <span class="nav-text">Git的三棵树</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%85-Git"><span class="nav-number">2.3.</span> <span class="nav-text">安装 Git</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E6%9C%AC%E5%9C%B0%E4%BB%93%E5%BA%93"><span class="nav-number">2.4.</span> <span class="nav-text">创建本地仓库</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E6%96%87%E4%BB%B6%E5%A4%B9%EF%BC%8Ctest-git"><span class="nav-number">2.4.1.</span> <span class="nav-text">创建文件夹，test_git</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%88%E7%AB%AF%E5%91%BD%E4%BB%A4%E8%A1%8C%E8%BE%93%E5%85%A5%EF%BC%9Agit-init"><span class="nav-number">2.4.2.</span> <span class="nav-text">终端命令行输入：git init</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0%E5%88%B0%E6%9A%82%E5%AD%98%E5%8C%BA"><span class="nav-number">2.4.3.</span> <span class="nav-text">添加到暂存区</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9A%82%E5%AD%98%E5%8C%BA%E5%88%B0%E4%BB%A3%E7%A0%81%E5%BA%93"><span class="nav-number">2.4.4.</span> <span class="nav-text">暂存区到代码库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B%E6%8F%90%E4%BA%A4%E5%8E%86%E5%8F%B2"><span class="nav-number">2.4.5.</span> <span class="nav-text">查看提交历史</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%89%88%E6%9C%AC%E5%9B%9E%E6%BA%AF"><span class="nav-number">2.4.6.</span> <span class="nav-text">版本回溯</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%86%E6%94%AF%E6%93%8D%E4%BD%9C"><span class="nav-number">2.4.7.</span> <span class="nav-text">分支操作</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E4%BB%93%E5%BA%93"><span class="nav-number">2.5.</span> <span class="nav-text">远程代码仓库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#GitHub"><span class="nav-number">2.6.</span> <span class="nav-text">GitHub</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%9C%E7%A8%8B%E5%BA%93%E6%93%8D%E4%BD%9C"><span class="nav-number">2.7.</span> <span class="nav-text">远程库操作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%94%9F%E6%88%90%E6%9C%AC%E5%9C%B0%E5%AF%86%E9%92%A5"><span class="nav-number">2.7.1.</span> <span class="nav-text">生成本地密钥</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#GitHub%E6%8E%88%E6%9D%83"><span class="nav-number">2.7.2.</span> <span class="nav-text">GitHub授权</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Git%E6%95%B4%E5%90%88Idea"><span class="nav-number">2.7.3.</span> <span class="nav-text">Git整合Idea</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Gitee%E5%92%8CGitlab%E9%9C%80%E8%A6%81%E5%A4%A7%E5%AE%B6%E8%AF%BE%E4%B8%8B%E8%87%AA%E8%A1%8C%E5%AD%A6%E4%B9%A0"><span class="nav-number">2.7.3.1.</span> <span class="nav-text">Gitee和Gitlab需要大家课下自行学习</span></a></li></ol></li></ol></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -256,7 +257,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2023-01-02 12:39:11" itemprop="dateModified" datetime="2023-01-02T12:39:11+08:00">2023-01-02</time>
+      <time title="修改时间：2023-01-28 11:56:08" itemprop="dateModified" datetime="2023-01-28T11:56:08+08:00">2023-01-28</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -278,13 +279,56 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        <p>1、 前置知识<br>git：分布式的版本控制系统<br>GitHub:远程代码托管仓库</p>
-<p>2、连接git<br>a.本地生成公钥私钥：<code>ssh-keygen -t rsa -C &quot;xxx@qq.com&quot;</code><br>b.验证本地仓库能不能和远程GitHub通信：<code>ssh -T git@github.com</code><br>c.设置邮箱和用户名，以后在GitHub上提交信息，都会附带你的邮箱和用户名信息<br>  <code>git config --global user.name &quot;xxx&quot;</code><br>  <code>git config --global user.email &quot;xxx@qq.com&quot;</code></p>
-<span id="more"></span>
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><h2 id="项目需要迭代"><a href="#项目需要迭代" class="headerlink" title="项目需要迭代"></a>项目需要迭代</h2><p>我们开发的应用程序是需要不断的迭代的，比如 version 1.0 、version 2.5 、version 3.9.11，这些指的都是版本号。不同版本号的应用程序，里面的功能都是不一样的，比如我们做一个名字叫做 project1 的应用，v1.0时可能仅仅只是基础框架，v1.1时增加用户中心模块，然后用了一段时间出现了一个致命的bug，然后我们把 project1 升级到了 v1.1.1 解决了这个bug，所以说应用程序是需要不断的迭代的。</p>
+<h2 id="版本管理"><a href="#版本管理" class="headerlink" title="版本管理"></a>版本管理</h2><p>直接把项目复制出来一份，在副本项目中，直接做迭代，但这样做有一个坏处，如果升级的内容比较多，时间间隔又大的话，可能会忘记都做过什么事，这样就不便于管理了，所以应该选择一种更智能的方式管理我们的文件版本。</p>
+<h1 id="Git分布式版本控制系统"><a href="#Git分布式版本控制系统" class="headerlink" title="Git分布式版本控制系统"></a>Git分布式版本控制系统</h1><h2 id="Git-的诞生"><a href="#Git-的诞生" class="headerlink" title="Git 的诞生"></a>Git 的诞生</h2><h2 id="Git的三棵树"><a href="#Git的三棵树" class="headerlink" title="Git的三棵树"></a>Git的三棵树</h2><ul>
+<li>工作区：我们编写代码的文件具体存放位置。</li>
+<li>暂存区：临时存储区域。</li>
+<li>版本库：代码仓库，即分支。文件最终保存的区域。</li>
+</ul>
+<h2 id="安装-Git"><a href="#安装-Git" class="headerlink" title="安装 Git"></a>安装 Git</h2><p>mac 自带 git，windows 需要安装 git。</p>
+<p>安装完成后，还需要最后一步设置，在命令行输入：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config --global user.name <span class="string">&quot;Your Name&quot;</span></span><br><span class="line">git config --global user.email <span class="string">&quot;email@example.com&quot;</span></span><br></pre></td></tr></table></figure>
 
-<p>3、git操作<br>    3.1 克隆远程仓库 <code>git clone git@github.com:xizighq/HelloWorld.git</code><br>    3.2 自动创建<br>        3.2.1 自动生成默认远程仓库名称 origin。 可以修改，通过 .git/config 文件修改<br>        3.2.2 本地生成一默认的分支。对应远程的分支，通过<code>git branch -r</code>可以看到。如下：<br>           <code>origin/HEAD -&gt; origin/main</code><br>            <code>origin/main</code><br>    3.3 流程概念<br>        3.3.1 工作区：就是gitclone下来的那个文件夹。代码修改之后，可以通过<code>git add . </code>或者 <code>git add filename</code>吧工作区的改动，提交到暂存区。<br>        3.3.2 暂存区：有改动，先不提交，积攒到这里，最后加上说明统一提交。可以通过<code>git commit -m &quot;message&quot;</code>提交到本地仓库<br>        3.3.3 本地仓库：可以通过<code>git push origin main:main</code> 将本地仓库的main分支代码，提交到远程的main分支。查看自己当前分支：<code>git branch</code><br>        3.3.4 远程仓库：<br>    3.4 更新拉取代码：<code>git pull</code><br>    3.5 <code>git  log</code> 获取修改记录。<br>        commit 649c77e88ba8f7050f82a73538977521dd8e980b (HEAD -&gt; main, origin/main, origin/HEAD)<br>        其中：head 指针指向最新一次修改。<br>    3.6 回退操作<br>        3.6.1 工作区代码回退<br>            <code>git status</code> 发现已经修改，但是修改不想要了。<br>            <code>git checkout -- filename</code> 回退到没有修改的时候。（此处不记录到git log）<br>            原理：就是用本地仓库的代码，覆盖掉工作区的代码。<br>            –不能去掉，<code>git checkout filename</code> 是分支切换<br>        3.6.2 暂存区代码回退<br>            <code>git reset HEAD filename</code>.将暂存区代码回退，回退到工作区代码修改但是未add的状态。<br>        3.6.3 本地仓库代码回退<br>            <code>git reset --hard 649c77</code>，将本地仓库的代码回退到某个版本。<br>        3.6.4 拓展<br>            上述回退操作都被记录，可以通过 <code>git reflog</code> 查看。<br>        3.6.5 远程仓库代码回退。<br>            向远程仓库提交了错误代码。<br>            错误方法：将本地仓库代码版本回退，然后 <code>git push origin main:main</code>给远程。这种操作是会因落后被拒绝的。<br>            正确方法： 将本地仓库代码版本回退，然后<code>git push -f origin main:main </code>(-f  force)<br>    3.7 修改冲突<br>        3.7.1 不同文件<br>            AB修改不同文件，push。Apush之后，Bpush会被提示先poll。这种情况无冲突<br>        3.7.2 同一文件不同行。<br>            AB修改V1 版本main文件。A在第五行开始添加一个函数，B在第十行开始添加一个函数。A提交。<br>            B会被提示先poll，poll之后，AB添加的连个函数，会在B的本地仓库被合并。这种情况无冲突。<br>    3.8 创建本地分支<br>        3.8.0 <a target="_blank" rel="noopener" href="https://www.jianshu.com/p/305723736c7c">https://www.jianshu.com/p/305723736c7c</a> ：<code>git branch</code> 的使用<br>        3.8.1 <code>git branch</code> 查看本地分支，<code>git branch -r</code> 查看远程分支。<br>              <code>git branch -vv</code>（两个v），就能够看到本地分支跟踪的远程分支。<br>        3.8.2 <code>git checkout -b sortdev</code>。创建一个新的分支,并切换到这个分支。<br>            此时 git pull 会出现错误，因为不知道从哪里拉取，没有对应的远程的分支。<br>            分支切换：<code>git checkout main</code><br>            正确做法：在自己本地分支代码写好之后，检查之后，可以合并到自己的主分支。本地仓库合并之后，<br>        3.8.3 <code>git branch -d sortdev</code><br>            Deleted branch sortdev (was 96df94d).<br>            PS：如果被删除分支，还有待合并的代码，是删除不了的。<br>        3.8.4 git push origin sortdev:main 将本地分支sortdev的代码提交到远程main分支，其中远程不存在sortdev分支<br>            虽然没有创建远程分支，但是可以指定推到哪个分支上面。<br>            不建议使用，详见3.9.0 。可能会有分支冲突<br>    3.9 本地分支合并冲突处理<br>        3.9.0 场景分析<br>            远程main分支，V1版本，<br>            A得到V1版本，A创建本地分支“cpy”。<br>            B得到V1版本，B提交代码，远程main分支成为V2版本。<br>            此时A将cpy分支合并到自己本地main分支的V1版本。<br>            此时：A提交，失败。<br>            解决方法：详见3.7.3 。<br>    3.10 git的远程分支管理<br>        3.10.1 管理员在github上创建新分支。<br>        3.10.2 <code>git pull</code>本地看到新分支<br>        3.10.3 <code>git checkout -b dev origin/dev</code>。本地创建一个新分支，链接到远程新分支。   </p>
-<p>附3.6.1注：<br>    Git checkout：<br>操作文件<br><code>git checkout filename</code> 放弃单个文件的修改<br><code>git checkout . </code>放弃当前目录下的修改<br>操作分支<br> <code>git checkout master</code> 将分支切换到master<br> <code>git checkout -b xxx</code> 如果分支存在则只切换分支，若不存在则创建并切换到xxx分支，<br>     <code>repo start</code>是对<code>git checkout -b</code>这个命令的封装，将所有仓库的分支都切换到xxx，xxx是分支名，</p>
+<blockquote>
+<p>使用git config user.name或git config user.email可以查看用户名和邮箱。</p>
+</blockquote>
+<h2 id="创建本地仓库"><a href="#创建本地仓库" class="headerlink" title="创建本地仓库"></a>创建本地仓库</h2><ul>
+<li><h3 id="创建文件夹，test-git"><a href="#创建文件夹，test-git" class="headerlink" title="创建文件夹，test_git"></a>创建文件夹，test_git</h3></li>
+<li><h3 id="终端命令行输入：git-init"><a href="#终端命令行输入：git-init" class="headerlink" title="终端命令行输入：git init"></a>终端命令行输入：git init</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git init	#git初始化，不报错，代表初始化成功，会生成.git文件夹(是隐藏的)</span><br></pre></td></tr></table></figure>
 
+<blockquote>
+<p>如果报错，没有识别到git, 记得添加环境变量  …Git\bin</p>
+</blockquote>
+</li>
+<li><h3 id="添加到暂存区"><a href="#添加到暂存区" class="headerlink" title="添加到暂存区"></a>添加到暂存区</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git add .   #提交所有变化的文件</span><br><span class="line">git add abc #提交abc这个文件夹</span><br><span class="line">git add *.css #提交所有css文件</span><br></pre></td></tr></table></figure></li>
+<li><h3 id="暂存区到代码库"><a href="#暂存区到代码库" class="headerlink" title="暂存区到代码库"></a>暂存区到代码库</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git commit -m &#x27;第一次提交&#x27;   #默认以master主分支提交，记得添加提交的注释，便于分清楚提交时的信息</span><br><span class="line">再修改一个文件</span><br><span class="line">重新git add .   git commit -m &#x27;第二次提交&#x27;执行一次</span><br></pre></td></tr></table></figure></li>
+<li><h3 id="查看提交历史"><a href="#查看提交历史" class="headerlink" title="查看提交历史"></a>查看提交历史</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git log :查看提交日志</span><br></pre></td></tr></table></figure></li>
+<li><h3 id="版本回溯"><a href="#版本回溯" class="headerlink" title="版本回溯"></a>版本回溯</h3><p>你看到的一大串类似3628164…882e1e0的是commit id（版本号）在Git中，用HEAD表示当前版本，上一个版本就是HEAD^ ，上上一个版本就是HEAD^^ ，当然往上100个版本写100个^比较容易数不过来，所以写成HEAD~100。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git reset --hard head^</span><br><span class="line">或者不需要记忆次数，直接根据版本号前六位进行回退</span><br><span class="line">git reset --hard 版本号前六位</span><br></pre></td></tr></table></figure>
+
+<p>继续使用git log查看，发现撤销前的版本看不到了，想回回不去了，怎么办？</p>
+<p>只能查看历史记录，找之前的版本号,</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git reset --hard 版本号前六位</span><br></pre></td></tr></table></figure>
+
+<p>通过git reflog找版本号</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git reflog</span><br><span class="line">再切换版本</span><br><span class="line">git reset --hard 版本号前六位</span><br></pre></td></tr></table></figure></li>
+<li><h3 id="分支操作"><a href="#分支操作" class="headerlink" title="分支操作"></a>分支操作</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">创建分支</span><br><span class="line">git branch 分支名</span><br><span class="line">查看分支</span><br><span class="line">git branch -v</span><br><span class="line">切换分支fit</span><br><span class="line">git checkout 分支名</span><br><span class="line">合并分支</span><br><span class="line">1. git checkout 接收修改的分支</span><br><span class="line">2. git merge 新内容的分支</span><br><span class="line">出现冲突，可以手动解决，之后</span><br><span class="line">git add 文件名</span><br><span class="line">git commit -m &#x27;日志&#x27; #注意，此时commit不要带具体文件名</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="远程代码仓库"><a href="#远程代码仓库" class="headerlink" title="远程代码仓库"></a>远程代码仓库</h2><p>GitHub比较火，但毕竟是国外的网站，访问速度比较慢，所以也可以选择国内的码云</p>
+<h2 id="GitHub"><a href="#GitHub" class="headerlink" title="GitHub"></a>GitHub</h2><p>gitHub是一个面向开源及私有软件项目的托管平台，因为只支持git 作为唯一的版本库格式进行托管，故名gitHub。</p>
+<p>2018年6月4日，微软宣布，通过75亿美元的股票交易收购代码托管平台GitHub。</p>
+<h2 id="远程库操作"><a href="#远程库操作" class="headerlink" title="远程库操作"></a>远程库操作</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">查看远程库别名</span><br><span class="line">git remote -v</span><br><span class="line">创建远程库别名</span><br><span class="line">git remote add 别名(最好跟项目名一致) 远程git地址</span><br><span class="line">推送远程库</span><br><span class="line">git push 别名或者地址 分支名</span><br><span class="line">拉取远程库内容</span><br><span class="line">git pull 别名或者地址 分支名</span><br><span class="line">克隆</span><br><span class="line">git clone 远程地址(clone不需要登录账号)</span><br></pre></td></tr></table></figure>
+
+<h3 id="生成本地密钥"><a href="#生成本地密钥" class="headerlink" title="生成本地密钥"></a>生成本地密钥</h3><p>创建SSH Key。在用户主目录下，看看有没有.ssh目录，如果有，再看看这个目录下有没有 id_rsa 和 id_rsa.pub 这两个文件，如果已经有了，可直接跳到下一步。</p>
+<p>如果没有</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -t rsa -C &quot;1469720568@qq.com&quot;</span><br></pre></td></tr></table></figure>
+
+<p>你需要把邮件地址换成你自己的邮件地址，然后一路回车，使用默认值即可，所以也无需设置密码。</p>
+<p>如果一切顺利的话，可以在用户主目录里找到.ssh目录，里面有id_rsa和id_rsa.pub两个文件，这两个就是SSH Key的秘钥对，id_rsa是私钥，不能泄露出去，id_rsa.pub是公钥，可以放心地告诉任何人。</p>
+<h3 id="GitHub授权"><a href="#GitHub授权" class="headerlink" title="GitHub授权"></a>GitHub授权</h3><p>登陆GitHub，打开“Account settings”，“SSH Keys”页面：</p>
+<p>然后，点“Add SSH Key”，填上任意Title，在Key文本框里粘贴 id_rsa.pub 文件的内容，点“Add Key”，你就应该看到已经添加的Key。</p>
+<h3 id="Git整合Idea"><a href="#Git整合Idea" class="headerlink" title="Git整合Idea"></a>Git整合Idea</h3><h4 id="Gitee和Gitlab需要大家课下自行学习"><a href="#Gitee和Gitlab需要大家课下自行学习" class="headerlink" title="Gitee和Gitlab需要大家课下自行学习"></a>Gitee和Gitlab需要大家课下自行学习</h4>
     </div>
 
     
