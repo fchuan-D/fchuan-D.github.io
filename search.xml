@@ -31,6 +31,8 @@
     <url>/2022/05/07/Git%E5%B8%B8%E8%A7%81%E6%93%8D%E4%BD%9C/</url>
     <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><h2 id="项目需要迭代"><a href="#项目需要迭代" class="headerlink" title="项目需要迭代"></a>项目需要迭代</h2><p>我们开发的应用程序是需要不断的迭代的，比如 version 1.0 、version 2.5 、version 3.9.11，这些指的都是版本号。不同版本号的应用程序，里面的功能都是不一样的，比如我们做一个名字叫做 project1 的应用，v1.0时可能仅仅只是基础框架，v1.1时增加用户中心模块，然后用了一段时间出现了一个致命的bug，然后我们把 project1 升级到了 v1.1.1 解决了这个bug，所以说应用程序是需要不断的迭代的。</p>
 <h2 id="版本管理"><a href="#版本管理" class="headerlink" title="版本管理"></a>版本管理</h2><p>直接把项目复制出来一份，在副本项目中，直接做迭代，但这样做有一个坏处，如果升级的内容比较多，时间间隔又大的话，可能会忘记都做过什么事，这样就不便于管理了，所以应该选择一种更智能的方式管理我们的文件版本。</p>
+<span id="more"></span>
+
 <h1 id="Git分布式版本控制系统"><a href="#Git分布式版本控制系统" class="headerlink" title="Git分布式版本控制系统"></a>Git分布式版本控制系统</h1><h2 id="Git-的诞生"><a href="#Git-的诞生" class="headerlink" title="Git 的诞生"></a>Git 的诞生</h2><h2 id="Git的三棵树"><a href="#Git的三棵树" class="headerlink" title="Git的三棵树"></a>Git的三棵树</h2><ul>
 <li>工作区：我们编写代码的文件具体存放位置。</li>
 <li>暂存区：临时存储区域。</li>
@@ -6457,12 +6459,14 @@ Figure 1. xx
       </tags>
   </entry>
   <entry>
-    <title>连接容器化Mongo</title>
+    <title>容器化Mongo</title>
     <url>/2023/02/05/%E8%BF%9E%E6%8E%A5%E5%AE%B9%E5%99%A8%E5%8C%96Mongo/</url>
     <content><![CDATA[<h2 id="容器化MongoDB—踩坑总结"><a href="#容器化MongoDB—踩坑总结" class="headerlink" title="容器化MongoDB—踩坑总结"></a>容器化MongoDB—踩坑总结</h2><h3 id="拉取并实例化MongoDB"><a href="#拉取并实例化MongoDB" class="headerlink" title="拉取并实例化MongoDB"></a>拉取并实例化MongoDB</h3><figure class="highlight dockerfile"><table><tr><td class="code"><pre><span class="line">// 拉取MongoDB镜像</span><br><span class="line">docker pull mongo:latest</span><br><span class="line"></span><br><span class="line">// 查看本地镜像目录</span><br><span class="line">docker images</span><br><span class="line"></span><br><span class="line">// 实例化MongoDB容器</span><br><span class="line">docker <span class="keyword">run</span><span class="language-bash"> -p 27017:27017 -v <span class="variable">$PWD</span>/db:/data/db --name mongo -d mongo</span></span><br></pre></td></tr></table></figure>
 
 <p><code>-p 27017:27017</code>映射端口号。本地端口 : 容器端口</p>
 <p><code>-v $PWD/db:/data/db</code> 将容器目录挂载到本地，保存容器内数据库数据。$PWD / (本地相对路径) ：(容器内路径)</p>
+<span id="more"></span>
+
 <p><code>--name mongo</code> 容器命名。</p>
 <p><code>-d</code> 后台启动容器</p>
 <h3 id="进入MongoDB命令行"><a href="#进入MongoDB命令行" class="headerlink" title="进入MongoDB命令行"></a>进入MongoDB命令行</h3><p>MongoDB 6.0 及以上版本使用以下命令：</p>

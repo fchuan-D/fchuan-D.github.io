@@ -233,7 +233,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2023/02/05/%E8%BF%9E%E6%8E%A5%E5%AE%B9%E5%99%A8%E5%8C%96Mongo/" class="post-title-link" itemprop="url">连接容器化Mongo</a>
+          <a href="/2023/02/05/%E8%BF%9E%E6%8E%A5%E5%AE%B9%E5%99%A8%E5%8C%96Mongo/" class="post-title-link" itemprop="url">容器化Mongo</a>
         </h2>
 
         <div class="post-meta-container">
@@ -245,7 +245,7 @@
       <span class="post-meta-item-text">发表于</span>
       
 
-      <time title="创建时间：2023-02-05 14:59:48 / 修改时间：16:02:42" itemprop="dateCreated datePublished" datetime="2023-02-05T14:59:48+08:00">2023-02-05</time>
+      <time title="创建时间：2023-02-05 14:59:48 / 修改时间：16:13:48" itemprop="dateCreated datePublished" datetime="2023-02-05T14:59:48+08:00">2023-02-05</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -271,40 +271,14 @@
 
 <p><code>-p 27017:27017</code>映射端口号。本地端口 : 容器端口</p>
 <p><code>-v $PWD/db:/data/db</code> 将容器目录挂载到本地，保存容器内数据库数据。$PWD / (本地相对路径) ：(容器内路径)</p>
-<p><code>--name mongo</code> 容器命名。</p>
-<p><code>-d</code> 后台启动容器</p>
-<h3 id="进入MongoDB命令行"><a href="#进入MongoDB命令行" class="headerlink" title="进入MongoDB命令行"></a>进入MongoDB命令行</h3><p>MongoDB 6.0 及以上版本使用以下命令：</p>
-<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker exec -it mongo mongosh</span><br></pre></td></tr></table></figure>
-
-<p>其余版本使用以下命令：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker exec -it mongo mongosh</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="创建用户并赋予权限"><a href="#创建用户并赋予权限" class="headerlink" title="创建用户并赋予权限"></a>创建用户并赋予权限</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">// 切换至admin数据库</span><br><span class="line">use admin</span><br><span class="line"></span><br><span class="line">// 创建角色</span><br><span class="line">db.createUser(&#123;user:&quot;root&quot;, pwd:&quot;password&quot;, roles:[</span><br><span class="line">        &#123;role:&quot;userAdminAnyDatabase&quot;,db:&quot;admin&quot;&#125;,</span><br><span class="line">        &#123;role:&quot;readWrite&quot;,db:&quot;admin&quot;&#125;</span><br><span class="line">	]</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-
-<p>重启mongo并加上权限参数</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker start mongo --auth</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="Go测试连接程序"><a href="#Go测试连接程序" class="headerlink" title="Go测试连接程序"></a>Go测试连接程序</h3><p>获取包</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">go</span> get <span class="keyword">go</span>.mongodb.org/mongo-driver/mongo</span><br></pre></td></tr></table></figure>
-
-<p>通过本地Go程序连接docker容器内的MongoDB</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;context&quot;</span></span><br><span class="line">	<span class="string">&quot;fmt&quot;</span></span><br><span class="line">	<span class="string">&quot;go.mongodb.org/mongo-driver/bson&quot;</span></span><br><span class="line">	<span class="string">&quot;go.mongodb.org/mongo-driver/mongo&quot;</span></span><br><span class="line">	<span class="string">&quot;go.mongodb.org/mongo-driver/mongo/options&quot;</span></span><br><span class="line">	<span class="string">&quot;log&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> client *mongo.Client</span><br><span class="line"></span><br><span class="line"><span class="comment">// 初始化数据库连接</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">initMongo</span><span class="params">()</span></span> &#123;</span><br><span class="line">	URI := <span class="string">&quot;mongodb://127.0.0.1:27017&quot;</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">// 设置客户端连接配置</span></span><br><span class="line">	clientOptions := options.Client().ApplyURI(URI).SetAuth(options.Credential&#123;Username: <span class="string">&quot;root&quot;</span>, Password: <span class="string">&quot;password&quot;</span>&#125;)</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 连接到MongoDB</span></span><br><span class="line">	client, _ = mongo.Connect(context.TODO(), clientOptions)</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 检查连接</span></span><br><span class="line">	err := client.Ping(context.TODO(), <span class="literal">nil</span>)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		log.Fatal(err)</span><br><span class="line">	&#125;</span><br><span class="line">	fmt.Println(<span class="string">&quot;Connected to MongoDB!&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> Person <span class="keyword">struct</span> &#123;</span><br><span class="line">	Name <span class="type">string</span></span><br><span class="line">	Age  <span class="type">int</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>封装 插入和查找 数据库操作</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 插入单条数据</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">insert</span><span class="params">()</span></span> &#123;</span><br><span class="line">	col := client.Database(<span class="string">&quot;admin&quot;</span>).Collection(<span class="string">&quot;word&quot;</span>)</span><br><span class="line"></span><br><span class="line">	ret, err := col.InsertOne(context.TODO(), &amp;Person&#123;Name: <span class="string">&quot;李兰迪&quot;</span>, Age: <span class="number">23</span>&#125;)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		log.Fatalln(err)</span><br><span class="line">	&#125;</span><br><span class="line">	fmt.Println(<span class="string">&quot;Insert:&quot;</span>, ret.InsertedID)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 查找多条条数据</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">Find</span><span class="params">()</span></span> &#123;</span><br><span class="line">	fmt.Println(<span class="string">&quot;Find:&quot;</span>)</span><br><span class="line">	opt := options.Find()</span><br><span class="line">	opt.SetLimit(<span class="number">5</span>)</span><br><span class="line"></span><br><span class="line">	col := client.Database(<span class="string">&quot;admin&quot;</span>).Collection(<span class="string">&quot;word&quot;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 查询 Name 值为 李兰迪 的数据</span></span><br><span class="line">	<span class="comment">// Find查询多条记录，将会返回一个迭代器，使用完记得关闭</span></span><br><span class="line">	cor, err := col.Find(context.TODO(), bson.D&#123;&#123;<span class="string">&quot;name&quot;</span>, <span class="string">&quot;李兰迪&quot;</span>&#125;&#125;, opt)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		log.Fatalln(err)</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">defer</span> cor.Close(context.TODO())</span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span> cor.Next(context.TODO()) &#123;</span><br><span class="line">		<span class="keyword">var</span> p Person</span><br><span class="line">		_ = cor.Decode(&amp;p)</span><br><span class="line">		fmt.Println(p)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>执行程序</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	initMongo()</span><br><span class="line">	insert()</span><br><span class="line">	Find()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="结果"><a href="#结果" class="headerlink" title="结果"></a>结果</h3><p>程序输出：</p>
-<p><img src="https://community-1304870863.cos.ap-nanjing.myqcloud.com/%E6%97%A5%E7%94%A8/image-20230205160033939.png" alt="image-20230205160033939"></p>
-<p>MongoDB数据库：</p>
-<p><img src="https://community-1304870863.cos.ap-nanjing.myqcloud.com/%E6%97%A5%E7%94%A8/image-20230205160157975.png" alt="image-20230205160157975"></p>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2023/02/05/%E8%BF%9E%E6%8E%A5%E5%AE%B9%E5%99%A8%E5%8C%96Mongo/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -1059,7 +1033,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2023-01-28 11:56:08" itemprop="dateModified" datetime="2023-01-28T11:56:08+08:00">2023-01-28</time>
+      <time title="修改时间：2023-02-05 16:13:26" itemprop="dateModified" datetime="2023-02-05T16:13:26+08:00">2023-02-05</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -1083,54 +1057,14 @@
     <div class="post-body" itemprop="articleBody">
           <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><h2 id="项目需要迭代"><a href="#项目需要迭代" class="headerlink" title="项目需要迭代"></a>项目需要迭代</h2><p>我们开发的应用程序是需要不断的迭代的，比如 version 1.0 、version 2.5 、version 3.9.11，这些指的都是版本号。不同版本号的应用程序，里面的功能都是不一样的，比如我们做一个名字叫做 project1 的应用，v1.0时可能仅仅只是基础框架，v1.1时增加用户中心模块，然后用了一段时间出现了一个致命的bug，然后我们把 project1 升级到了 v1.1.1 解决了这个bug，所以说应用程序是需要不断的迭代的。</p>
 <h2 id="版本管理"><a href="#版本管理" class="headerlink" title="版本管理"></a>版本管理</h2><p>直接把项目复制出来一份，在副本项目中，直接做迭代，但这样做有一个坏处，如果升级的内容比较多，时间间隔又大的话，可能会忘记都做过什么事，这样就不便于管理了，所以应该选择一种更智能的方式管理我们的文件版本。</p>
-<h1 id="Git分布式版本控制系统"><a href="#Git分布式版本控制系统" class="headerlink" title="Git分布式版本控制系统"></a>Git分布式版本控制系统</h1><h2 id="Git-的诞生"><a href="#Git-的诞生" class="headerlink" title="Git 的诞生"></a>Git 的诞生</h2><h2 id="Git的三棵树"><a href="#Git的三棵树" class="headerlink" title="Git的三棵树"></a>Git的三棵树</h2><ul>
-<li>工作区：我们编写代码的文件具体存放位置。</li>
-<li>暂存区：临时存储区域。</li>
-<li>版本库：代码仓库，即分支。文件最终保存的区域。</li>
-</ul>
-<h2 id="安装-Git"><a href="#安装-Git" class="headerlink" title="安装 Git"></a>安装 Git</h2><p>mac 自带 git，windows 需要安装 git。</p>
-<p>安装完成后，还需要最后一步设置，在命令行输入：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config --global user.name <span class="string">&quot;Your Name&quot;</span></span><br><span class="line">git config --global user.email <span class="string">&quot;email@example.com&quot;</span></span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>使用git config user.name或git config user.email可以查看用户名和邮箱。</p>
-</blockquote>
-<h2 id="创建本地仓库"><a href="#创建本地仓库" class="headerlink" title="创建本地仓库"></a>创建本地仓库</h2><ul>
-<li><h3 id="创建文件夹，test-git"><a href="#创建文件夹，test-git" class="headerlink" title="创建文件夹，test_git"></a>创建文件夹，test_git</h3></li>
-<li><h3 id="终端命令行输入：git-init"><a href="#终端命令行输入：git-init" class="headerlink" title="终端命令行输入：git init"></a>终端命令行输入：git init</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git init	#git初始化，不报错，代表初始化成功，会生成.git文件夹(是隐藏的)</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>如果报错，没有识别到git, 记得添加环境变量  …Git\bin</p>
-</blockquote>
-</li>
-<li><h3 id="添加到暂存区"><a href="#添加到暂存区" class="headerlink" title="添加到暂存区"></a>添加到暂存区</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git add .   #提交所有变化的文件</span><br><span class="line">git add abc #提交abc这个文件夹</span><br><span class="line">git add *.css #提交所有css文件</span><br></pre></td></tr></table></figure></li>
-<li><h3 id="暂存区到代码库"><a href="#暂存区到代码库" class="headerlink" title="暂存区到代码库"></a>暂存区到代码库</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git commit -m &#x27;第一次提交&#x27;   #默认以master主分支提交，记得添加提交的注释，便于分清楚提交时的信息</span><br><span class="line">再修改一个文件</span><br><span class="line">重新git add .   git commit -m &#x27;第二次提交&#x27;执行一次</span><br></pre></td></tr></table></figure></li>
-<li><h3 id="查看提交历史"><a href="#查看提交历史" class="headerlink" title="查看提交历史"></a>查看提交历史</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git log :查看提交日志</span><br></pre></td></tr></table></figure></li>
-<li><h3 id="版本回溯"><a href="#版本回溯" class="headerlink" title="版本回溯"></a>版本回溯</h3><p>你看到的一大串类似3628164…882e1e0的是commit id（版本号）在Git中，用HEAD表示当前版本，上一个版本就是HEAD^ ，上上一个版本就是HEAD^^ ，当然往上100个版本写100个^比较容易数不过来，所以写成HEAD~100。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git reset --hard head^</span><br><span class="line">或者不需要记忆次数，直接根据版本号前六位进行回退</span><br><span class="line">git reset --hard 版本号前六位</span><br></pre></td></tr></table></figure>
-
-<p>继续使用git log查看，发现撤销前的版本看不到了，想回回不去了，怎么办？</p>
-<p>只能查看历史记录，找之前的版本号,</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git reset --hard 版本号前六位</span><br></pre></td></tr></table></figure>
-
-<p>通过git reflog找版本号</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git reflog</span><br><span class="line">再切换版本</span><br><span class="line">git reset --hard 版本号前六位</span><br></pre></td></tr></table></figure></li>
-<li><h3 id="分支操作"><a href="#分支操作" class="headerlink" title="分支操作"></a>分支操作</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">创建分支</span><br><span class="line">git branch 分支名</span><br><span class="line">查看分支</span><br><span class="line">git branch -v</span><br><span class="line">切换分支fit</span><br><span class="line">git checkout 分支名</span><br><span class="line">合并分支</span><br><span class="line">1. git checkout 接收修改的分支</span><br><span class="line">2. git merge 新内容的分支</span><br><span class="line">出现冲突，可以手动解决，之后</span><br><span class="line">git add 文件名</span><br><span class="line">git commit -m &#x27;日志&#x27; #注意，此时commit不要带具体文件名</span><br></pre></td></tr></table></figure></li>
-</ul>
-<h2 id="远程代码仓库"><a href="#远程代码仓库" class="headerlink" title="远程代码仓库"></a>远程代码仓库</h2><p>GitHub比较火，但毕竟是国外的网站，访问速度比较慢，所以也可以选择国内的码云</p>
-<h2 id="GitHub"><a href="#GitHub" class="headerlink" title="GitHub"></a>GitHub</h2><p>gitHub是一个面向开源及私有软件项目的托管平台，因为只支持git 作为唯一的版本库格式进行托管，故名gitHub。</p>
-<p>2018年6月4日，微软宣布，通过75亿美元的股票交易收购代码托管平台GitHub。</p>
-<h2 id="远程库操作"><a href="#远程库操作" class="headerlink" title="远程库操作"></a>远程库操作</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">查看远程库别名</span><br><span class="line">git remote -v</span><br><span class="line">创建远程库别名</span><br><span class="line">git remote add 别名(最好跟项目名一致) 远程git地址</span><br><span class="line">推送远程库</span><br><span class="line">git push 别名或者地址 分支名</span><br><span class="line">拉取远程库内容</span><br><span class="line">git pull 别名或者地址 分支名</span><br><span class="line">克隆</span><br><span class="line">git clone 远程地址(clone不需要登录账号)</span><br></pre></td></tr></table></figure>
-
-<h3 id="生成本地密钥"><a href="#生成本地密钥" class="headerlink" title="生成本地密钥"></a>生成本地密钥</h3><p>创建SSH Key。在用户主目录下，看看有没有.ssh目录，如果有，再看看这个目录下有没有 id_rsa 和 id_rsa.pub 这两个文件，如果已经有了，可直接跳到下一步。</p>
-<p>如果没有</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -t rsa -C &quot;1469720568@qq.com&quot;</span><br></pre></td></tr></table></figure>
-
-<p>你需要把邮件地址换成你自己的邮件地址，然后一路回车，使用默认值即可，所以也无需设置密码。</p>
-<p>如果一切顺利的话，可以在用户主目录里找到.ssh目录，里面有id_rsa和id_rsa.pub两个文件，这两个就是SSH Key的秘钥对，id_rsa是私钥，不能泄露出去，id_rsa.pub是公钥，可以放心地告诉任何人。</p>
-<h3 id="GitHub授权"><a href="#GitHub授权" class="headerlink" title="GitHub授权"></a>GitHub授权</h3><p>登陆GitHub，打开“Account settings”，“SSH Keys”页面：</p>
-<p>然后，点“Add SSH Key”，填上任意Title，在Key文本框里粘贴 id_rsa.pub 文件的内容，点“Add Key”，你就应该看到已经添加的Key。</p>
-<h3 id="Git整合Idea"><a href="#Git整合Idea" class="headerlink" title="Git整合Idea"></a>Git整合Idea</h3><h4 id="Gitee和Gitlab需要大家课下自行学习"><a href="#Gitee和Gitlab需要大家课下自行学习" class="headerlink" title="Gitee和Gitlab需要大家课下自行学习"></a>Gitee和Gitlab需要大家课下自行学习</h4>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/05/07/Git%E5%B8%B8%E8%A7%81%E6%93%8D%E4%BD%9C/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
