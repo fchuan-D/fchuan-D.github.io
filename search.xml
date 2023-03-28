@@ -6508,4 +6508,16 @@ Figure 1. xx
         <tag>Mongo</tag>
       </tags>
   </entry>
+  <entry>
+    <title>Go-Roadmap</title>
+    <url>/2023/03/28/Go-Roadmap/</url>
+    <content><![CDATA[<h2 id="Go-学习路线"><a href="#Go-学习路线" class="headerlink" title="Go 学习路线"></a>Go 学习路线</h2><h3 id="图源"><a href="#图源" class="headerlink" title="图源"></a><a href="https://learngolangonline.com/posts/golang-roadmap">图源</a></h3><p><img src="https://user-images.githubusercontent.com/33494971/219800056-3472e59e-8287-4495-8268-5e90f92e17e6.png" alt="go-roadmap"></p>
+]]></content>
+      <categories>
+        <category>Go</category>
+      </categories>
+      <tags>
+        <tag>Roadmap</tag>
+      </tags>
+  </entry>
 </search>
