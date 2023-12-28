@@ -17,12 +17,16 @@
     <url>/2023/12/25/6.824-%E8%BF%90%E8%A1%8C%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/</url>
     <content><![CDATA[<h2 id="Ubuntu"><a href="#Ubuntu" class="headerlink" title="Ubuntu"></a>Ubuntu</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">调整字体</span></span><br><span class="line">sudo apt install gnome-tweaks</span><br><span class="line">gnome -tweaks</span><br></pre></td></tr></table></figure>
 
-<h2 id="Git"><a href="#Git" class="headerlink" title="Git"></a>Git</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">安装Git</span></span><br><span class="line">sudo apt install git</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">查看版本</span></span><br><span class="line">git --version</span><br></pre></td></tr></table></figure>
+<h2 id="Git"><a href="#Git" class="headerlink" title="Git"></a>Git</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">安装Git</span></span><br><span class="line">sudo apt install git</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">查看版本</span></span><br><span class="line">git --version</span><br></pre></td></tr></table></figure>
 
 <p><a href="https://fchuan-d.github.io/2022/05/07/Git%E5%B8%B8%E8%A7%81%E6%93%8D%E4%BD%9C/?highlight=git">Git常见操作</a></p>
 <span id="more"></span>
 
-<h2 id="Go"><a href="#Go" class="headerlink" title="Go"></a>Go</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">将解压后的go目录放在 /usr/local 下</span></span><br><span class="line"> rm -rf /usr/local/go &amp;&amp; tar -C /usr/local -xzf go1.21.5.linux-amd64.tar.gz</span><br><span class="line"><span class="meta prompt_"> # </span><span class="language-bash">将 /usr/local/go/bin 加入环境变量</span></span><br><span class="line"> export PATH=$PATH:/usr/local/go/bin</span><br><span class="line"><span class="meta prompt_"> # </span><span class="language-bash">查看版本</span></span><br><span class="line"> go version</span><br></pre></td></tr></table></figure>
+<h2 id="Go"><a href="#Go" class="headerlink" title="Go"></a>Go</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">6.824 使用的Go版本为 1.13.6</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">将解压后的go目录放在 /usr/local 下</span></span><br><span class="line">rm -rf /usr/local/go &amp;&amp; tar -C /usr/local -xzf go1.13.6.linux-amd64.tar.gz</span><br><span class="line"><span class="meta prompt_"> </span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">将 /usr/local/go/bin 加入环境变量</span></span><br><span class="line">export PATH=$PATH:/usr/local/go/bin</span><br><span class="line"><span class="meta prompt_"> </span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">查看版本</span></span><br><span class="line">go version</span><br></pre></td></tr></table></figure>
+
+<h2 id="Goland"><a href="#Goland" class="headerlink" title="Goland"></a>Goland</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">Goland 版本为 2021.1.3</span></span><br><span class="line">sudo tar -zxvf goland-2021.1.3.tar.gz  -C /usr/local</span><br><span class="line">sudo mv /usr/local/GoLand-2021.1.3/ /usr/local/GoLand</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">配置为全局启动</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">将启动脚本goland.sh加入用户的 /usr/bin/ 目录下，可以在任意位置执行goland.sh启动 GoLand IDE</span></span><br><span class="line">cd /usr/local/GoLand/bin/</span><br><span class="line">sudo ln -s $(pwd)/goland.sh /usr/bin/goland.sh</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">配置启动命令别名并独立运行</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">通过重命名<span class="built_in">alias</span>的方式简化启动命令，并独立运行（这样IDE不随terminal关闭而退出）</span></span><br><span class="line">vim /etc/bash.bashrc</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">在末尾添加如下语句</span></span><br><span class="line">alias goland=&#x27;nohup goland.sh &amp; &gt;/dev/null&#x27;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Getting-started"><a href="#Getting-started" class="headerlink" title="Getting started"></a>Getting started</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">克隆源码</span></span><br><span class="line">git clone git://g.csail.mit.edu/6.824-golabs-2020 6.824</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">先安装 make 工具(默认安装在 /usr/bin/make)</span></span><br><span class="line">sudo apt-get install make</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">在 /etc/profile 中添加环境变量</span></span><br><span class="line">export PATH=&quot;$PATH:/usr/bin/make&quot;</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">先安装gcc</span></span><br><span class="line">sudo apt install gcc</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">编译运行</span></span><br><span class="line">go build -buildmode=plugin ../mrapps/wc.go</span><br><span class="line">go run mrsequential.go wc.so pg*.txt</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">查看结果后删除</span></span><br><span class="line">more mr-out-0</span><br><span class="line">rm mr-out*</span><br></pre></td></tr></table></figure>
 
 ]]></content>
       <categories>
@@ -6558,6 +6562,19 @@ Figure 1. xx
       </categories>
       <tags>
         <tag>Mongo</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>linux基操</title>
+    <url>/2023/12/28/linux%E5%9F%BA%E6%93%8D/</url>
+    <content><![CDATA[<h2 id="配置环境变量"><a href="#配置环境变量" class="headerlink" title="配置环境变量"></a>配置环境变量</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">添加环境变量(重启则失效)</span></span><br><span class="line">export PATH=$PATH:/usr/local/go/bin</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">在 /etc/profile 中添加环境变量(对所有用户有效)</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">在用户主目录下 .bash_profile 中添加环境变量(仅对该用户有效)</span></span><br><span class="line">vim /etc/p</span><br><span class="line">export PATH=&quot;$PATH:/usr/local/go/bin&quot;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>linux</category>
+      </categories>
+      <tags>
+        <tag>基础操作</tag>
       </tags>
   </entry>
 </search>
