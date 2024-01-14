@@ -13,30 +13,6 @@
       </tags>
   </entry>
   <entry>
-    <title>6.824-运行环境配置</title>
-    <url>/2023/12/25/6.824-%E8%BF%90%E8%A1%8C%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/</url>
-    <content><![CDATA[<h2 id="Ubuntu"><a href="#Ubuntu" class="headerlink" title="Ubuntu"></a>Ubuntu</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">调整字体</span></span><br><span class="line">sudo apt install gnome-tweaks</span><br><span class="line">gnome -tweaks</span><br></pre></td></tr></table></figure>
-
-<h2 id="Git"><a href="#Git" class="headerlink" title="Git"></a>Git</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">安装Git</span></span><br><span class="line">sudo apt install git</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">查看版本</span></span><br><span class="line">git --version</span><br></pre></td></tr></table></figure>
-
-<p><a href="https://fchuan-d.github.io/2022/05/07/Git%E5%B8%B8%E8%A7%81%E6%93%8D%E4%BD%9C/?highlight=git">Git常见操作</a></p>
-<span id="more"></span>
-
-<h2 id="Go"><a href="#Go" class="headerlink" title="Go"></a>Go</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">6.824 使用的Go版本为 1.13.6</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">将解压后的go目录放在 /usr/local 下</span></span><br><span class="line">rm -rf /usr/local/go &amp;&amp; tar -C /usr/local -xzf go1.13.6.linux-amd64.tar.gz</span><br><span class="line"><span class="meta prompt_"> </span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">将 /usr/local/go/bin 加入环境变量</span></span><br><span class="line">export PATH=$PATH:/usr/local/go/bin</span><br><span class="line"><span class="meta prompt_"> </span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">查看版本</span></span><br><span class="line">go version</span><br></pre></td></tr></table></figure>
-
-<h2 id="Goland"><a href="#Goland" class="headerlink" title="Goland"></a>Goland</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">Goland 版本为 2021.1.3</span></span><br><span class="line">sudo tar -zxvf goland-2021.1.3.tar.gz  -C /usr/local</span><br><span class="line">sudo mv /usr/local/GoLand-2021.1.3/ /usr/local/GoLand</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">配置为全局启动</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">将启动脚本goland.sh加入用户的 /usr/bin/ 目录下，可以在任意位置执行goland.sh启动 GoLand IDE</span></span><br><span class="line">cd /usr/local/GoLand/bin/</span><br><span class="line">sudo ln -s $(pwd)/goland.sh /usr/bin/goland.sh</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">配置启动命令别名并独立运行</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">通过重命名<span class="built_in">alias</span>的方式简化启动命令，并独立运行（这样IDE不随terminal关闭而退出）</span></span><br><span class="line">vim /etc/bash.bashrc</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">在末尾添加如下语句</span></span><br><span class="line">alias goland=&#x27;nohup goland.sh &amp; &gt;/dev/null&#x27;</span><br></pre></td></tr></table></figure>
-
-<h2 id="Getting-started"><a href="#Getting-started" class="headerlink" title="Getting started"></a>Getting started</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">克隆源码</span></span><br><span class="line">git clone git://g.csail.mit.edu/6.824-golabs-2020 6.824</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">先安装 make 工具(默认安装在 /usr/bin/make)</span></span><br><span class="line">sudo apt-get install make</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">在 /etc/profile 中添加环境变量</span></span><br><span class="line">export PATH=&quot;$PATH:/usr/bin/make&quot;</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">先安装gcc</span></span><br><span class="line">sudo apt install gcc</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">编译运行</span></span><br><span class="line">go build -buildmode=plugin ../mrapps/wc.go</span><br><span class="line">go run mrsequential.go wc.so pg*.txt</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">查看结果后删除</span></span><br><span class="line">more mr-out-0</span><br><span class="line">rm mr-out*</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>6.824</category>
-      </categories>
-      <tags>
-        <tag>环境配置</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>2021→2022</title>
     <url>/2022/01/01/2022/</url>
     <content><![CDATA[<p><em><strong>新年伊始</strong></em></p>
@@ -104,7 +80,7 @@
 <p>如果一切顺利的话，可以在用户主目录里找到.ssh目录，里面有id_rsa和id_rsa.pub两个文件，这两个就是SSH Key的秘钥对，id_rsa是私钥，不能泄露出去，id_rsa.pub是公钥，可以放心地告诉任何人。</p>
 <h3 id="GitHub授权"><a href="#GitHub授权" class="headerlink" title="GitHub授权"></a>GitHub授权</h3><p>登陆GitHub，打开“Account settings”，“SSH Keys”页面：</p>
 <p>然后，点“Add SSH Key”，填上任意Title，在Key文本框里粘贴 id_rsa.pub 文件的内容，点“Add Key”，你就应该看到已经添加的Key。</p>
-<h3 id="Git整合Idea"><a href="#Git整合Idea" class="headerlink" title="Git整合Idea"></a>Git整合Idea</h3><h4 id="Gitee和Gitlab需要大家课下自行学习"><a href="#Gitee和Gitlab需要大家课下自行学习" class="headerlink" title="Gitee和Gitlab需要大家课下自行学习"></a>Gitee和Gitlab需要大家课下自行学习</h4>]]></content>
+]]></content>
       <categories>
         <category>常用工具</category>
       </categories>
@@ -6567,7 +6543,11 @@ Figure 1. xx
   <entry>
     <title>linux基操</title>
     <url>/2023/12/28/linux%E5%9F%BA%E6%93%8D/</url>
-    <content><![CDATA[<h2 id="配置环境变量"><a href="#配置环境变量" class="headerlink" title="配置环境变量"></a>配置环境变量</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">添加环境变量(重启则失效)</span></span><br><span class="line">export PATH=$PATH:/usr/local/go/bin</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">在 /etc/profile 中添加环境变量(对所有用户有效)</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">在用户主目录下 .bash_profile 中添加环境变量(仅对该用户有效)</span></span><br><span class="line">vim /etc/p</span><br><span class="line">export PATH=&quot;$PATH:/usr/local/go/bin&quot;</span><br></pre></td></tr></table></figure>
+    <content><![CDATA[<h2 id="配置环境变量"><a href="#配置环境变量" class="headerlink" title="配置环境变量"></a>配置环境变量</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">添加环境变量(重启则失效)</span></span><br><span class="line">export PATH=$PATH:/usr/local/go/bin</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">在 /etc/profile 中添加环境变量(对所有用户有效)</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">或在用户主目录下 .bash_profile 中添加环境变量(仅对该用户有效)</span></span><br><span class="line">vim /etc/profile</span><br><span class="line">export PATH=&quot;$PATH:/usr/local/go/bin&quot;</span><br></pre></td></tr></table></figure>
+
+<span id="more"></span>
+
+<h2 id="基本命令"><a href="#基本命令" class="headerlink" title="基本命令"></a>基本命令</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">cd ~                     # 进入用户主目录</span><br><span class="line">cd /                     # 返回上一级</span><br><span class="line">cd ..                    # 进入根目录</span><br><span class="line"></span><br><span class="line">dir                      # 查看当前路径下的所有文件</span><br><span class="line">ls                       # 列出当前文件夹下所有内容</span><br><span class="line">ls -ltr | cat -vte       # 显示文件夹下所有内容详细信息</span><br><span class="line"></span><br><span class="line">pwd                      # 显示当前路径   </span><br><span class="line">clear                    # 清空终端屏幕命令，Ctrl+L清除屏幕</span><br><span class="line"></span><br><span class="line">mkdir xxx                # 新建文件夹 </span><br><span class="line">rmdir xxx                # 删除文件夹</span><br><span class="line">mv                       # 移动或者重命名</span><br><span class="line"></span><br><span class="line">rm -r xxx                # 删除文件夹或文件</span><br><span class="line">rm -rf xxx               # 递归删除文件夹及子文件夹，慎重使用</span><br><span class="line">cp                       # 复制</span><br><span class="line"></span><br><span class="line">touch 文件名              # 新建文件</span><br><span class="line">vi    文件名                 # 编辑文件命令</span><br><span class="line">cat  文件名                # 查看文件内容</span><br></pre></td></tr></table></figure>
 
 ]]></content>
       <categories>
@@ -6575,6 +6555,66 @@ Figure 1. xx
       </categories>
       <tags>
         <tag>基础操作</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>6.824-Lab1</title>
+    <url>/2023/12/29/6.824-Lab1/</url>
+    <content><![CDATA[<h2 id="RPC"><a href="#RPC" class="headerlink" title="RPC"></a>RPC</h2><p>客户端Worker 传入函数名通过rpc远程调用服务端Master 所属函数</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="comment">// Worker通过rpc调用Master.DispatchTask(req,reply)</span></span><br><span class="line"><span class="comment">// Master执行DispatchTask为Worker分配任务</span></span><br><span class="line">call(<span class="string">&quot;Master.DispatchTask&quot;</span>, &amp;req, &amp;reply)</span><br></pre></td></tr></table></figure>
+
+<span id="more"></span>
+
+<p>注意结构体内变量需暴露给包外访问时，变量名应大写开头</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">type</span> Meassage <span class="keyword">struct</span> &#123;</span><br><span class="line">	ID         <span class="type">int</span></span><br><span class="line">	MapTask    MapTask</span><br><span class="line">	ReduceTask ReduceTask</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> MapTask <span class="keyword">struct</span> &#123;</span><br><span class="line">	files   []<span class="type">string</span></span><br><span class="line">	mapID   <span class="type">int</span></span><br><span class="line">	nReduce <span class="type">int</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> ReduceTask <span class="keyword">struct</span> &#123;</span><br><span class="line">	files   []<span class="type">string</span></span><br><span class="line">	mapID   <span class="type">int</span></span><br><span class="line">	nReduce <span class="type">int</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Master"><a href="#Master" class="headerlink" title="Master"></a>Master</h2><ul>
+<li>分配 M 个 Map Task 和 N 个 Reduce Task</li>
+<li>通过闲置工人chan选取一个空闲工人分配任务</li>
+</ul>
+]]></content>
+      <categories>
+        <category>6.824</category>
+      </categories>
+      <tags>
+        <tag>Lab1</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>6.824-运行环境配置(Centos)</title>
+    <url>/2024/01/13/6.824-%E8%BF%90%E8%A1%8C%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE(Centos)/</url>
+    <content><![CDATA[<h2 id="虚拟机环境"><a href="#虚拟机环境" class="headerlink" title="虚拟机环境"></a>虚拟机环境</h2><ul>
+<li><h3 id="Centos-7"><a href="#Centos-7" class="headerlink" title="Centos 7"></a>Centos 7</h3></li>
+<li><h3 id="Golang-1-13"><a href="#Golang-1-13" class="headerlink" title="Golang 1.13"></a>Golang 1.13</h3></li>
+<li><h3 id="Git"><a href="#Git" class="headerlink" title="Git"></a>Git</h3></li>
+<li><h3 id="Docker"><a href="#Docker" class="headerlink" title="Docker"></a>Docker</h3></li>
+</ul>
+<h3 id="安装-Centos-7"><a href="#安装-Centos-7" class="headerlink" title="安装 Centos 7"></a>安装 Centos 7</h3><p><a href="https://mirrors.aliyun.com/centos/7/isos/x86_64/">阿里云站点</a> 使用下载镜像创建虚拟机</p>
+<span id="more"></span>
+
+<h3 id="安装Golang"><a href="#安装Golang" class="headerlink" title="安装Golang"></a>安装Golang</h3><p><a href="https://go.dev/dl/">官网下载</a>，注意下载版本，6.824对于go的版本的要求<code>You should use Go 1.15 or any later version.</code> 此处我选择的是1.17.7</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">将go压缩包放在/usr/local下并解压</span></span><br><span class="line">cd /usr/local</span><br><span class="line">rm -rf /usr/local/go &amp;&amp; tar -C /usr/local -xzf go1.17.7.linux-amd64.tar.gz</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">在 /etc/profile 中添加环境变量(对所有用户有效)</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">或在用户主目录下 .bash_profile 中添加环境变量(仅对该用户有效)</span></span><br><span class="line">vi /etc/profile</span><br><span class="line">export PATH=&quot;$PATH:/usr/local/go/bin&quot;</span><br><span class="line"><span class="meta prompt_"> </span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">查看版本</span></span><br><span class="line">go version</span><br></pre></td></tr></table></figure>
+
+<h3 id="安装Git"><a href="#安装Git" class="headerlink" title="安装Git"></a>安装Git</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">安装Git</span></span><br><span class="line">yum -y install git</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">查看版本</span></span><br><span class="line">git --version</span><br></pre></td></tr></table></figure>
+
+<p><a href="https://fchuan-d.github.io/2022/05/07/Git%E5%B8%B8%E8%A7%81%E6%93%8D%E4%BD%9C/?highlight=git">Git常见操作</a></p>
+<h3 id="安装Docker"><a href="#安装Docker" class="headerlink" title="安装Docker"></a>安装Docker</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">配置Docker的yum源</span></span><br><span class="line">yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">安装Dokcer</span></span><br><span class="line">yum install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">启动Docker</span></span><br><span class="line">systemctl start docker</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">停止Docker</span></span><br><span class="line">systemctl stop docker</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">重启</span></span><br><span class="line">systemctl restart docker</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">设置Docker开机自启</span></span><br><span class="line">systemctl enable docker</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">设置容器开机自启</span></span><br><span class="line">docker update --restart=always 容器名称</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">执行docker ps命令，如果不报错，说明安装启动成功</span></span><br><span class="line">docker ps</span><br></pre></td></tr></table></figure>
+
+<p>打开阿里云镜像加速器，复制镜像加速地址</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">创建目录</span></span><br><span class="line">mkdir -p /etc/docker</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">复制内容，注意把其中的镜像加速地址改成你自己的</span></span><br><span class="line">tee /etc/docker/daemon.json &lt;&lt;-&#x27;EOF&#x27;</span><br><span class="line">&#123;</span><br><span class="line">  &quot;registry-mirrors&quot;: [&quot;https://xxxx.mirror.aliyuncs.com&quot;]</span><br><span class="line">&#125;</span><br><span class="line">EOF</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">重新加载配置</span></span><br><span class="line">systemctl daemon-reload</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">重启Docker</span></span><br><span class="line">systemctl restart docker</span><br></pre></td></tr></table></figure>
+
+<h3 id="Ubuntu下可安装goland"><a href="#Ubuntu下可安装goland" class="headerlink" title="Ubuntu下可安装goland"></a>Ubuntu下可安装goland</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">Goland 版本为 2021.1.3</span></span><br><span class="line">sudo tar -zxvf goland-2021.1.3.tar.gz  -C /usr/local</span><br><span class="line">sudo mv /usr/local/GoLand-2021.1.3/ /usr/local/GoLand</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">配置为全局启动</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">将启动脚本goland.sh加入用户的 /usr/bin/ 目录下，可以在任意位置执行goland.sh启动 GoLand IDE</span></span><br><span class="line">cd /usr/local/GoLand/bin/</span><br><span class="line">sudo ln -s $(pwd)/goland.sh /usr/bin/goland.sh</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">配置启动命令别名并独立运行</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">通过重命名<span class="built_in">alias</span>的方式简化启动命令，并独立运行（这样IDE不随terminal关闭而退出）</span></span><br><span class="line">vim /etc/bash.bashrc</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">在末尾添加如下语句</span></span><br><span class="line">alias goland=&#x27;nohup goland.sh &amp; &gt;/dev/null&#x27;</span><br></pre></td></tr></table></figure>
+
+<h2 id="本地环境"><a href="#本地环境" class="headerlink" title="本地环境"></a>本地环境</h2><p>官网下载并安装Goland或VSCode，使用ssh远程开发，连接至虚拟机即可</p>
+<h2 id="Getting-started"><a href="#Getting-started" class="headerlink" title="Getting started"></a>Getting started</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">克隆源码</span></span><br><span class="line">git clone git://g.csail.mit.edu/6.824-golabs-2020 6.824</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">安装 make 工具(默认安装在 /usr/bin/make)</span></span><br><span class="line">yum -y install make</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">安装gcc</span></span><br><span class="line">yum -y install gcc</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">编译运行</span></span><br><span class="line">go build -buildmode=plugin ../mrapps/wc.go</span><br><span class="line">go run mrsequential.go wc.so pg*.txt</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">查看结果后删除</span></span><br><span class="line">more mr-out-0</span><br><span class="line">rm mr-out*</span><br></pre></td></tr></table></figure>
+
+<p>环境配置成功！</p>
+]]></content>
+      <categories>
+        <category>6.824</category>
+      </categories>
+      <tags>
+        <tag>环境配置</tag>
       </tags>
   </entry>
 </search>
