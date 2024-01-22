@@ -251,7 +251,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2024-01-14 12:10:16" itemprop="dateModified" datetime="2024-01-14T12:10:16+08:00">2024-01-14</time>
+      <time title="修改时间：2024-01-14 14:05:01" itemprop="dateModified" datetime="2024-01-14T14:05:01+08:00">2024-01-14</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -273,13 +273,8 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h2 id="虚拟机环境"><a href="#虚拟机环境" class="headerlink" title="虚拟机环境"></a>虚拟机环境</h2><ul>
-<li><h3 id="Centos-7"><a href="#Centos-7" class="headerlink" title="Centos 7"></a>Centos 7</h3></li>
-<li><h3 id="Golang-1-13"><a href="#Golang-1-13" class="headerlink" title="Golang 1.13"></a>Golang 1.13</h3></li>
-<li><h3 id="Git"><a href="#Git" class="headerlink" title="Git"></a>Git</h3></li>
-<li><h3 id="Docker"><a href="#Docker" class="headerlink" title="Docker"></a>Docker</h3></li>
-</ul>
-<h3 id="安装-Centos-7"><a href="#安装-Centos-7" class="headerlink" title="安装 Centos 7"></a>安装 Centos 7</h3><p><a target="_blank" rel="noopener" href="https://mirrors.aliyun.com/centos/7/isos/x86_64/">阿里云站点</a> 使用下载镜像创建虚拟机</p>
+          <h2 id="虚拟机环境"><a href="#虚拟机环境" class="headerlink" title="虚拟机环境"></a>虚拟机环境</h2><h3 id="安装-Centos-7"><a href="#安装-Centos-7" class="headerlink" title="安装 Centos 7"></a>安装 Centos 7</h3><p><a target="_blank" rel="noopener" href="https://mirrors.aliyun.com/centos/7/isos/x86_64/">阿里云站点</a> 使用下载镜像创建虚拟机</p>
+<h3 id="安装Golang"><a href="#安装Golang" class="headerlink" title="安装Golang"></a>安装Golang</h3><p><a target="_blank" rel="noopener" href="https://go.dev/dl/">官网下载</a>，注意下载版本，6.824对于go的版本的要求<code>You should use Go 1.15 or any later version.</code> 此处我选择的是1.17.7</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2024/01/13/6.824-%E8%BF%90%E8%A1%8C%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE(Centos)/#more" rel="contents">
@@ -349,7 +344,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2024-01-14 12:07:58" itemprop="dateModified" datetime="2024-01-14T12:07:58+08:00">2024-01-14</time>
+      <time title="修改时间：2024-01-22 19:11:17" itemprop="dateModified" datetime="2024-01-22T19:11:17+08:00">2024-01-22</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -371,8 +366,8 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h2 id="RPC"><a href="#RPC" class="headerlink" title="RPC"></a>RPC</h2><p>客户端Worker 传入函数名通过rpc远程调用服务端Master 所属函数</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Worker通过rpc调用Master.DispatchTask(req,reply)</span></span><br><span class="line"><span class="comment">// Master执行DispatchTask为Worker分配任务</span></span><br><span class="line">call(<span class="string">&quot;Master.DispatchTask&quot;</span>, &amp;req, &amp;reply)</span><br></pre></td></tr></table></figure>
+          <h2 id="RPC"><a href="#RPC" class="headerlink" title="RPC"></a>RPC</h2><p>rpc为单向通信，客户端Worker 传入函数名及参数通过rpc远程调用服务端Master 的方法</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Worker通过rpc调用Master.DispatchTask(req,reply)</span></span><br><span class="line"><span class="comment">// Master执行DispatchTask为调用者Worker分配任务</span></span><br><span class="line">call(<span class="string">&quot;Master.DispatchTask&quot;</span>, &amp;req, &amp;reply)</span><br></pre></td></tr></table></figure>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2023/12/29/6.824-Lab1/#more" rel="contents">
