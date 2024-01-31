@@ -1,23 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>12.30有感</title>
-    <url>/2021/12/30/12-30%E6%9C%89%E6%84%9F/</url>
-    <content><![CDATA[<p><em><strong>明天就是12.31，准备跨年咯！！</strong></em></p>
-]]></content>
-      <categories>
-        <category>日常</category>
-      </categories>
-      <tags>
-        <tag>一些闲话</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>2021→2022</title>
     <url>/2022/01/01/2022/</url>
     <content><![CDATA[<p><em><strong>新年伊始</strong></em></p>
-<p>不知道说些啥好， 那就祝大家新年快乐、身体健康、吉祥如意、万事胜意！<br><del>希望大家伙儿能在评论区留下对新年的期许和愿望！(ps:就当是帮我做下压力测试呗😜)</del></p>
-<p>博客简化后已取消评论区</p>
+<p>祝大家新年快乐、身体健康、吉祥如意、万事胜意！</p>
 ]]></content>
       <categories>
         <category>节日</category>
@@ -29,7 +16,13 @@
   <entry>
     <title>6.824-Lab1</title>
     <url>/2023/12/29/6.824-Lab1/</url>
-    <content><![CDATA[<h2 id="RPC"><a href="#RPC" class="headerlink" title="RPC"></a>RPC</h2><p>rpc为单向通信，客户端Worker 传入函数名及参数通过rpc远程调用服务端Master 的方法</p>
+    <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>Lab1需要实现一个MapReduce模型，MapReduce是一个分布式的计算框架。一些常见的计算任务可抽象为Map和Reduce两个阶段，如单词计数、倒排索引等，这些任务可以基于MapReduce实现分布式的计算。</p>
+<p>对于<strong>应用程序员</strong>来说，只需要实现好Map和Reduce函数就可以基于MapReduce进行高性能的分布式计算。而Lab1要求我们从<strong>MapReduce设计者</strong>的角度来思考，实现一个简易版本的MapReduce，即如何将一个可拆分为Map和Reduce两阶段的计算任务分发到不同的物理机器上完成。</p>
+<h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><p>首先阅读<a href="http://nil.csail.mit.edu/6.824/2020/papers/mapreduce.pdf">MapReduce论文</a>，可将Master的任务分配分为<strong>Map</strong>和<strong>Reduce</strong>两个阶段，根据初始计算数据划分为X个Map任务和Y个Reduce任务（Y由用户程序指定）。</p>
+<p>完成所有Map任务后即可转换为Reduce阶段。而Master和Worker通过rpc通信，则Master可以在每次Worker请求任务时分配Map任务，并为每个任务启动一个计时器（论文中给出的示例是10s），超时则将已分配的任务放回任务channel中，可再次分配。Worker每完成一个任务都需要通知Master。</p>
+<p>对于Map任务需要注意将计算的中间结果保存至本地临时文件（命名格式mr-X-Y），然后由Reduce任务读取作为输入并将最终计算结果保存为mr-out-Y。</p>
+<p>当Master发现所有任务完成后即可退出。</p>
+<h2 id="RPC"><a href="#RPC" class="headerlink" title="RPC"></a>RPC</h2><p>rpc为单向通信，客户端Worker 传入函数名及参数通过rpc远程调用服务端Master 的方法</p>
 <figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="comment">// Worker通过rpc调用Master.DispatchTask(req,reply)</span></span><br><span class="line"><span class="comment">// Master执行DispatchTask为调用者Worker分配任务</span></span><br><span class="line">call(<span class="string">&quot;Master.DispatchTask&quot;</span>, &amp;req, &amp;reply)</span><br></pre></td></tr></table></figure>
 
 <span id="more"></span>
@@ -53,8 +46,14 @@
 <p>完成任务后，由Worker通过rpc调用TaskFin()通知Master</p>
 <figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(m *Master)</span></span> TaskFin(args *Request, reply *Reply) <span class="type">error</span> &#123;</span><br><span class="line">	m.mutex.Lock()</span><br><span class="line">	<span class="keyword">defer</span> m.mutex.Unlock()</span><br><span class="line"></span><br><span class="line">	<span class="keyword">switch</span> args.ID &#123;</span><br><span class="line">	<span class="keyword">case</span> MAP_TASK_FIN:</span><br><span class="line">		<span class="comment">// Stop()返回true,停止成功则说明计时器未过期</span></span><br><span class="line">		<span class="keyword">if</span> m.Timers[args.MapID].Stop() &#123;</span><br><span class="line">			m.MapFinChan &lt;- args.MapID <span class="comment">// Map任务完成</span></span><br><span class="line">		&#125;</span><br><span class="line">	<span class="keyword">case</span> REDUCE_TASK_FIN:</span><br><span class="line">		<span class="comment">// Stop()返回true,停止成功则说明计时器未过期</span></span><br><span class="line">		<span class="keyword">if</span> m.Timers[args.ReduceID].Stop() &#123;</span><br><span class="line">			m.ReduceFinChan &lt;- args.ReduceID <span class="comment">// Reduce任务完成</span></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h3 id="原子化命名"><a href="#原子化命名" class="headerlink" title="原子化命名"></a>原子化命名</h3><h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">引入Map、Reduce函数</span></span><br><span class="line">go build -buildmode=plugin ../mrapps/wc.go</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">清除上次运行结果</span></span><br><span class="line">rm mr-out*</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">启动Master</span></span><br><span class="line">go run mrmaster.go pg-*.txt</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">启动Worker</span></span><br><span class="line">go run mrworker.go wc.so</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">查看结果</span></span><br><span class="line">cat mr-out-* | sort | more</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">脚本测试</span></span><br><span class="line">bash test-mr.sh</span><br></pre></td></tr></table></figure>
+<h3 id="原子化命名"><a href="#原子化命名" class="headerlink" title="原子化命名"></a>原子化命名</h3><figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="comment">// x号bucket写入缓存 mr-MapID-x</span></span><br><span class="line">	<span class="keyword">for</span> x, kva := <span class="keyword">range</span> bucket &#123;</span><br><span class="line">		oname := <span class="string">&quot;mr-&quot;</span> + strconv.Itoa(reply.MapTask.MapID) + <span class="string">&quot;-&quot;</span> + strconv.Itoa(x)</span><br><span class="line">		<span class="comment">// 创建临时文件</span></span><br><span class="line">		tempfile, err := ioutil.TempFile(<span class="string">&quot;&quot;</span>, <span class="string">&quot;mr-tmp-*&quot;</span>)</span><br><span class="line">		<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">			log.Fatalf(<span class="string">&quot;cannot create temp file %v&quot;</span>, err)</span><br><span class="line">		&#125;</span><br><span class="line">		enc := json.NewEncoder(tempfile)</span><br><span class="line">		<span class="keyword">for</span> _, kv := <span class="keyword">range</span> kva &#123;</span><br><span class="line">			<span class="keyword">if</span> err := enc.Encode(&amp;kv); err != <span class="literal">nil</span> &#123;</span><br><span class="line">				fmt.Println(err)</span><br><span class="line">				tempfile.Close()</span><br><span class="line">				os.Remove(tempfile.Name())</span><br><span class="line">				<span class="keyword">continue</span></span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="comment">// 关闭临时文件</span></span><br><span class="line">		<span class="keyword">if</span> err := tempfile.Close(); err != <span class="literal">nil</span> &#123;</span><br><span class="line">			log.Fatalf(<span class="string">&quot;cannot close %v&quot;</span>, tempfile.Name())</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="comment">// 原子化重命名临时文件</span></span><br><span class="line">		<span class="keyword">if</span> err := os.Rename(tempfile.Name(), oname); err != <span class="literal">nil</span> &#123;</span><br><span class="line">			log.Fatalf(<span class="string">&quot;cannot rename temp file %v to %v: %v&quot;</span>, tempfile.Name(), oname, err)</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
 
+
+
+<h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">引入Map、Reduce函数</span></span><br><span class="line">go build -buildmode=plugin ../mrapps/wc.go</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">清除上次运行结果</span></span><br><span class="line">rm mr-out*</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">启动Master</span></span><br><span class="line">go run mrmaster.go pg-*.txt</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">启动Worker</span></span><br><span class="line">go run mrworker.go wc.so</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">查看结果</span></span><br><span class="line">cat mr-out-* | sort | more</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">脚本测试</span></span><br><span class="line">bash test-mr.sh</span><br></pre></td></tr></table></figure>
+
+<p>通过所有测试！！！</p>
+<p><img src="https://www.0471seo.com/gh/fchuan-D/my_image/img/6.824-lab1-%E9%80%9A%E8%BF%87%E6%89%80%E6%9C%89%E6%B5%8B%E8%AF%95.png" alt="image-20240122204901475"></p>
 ]]></content>
       <categories>
         <category>6.824</category>
@@ -101,53 +100,8 @@
 <h2 id="版本管理"><a href="#版本管理" class="headerlink" title="版本管理"></a>版本管理</h2><p>直接把项目复制出来一份，在副本项目中，直接做迭代，但这样做有一个坏处，如果升级的内容比较多，时间间隔又大的话，可能会忘记都做过什么事，这样就不便于管理了，所以应该选择一种更智能的方式管理我们的文件版本。</p>
 <span id="more"></span>
 
-<h1 id="Git分布式版本控制系统"><a href="#Git分布式版本控制系统" class="headerlink" title="Git分布式版本控制系统"></a>Git分布式版本控制系统</h1><h2 id="Git-的诞生"><a href="#Git-的诞生" class="headerlink" title="Git 的诞生"></a>Git 的诞生</h2><h2 id="Git的三棵树"><a href="#Git的三棵树" class="headerlink" title="Git的三棵树"></a>Git的三棵树</h2><ul>
-<li>工作区：我们编写代码的文件具体存放位置。</li>
-<li>暂存区：临时存储区域。</li>
-<li>版本库：代码仓库，即分支。文件最终保存的区域。</li>
-</ul>
-<h2 id="安装-Git"><a href="#安装-Git" class="headerlink" title="安装 Git"></a>安装 Git</h2><p>mac 自带 git，windows 需要安装 git。</p>
-<p>安装完成后，还需要最后一步设置，在命令行输入：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git config --global user.name <span class="string">&quot;Your Name&quot;</span></span><br><span class="line">git config --global user.email <span class="string">&quot;email@example.com&quot;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">添加远程仓库</span></span><br><span class="line">git remote set-url origin git@github.com:username/repository.git</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">推送至远程仓库origin的main分支</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">第一次提交需要加 -u参数 以后可以简写为git push</span></span><br><span class="line">git push -u origin main</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">创建分支</span></span><br><span class="line">git branch [branch-name]</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">删除分支</span></span><br><span class="line">git branch -d [branch-name]</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">查看分支</span></span><br><span class="line">git branch -a</span><br><span class="line">git branch -v</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">切换分支</span></span><br><span class="line">git checkout [branch-name]</span><br></pre></td></tr></table></figure>
 
-<blockquote>
-<p>使用git config user.name或git config user.email可以查看用户名和邮箱。</p>
-</blockquote>
-<h2 id="创建本地仓库"><a href="#创建本地仓库" class="headerlink" title="创建本地仓库"></a>创建本地仓库</h2><ul>
-<li><h3 id="创建文件夹，test-git"><a href="#创建文件夹，test-git" class="headerlink" title="创建文件夹，test_git"></a>创建文件夹，test_git</h3></li>
-<li><h3 id="终端命令行输入：git-init"><a href="#终端命令行输入：git-init" class="headerlink" title="终端命令行输入：git init"></a>终端命令行输入：git init</h3><figure class="highlight html"><table><tr><td class="code"><pre><span class="line">git init	#git初始化，不报错，代表初始化成功，会生成.git文件夹(是隐藏的)</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>如果报错，没有识别到git, 记得添加环境变量  …Git\bin</p>
-</blockquote>
-</li>
-<li><h3 id="添加到暂存区"><a href="#添加到暂存区" class="headerlink" title="添加到暂存区"></a>添加到暂存区</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git add .   #提交所有变化的文件</span><br><span class="line">git add abc #提交abc这个文件夹</span><br><span class="line">git add *.css #提交所有css文件</span><br></pre></td></tr></table></figure></li>
-<li><h3 id="暂存区到代码库"><a href="#暂存区到代码库" class="headerlink" title="暂存区到代码库"></a>暂存区到代码库</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git commit -m &#x27;第一次提交&#x27;   #默认以master主分支提交，记得添加提交的注释，便于分清楚提交时的信息</span><br><span class="line">再修改一个文件</span><br><span class="line">重新git add .   git commit -m &#x27;第二次提交&#x27;执行一次</span><br></pre></td></tr></table></figure></li>
-<li><h3 id="查看提交历史"><a href="#查看提交历史" class="headerlink" title="查看提交历史"></a>查看提交历史</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git log :查看提交日志</span><br></pre></td></tr></table></figure></li>
-<li><h3 id="版本回溯"><a href="#版本回溯" class="headerlink" title="版本回溯"></a>版本回溯</h3><p>你看到的一大串类似3628164…882e1e0的是commit id（版本号）在Git中，用HEAD表示当前版本，上一个版本就是HEAD^ ，上上一个版本就是HEAD^^ ，当然往上100个版本写100个^比较容易数不过来，所以写成HEAD~100。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git reset --hard head^</span><br><span class="line">或者不需要记忆次数，直接根据版本号前六位进行回退</span><br><span class="line">git reset --hard 版本号前六位</span><br></pre></td></tr></table></figure>
-
-<p>继续使用git log查看，发现撤销前的版本看不到了，想回回不去了，怎么办？</p>
-<p>只能查看历史记录，找之前的版本号,</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git reset --hard 版本号前六位</span><br></pre></td></tr></table></figure>
-
-<p>通过git reflog找版本号</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git reflog</span><br><span class="line">再切换版本</span><br><span class="line">git reset --hard 版本号前六位</span><br></pre></td></tr></table></figure></li>
-<li><h3 id="分支操作"><a href="#分支操作" class="headerlink" title="分支操作"></a>分支操作</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">创建分支</span><br><span class="line">git branch 分支名</span><br><span class="line">查看分支</span><br><span class="line">git branch -v</span><br><span class="line">切换分支fit</span><br><span class="line">git checkout 分支名</span><br><span class="line">合并分支</span><br><span class="line">1. git checkout 接收修改的分支</span><br><span class="line">2. git merge 新内容的分支</span><br><span class="line">出现冲突，可以手动解决，之后</span><br><span class="line">git add 文件名</span><br><span class="line">git commit -m &#x27;日志&#x27; #注意，此时commit不要带具体文件名</span><br></pre></td></tr></table></figure></li>
-</ul>
-<h2 id="远程代码仓库"><a href="#远程代码仓库" class="headerlink" title="远程代码仓库"></a>远程代码仓库</h2><p>GitHub比较火，但毕竟是国外的网站，访问速度比较慢，所以也可以选择国内的码云</p>
-<h2 id="GitHub"><a href="#GitHub" class="headerlink" title="GitHub"></a>GitHub</h2><p>gitHub是一个面向开源及私有软件项目的托管平台，因为只支持git 作为唯一的版本库格式进行托管，故名gitHub。</p>
-<p>2018年6月4日，微软宣布，通过75亿美元的股票交易收购代码托管平台GitHub。</p>
-<h2 id="远程库操作"><a href="#远程库操作" class="headerlink" title="远程库操作"></a>远程库操作</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">查看远程库别名</span><br><span class="line">git remote -v</span><br><span class="line">创建远程库别名</span><br><span class="line">git remote add 别名(最好跟项目名一致) 远程git地址</span><br><span class="line">推送远程库</span><br><span class="line">git push 别名或者地址 分支名</span><br><span class="line">拉取远程库内容</span><br><span class="line">git pull 别名或者地址 分支名</span><br><span class="line">克隆</span><br><span class="line">git clone 远程地址(clone不需要登录账号)</span><br></pre></td></tr></table></figure>
-
-<h3 id="生成本地密钥"><a href="#生成本地密钥" class="headerlink" title="生成本地密钥"></a>生成本地密钥</h3><p>创建SSH Key。在用户主目录下，看看有没有.ssh目录，如果有，再看看这个目录下有没有 id_rsa 和 id_rsa.pub 这两个文件，如果已经有了，可直接跳到下一步。</p>
-<p>如果没有</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ssh-keygen -t rsa -C &quot;1469720568@qq.com&quot;</span><br></pre></td></tr></table></figure>
-
-<p>你需要把邮件地址换成你自己的邮件地址，然后一路回车，使用默认值即可，所以也无需设置密码。</p>
-<p>如果一切顺利的话，可以在用户主目录里找到.ssh目录，里面有id_rsa和id_rsa.pub两个文件，这两个就是SSH Key的秘钥对，id_rsa是私钥，不能泄露出去，id_rsa.pub是公钥，可以放心地告诉任何人。</p>
-<h3 id="GitHub授权"><a href="#GitHub授权" class="headerlink" title="GitHub授权"></a>GitHub授权</h3><p>登陆GitHub，打开“Account settings”，“SSH Keys”页面：</p>
-<p>然后，点“Add SSH Key”，填上任意Title，在Key文本框里粘贴 id_rsa.pub 文件的内容，点“Add Key”，你就应该看到已经添加的Key。</p>
 ]]></content>
       <categories>
         <category>常用工具</category>
@@ -3857,8 +3811,7 @@
   <entry>
     <title>SpringCloud笔记（一）</title>
     <url>/2022/05/30/SpringCloud%E7%AC%94%E8%AE%B0%EF%BC%88%E4%B8%80%EF%BC%89/</url>
-    <content><![CDATA[<p><img src="https://tva1.sinaimg.cn/large/e6c9d24ely1h0d0lfurfij21o40d275h.jpg" alt="image-20220317173734208"></p>
-<h1 id="微服务基础"><a href="#微服务基础" class="headerlink" title="微服务基础"></a>微服务基础</h1><p><strong>注意：</strong>此阶段学习推荐的电脑配置，至少配备4核心CPU（主频3.0Ghz以上）+16GB内存，否则卡到你怀疑人生。 </p>
+    <content><![CDATA[<h1 id="服务基础"><a href="#服务基础" class="headerlink" title="服务基础"></a>服务基础</h1><p><strong>注意：</strong>此阶段学习推荐的电脑配置，至少配备4核心CPU（主频3.0Ghz以上）+16GB内存，否则卡到你怀疑人生。 </p>
 <p>前面我们讲解了SpringBoot框架，通过使用SpringBoot框架，我们的项目开发速度可以说是得到了质的提升。同时，我们对于项目的维护和理解，也会更加的轻松。可见，SpringBoot为我们的开发带来了巨大便捷。而这一部分，我们将基于SpringBoot，继续深入到企业实际场景，探讨微服务架构下的SpringCloud。这个部分我们会更加注重于架构设计上的讲解，弱化实现原理方面的研究。</p>
 <span id="more"></span>
 
@@ -5080,8 +5033,7 @@
   <entry>
     <title>SpringCloud笔记（四）</title>
     <url>/2022/05/30/SpringCloud%E7%AC%94%E8%AE%B0%EF%BC%88%E5%9B%9B%EF%BC%89/</url>
-    <content><![CDATA[<p><img src="https://tva1.sinaimg.cn/large/e6c9d24ely1h1ahsb4tmsj21sk09iwfi.jpg" alt="image-20220415163559986"></p>
-<h1 id="消息队列"><a href="#消息队列" class="headerlink" title="消息队列"></a>消息队列</h1><p>经过前面的学习，我们已经了解了我们之前的技术在分布式环境下的应用，接着我们来看最后一章的内容。 </p>
+    <content><![CDATA[<h1 id="消息队列"><a href="#消息队列" class="headerlink" title="消息队列"></a>消息队列</h1><p>经过前面的学习，我们已经了解了我们之前的技术在分布式环境下的应用，接着我们来看最后一章的内容。 </p>
 <p>那么，什么是消息队列呢？ </p>
 <p>我们之前如果需要进行远程调用，那么一般可以通过发送HTTP请求来完成，而现在，我们可以使用第二种方式，就是消息队列，它能够将发送方发送的信息放入队列中，当新的消息入队时，会通知接收方进行处理，一般消息发送方称为生产者，接收方称为消费者。</p>
 <span id="more"></span>
@@ -5543,7 +5495,7 @@
   <entry>
     <title>Hello World</title>
     <url>/2021/12/29/hello-world/</url>
-    <content><![CDATA[<p>嗨！这里是 <a href="https://fchuan-d.github.io/">樊川</a> ‘s blog! 欢迎你哦！虽然这个博客还很稚嫩，但是我会慢慢完善它的功能，也会随缘更新学习总结和日常生活。欢迎大家常来☺！！ </p>
+    <content><![CDATA[<p>嗨！这里是 <a href="https://fchuan-d.github.io/">樊川</a> ‘s blog! 欢迎你哦！欢迎大家常来☺！！ </p>
 ]]></content>
   </entry>
   <entry>
@@ -5602,8 +5554,7 @@ Figure 1. xx
   <entry>
     <title>SpringCloud笔记（二）</title>
     <url>/2022/05/30/SpringCould%E7%AC%94%E8%AE%B0%EF%BC%88%E4%BA%8C%EF%BC%89/</url>
-    <content><![CDATA[<p><img src="https://tva1.sinaimg.cn/large/e6c9d24ely1h0ml18j1h6j21v40lkgob.jpg" alt="image-20220326001448808"></p>
-<h1 id="微服务进阶"><a href="#微服务进阶" class="headerlink" title="微服务进阶"></a>微服务进阶</h1><p>前面我们了解了微服务的一套解决方案，但是它是基于Netflix的解决方案，实际上我们发现，很多框架都已经停止维护了，来看看目前我们所认识到的SpringCloud各大组件的维护情况：</p>
+    <content><![CDATA[<h1 id="微服务进阶"><a href="#微服务进阶" class="headerlink" title="微服务进阶"></a>微服务进阶</h1><p>前面我们了解了微服务的一套解决方案，但是它是基于Netflix的解决方案，实际上我们发现，很多框架都已经停止维护了，来看看目前我们所认识到的SpringCloud各大组件的维护情况：</p>
 <ul>
 <li><p><strong>注册中心：</strong>Eureka（属于<em>Netflix</em>，2.x版本不再开源，1.x版本仍在更新）</p>
 </li>
