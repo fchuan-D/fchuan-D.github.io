@@ -344,7 +344,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2024-01-31 23:00:08" itemprop="dateModified" datetime="2024-01-31T23:00:08+08:00">2024-01-31</time>
+      <time title="修改时间：2024-01-31 23:01:48" itemprop="dateModified" datetime="2024-01-31T23:01:48+08:00">2024-01-31</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -368,12 +368,6 @@
     <div class="post-body" itemprop="articleBody">
           <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>Lab1需要实现一个MapReduce模型，MapReduce是一个分布式的计算框架。一些常见的计算任务可抽象为Map和Reduce两个阶段，如单词计数、倒排索引等，这些任务可以基于MapReduce实现分布式的计算。</p>
 <p>对于<strong>应用程序员</strong>来说，只需要实现好Map和Reduce函数就可以基于MapReduce进行高性能的分布式计算。而Lab1要求我们从<strong>MapReduce设计者</strong>的角度来思考，实现一个简易版本的MapReduce，即如何将一个可拆分为Map和Reduce两阶段的计算任务分发到不同的物理机器上完成。</p>
-<h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><p>首先阅读<a target="_blank" rel="noopener" href="http://nil.csail.mit.edu/6.824/2020/papers/mapreduce.pdf">MapReduce论文</a>，可将Master的任务分配分为<strong>Map</strong>和<strong>Reduce</strong>两个阶段，根据初始计算数据划分为X个Map任务和Y个Reduce任务（Y由用户程序指定）。</p>
-<p>完成所有Map任务后即可转换为Reduce阶段。而Master和Worker通过rpc通信，则Master可以在每次Worker请求任务时分配Map任务，并为每个任务启动一个计时器（论文中给出的示例是10s），超时则将已分配的任务放回任务channel中，可再次分配。Worker每完成一个任务都需要通知Master。</p>
-<p>对于Map任务需要注意将计算的中间结果保存至本地临时文件（命名格式mr-X-Y），然后由Reduce任务读取作为输入并将最终计算结果保存为mr-out-Y。</p>
-<p>当Master发现所有任务完成后即可退出。</p>
-<h2 id="RPC"><a href="#RPC" class="headerlink" title="RPC"></a>RPC</h2><p>rpc为单向通信，客户端Worker 传入函数名及参数通过rpc远程调用服务端Master 的方法</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Worker通过rpc调用Master.DispatchTask(req,reply)</span></span><br><span class="line"><span class="comment">// Master执行DispatchTask为调用者Worker分配任务</span></span><br><span class="line">call(<span class="string">&quot;Master.DispatchTask&quot;</span>, &amp;req, &amp;reply)</span><br></pre></td></tr></table></figure>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2023/12/29/6.824-Lab1/#more" rel="contents">
