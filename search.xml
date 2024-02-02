@@ -22,7 +22,7 @@
 
 <h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><p>首先阅读<a href="http://nil.csail.mit.edu/6.824/2020/papers/mapreduce.pdf">MapReduce论文</a>，可将Master的任务分配分为<strong>Map</strong>和<strong>Reduce</strong>两个阶段，根据初始计算数据划分为X个Map任务和Y个Reduce任务（Y由用户程序指定）。</p>
 <p>完成所有Map任务后即可转换为Reduce阶段。而Master和Worker通过rpc通信，则Master可以在每次Worker请求任务时分配Map任务，并为每个任务启动一个计时器（论文中给出的示例是10s），超时则将已分配的任务放回任务channel中，可再次分配。Worker每完成一个任务都需要通知Master。</p>
-<p>对于Map任务需要注意将计算的中间结果保存至本地临时文件（命名格式mr-X-Y），然后由Reduce任务读取作为输入并将最终计算结果保存为mr-out-Y。</p>
+<p>对于Map任务需要注意将计算的中间结果保存至本地临时文件（命名格式mr-X-Y），然后由Reduce任务读取临时文件作为输入并将最终计算结果保存为mr-out-Y。</p>
 <p>当Master发现所有任务完成后即可退出。</p>
 <h2 id="RPC"><a href="#RPC" class="headerlink" title="RPC"></a>RPC</h2><p>rpc为单向通信，客户端Worker 传入函数名及参数通过rpc远程调用服务端Master 的方法</p>
 <figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="comment">// Worker通过rpc调用Master.DispatchTask(req,reply)</span></span><br><span class="line"><span class="comment">// Master执行DispatchTask为调用者Worker分配任务</span></span><br><span class="line">call(<span class="string">&quot;Master.DispatchTask&quot;</span>, &amp;req, &amp;reply)</span><br></pre></td></tr></table></figure>
@@ -93,23 +93,6 @@
       </categories>
       <tags>
         <tag>环境配置</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Git常见操作</title>
-    <url>/2022/05/07/Git%E5%B8%B8%E8%A7%81%E6%93%8D%E4%BD%9C/</url>
-    <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><h2 id="项目需要迭代"><a href="#项目需要迭代" class="headerlink" title="项目需要迭代"></a>项目需要迭代</h2><p>我们开发的应用程序是需要不断的迭代的，比如 version 1.0 、version 2.5 、version 3.9.11，这些指的都是版本号。不同版本号的应用程序，里面的功能都是不一样的，比如我们做一个名字叫做 project1 的应用，v1.0时可能仅仅只是基础框架，v1.1时增加用户中心模块，然后用了一段时间出现了一个致命的bug，然后我们把 project1 升级到了 v1.1.1 解决了这个bug，所以说应用程序是需要不断的迭代的。</p>
-<h2 id="版本管理"><a href="#版本管理" class="headerlink" title="版本管理"></a>版本管理</h2><p>直接把项目复制出来一份，在副本项目中，直接做迭代，但这样做有一个坏处，如果升级的内容比较多，时间间隔又大的话，可能会忘记都做过什么事，这样就不便于管理了，所以应该选择一种更智能的方式管理我们的文件版本。</p>
-<span id="more"></span>
-
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">添加远程仓库</span></span><br><span class="line">git remote set-url origin git@github.com:username/repository.git</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">推送至远程仓库origin的main分支</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">第一次提交需要加 -u参数 以后可以简写为git push</span></span><br><span class="line">git push -u origin main</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">创建分支</span></span><br><span class="line">git branch [branch-name]</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">删除分支</span></span><br><span class="line">git branch -d [branch-name]</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">查看分支</span></span><br><span class="line">git branch -a</span><br><span class="line">git branch -v</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">切换分支</span></span><br><span class="line">git checkout [branch-name]</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>常用工具</category>
-      </categories>
-      <tags>
-        <tag>Git</tag>
       </tags>
   </entry>
   <entry>
@@ -5507,7 +5490,7 @@
 
 <span id="more"></span>
 
-<h2 id="基本命令"><a href="#基本命令" class="headerlink" title="基本命令"></a>基本命令</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">cd ~                     # 进入用户主目录</span><br><span class="line">cd /                     # 返回上一级</span><br><span class="line">cd ..                    # 进入根目录</span><br><span class="line"></span><br><span class="line">dir                      # 查看当前路径下的所有文件</span><br><span class="line">ls                       # 列出当前文件夹下所有内容</span><br><span class="line">ls -ltr | cat -vte       # 显示文件夹下所有内容详细信息</span><br><span class="line"></span><br><span class="line">pwd                      # 显示当前路径   </span><br><span class="line">clear                    # 清空终端屏幕命令，Ctrl+L清除屏幕</span><br><span class="line"></span><br><span class="line">mkdir xxx                # 新建文件夹 </span><br><span class="line">rmdir xxx                # 删除文件夹</span><br><span class="line">mv                       # 移动或者重命名</span><br><span class="line"></span><br><span class="line">rm -r xxx                # 删除文件夹或文件</span><br><span class="line">rm -rf xxx               # 递归删除文件夹及子文件夹，慎重使用</span><br><span class="line">cp                       # 复制</span><br><span class="line"></span><br><span class="line">touch 文件名              # 新建文件</span><br><span class="line">vi    文件名                 # 编辑文件命令</span><br><span class="line">cat  文件名                # 查看文件内容</span><br></pre></td></tr></table></figure>
+<h2 id="基本命令"><a href="#基本命令" class="headerlink" title="基本命令"></a>基本命令</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">cd ~                     # 进入用户主目录</span><br><span class="line">cd /                     # 返回上一级</span><br><span class="line">cd ..                    # 进入根目录</span><br><span class="line"></span><br><span class="line">dir                      # 查看当前路径下的所有文件</span><br><span class="line">ls                       # 列出当前文件夹下所有内容</span><br><span class="line">ls -ltr | cat -vte       # 显示文件夹下所有内容详细信息</span><br><span class="line"></span><br><span class="line">pwd                      # 显示当前路径   </span><br><span class="line">clear                    # 清空终端屏幕命令，Ctrl+L清除屏幕</span><br><span class="line"></span><br><span class="line">mkdir xxx                # 新建文件夹 </span><br><span class="line">rmdir xxx                # 删除文件夹</span><br><span class="line">mv                       # 移动或者重命名</span><br><span class="line"></span><br><span class="line">rm -r xxx                # 删除文件夹或文件</span><br><span class="line">rm -rf xxx               # 递归删除文件夹及子文件夹，慎重使用</span><br><span class="line">cp                       # 复制</span><br><span class="line"></span><br><span class="line">touch 文件名              	# 新建文件</span><br><span class="line">vi    文件名              	# 编辑文件命令</span><br><span class="line">cat  文件名               		# 查看文件内容</span><br><span class="line">mv old_folder new_folder 		#重命名文件夹</span><br></pre></td></tr></table></figure>
 
 ]]></content>
       <categories>
@@ -6576,6 +6559,80 @@ Figure 1. xx
       </categories>
       <tags>
         <tag>Mongo</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Git基操</title>
+    <url>/2022/05/07/Git%E5%9F%BA%E6%93%8D/</url>
+    <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><h2 id="项目需要迭代"><a href="#项目需要迭代" class="headerlink" title="项目需要迭代"></a>项目需要迭代</h2><p>我们开发的应用程序是需要不断的迭代的，比如 version 1.0 、version 2.5 、version 3.9.11，这些指的都是版本号。不同版本号的应用程序，里面的功能都是不一样的，比如我们做一个名字叫做 project1 的应用，v1.0时可能仅仅只是基础框架，v1.1时增加用户中心模块，然后用了一段时间出现了一个致命的bug，然后我们把 project1 升级到了 v1.1.1 解决了这个bug，所以说应用程序是需要不断的迭代的。</p>
+<h2 id="版本管理"><a href="#版本管理" class="headerlink" title="版本管理"></a>版本管理</h2><p>直接把项目复制出来一份，在副本项目中，直接做迭代，但这样做有一个坏处，如果升级的内容比较多，时间间隔又大的话，可能会忘记都做过什么事，这样就不便于管理了，所以应该选择一种更智能的方式管理我们的文件版本。</p>
+<span id="more"></span>
+
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">添加远程仓库</span></span><br><span class="line">git remote set-url origin git@github.com:username/repository.git</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">推送至远程仓库origin的main分支</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">第一次提交需要加 -u参数 以后可以简写为git push</span></span><br><span class="line">git push -u origin main</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">创建分支</span></span><br><span class="line">git branch [branch-name]</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">删除分支</span></span><br><span class="line">git branch -d [branch-name]</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">查看分支</span></span><br><span class="line">git branch -a</span><br><span class="line">git branch -v</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">切换分支</span></span><br><span class="line">git checkout [branch-name]</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>常用工具</category>
+      </categories>
+      <tags>
+        <tag>基础操作</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>docker基操</title>
+    <url>/2024/02/02/docker%E5%9F%BA%E6%93%8D/</url>
+    <content><![CDATA[<h2 id="Docker下载：Docker"><a href="#Docker下载：Docker" class="headerlink" title="Docker下载：Docker"></a>Docker下载：<a href="https://www.docker.com/get-started/">Docker</a></h2><h2 id="Docker仓库：Docker-Hub"><a href="#Docker仓库：Docker-Hub" class="headerlink" title="Docker仓库：Docker Hub"></a>Docker仓库：<a href="https://hub-stage.docker.com/">Docker Hub</a></h2><h2 id="Docker文档：Docker-Docs"><a href="#Docker文档：Docker-Docs" class="headerlink" title="Docker文档：Docker Docs"></a>Docker文档：<a href="https://docs.docker.com/">Docker Docs</a></h2><h2 id="常用操作"><a href="#常用操作" class="headerlink" title="常用操作"></a>常用操作</h2><span id="more"></span>
+
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">查看docker版本</span></span><br><span class="line">docker --version</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">搜索镜像</span></span><br><span class="line">docker search image_name</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">拉取镜像</span></span><br><span class="line">docker pull image_name:tag</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">查看本地镜像目录</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">可选参数 -a -v</span></span><br><span class="line">docker images</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">查看所有容器信息</span></span><br><span class="line">docker ps -a</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">实例化镜像容器</span></span><br><span class="line">docker run image_name</span><br><span class="line">-p	# 27017:27017映射端口号。本地端口 : 容器端口</span><br><span class="line">-d	# 后台启动容器</span><br><span class="line">-v $PWD/db:/data/db	# 将容器目录挂载到本地，保存容器内数据库数据。$PWD / (本地相对路径) ：(容器内路径)</span><br><span class="line">--privileged=true	# 允许容器访问主机的所有设备</span><br><span class="line">--name container_name	# 容器命名</span><br><span class="line">--restart=always|no	# 容器开机自启|关闭</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">修改运行容器开机自启|关闭</span></span><br><span class="line">docker update --restart=always container_id</span><br><span class="line">docker update --restart=no container_id</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">停止容器运行</span></span><br><span class="line">docker stop container_name</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">重启容器运行</span></span><br><span class="line">docker restart container_name</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">杀死容器</span></span><br><span class="line">docker kill container_name</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">删除容器</span></span><br><span class="line">docker rm container_name</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">删除镜像</span></span><br><span class="line">docker rmi image_name:tag</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">将镜像保存到 tar 文件</span></span><br><span class="line">docker save image_name -o file_name.tar</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">从 tar 文件加载镜像</span></span><br><span class="line">docker load -i file_name.tar</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">将文件或目录从 docker 主机复制到容器中</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">将 mycode 目录复制到 myapp 容器中的tmp目录下</span></span><br><span class="line">docker cp mycode myapp:/tmp</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">查看镜像构建历史</span></span><br><span class="line">docker history image_name</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">从容器中查看日志</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">-f 选项查看活动日志</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">--<span class="built_in">tail</span> 10 查看最近10条日志</span></span><br><span class="line">docker logs container_name</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">查看所有容器的 CPU，内存和网络 I/O 情况</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">container_name 查看特定容器情况</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">--no-stream 资源使用统计信息，无实时流</span></span><br><span class="line">docker stats</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">显示容器的运行进程</span></span><br><span class="line">docker top container_name</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">查看容器 IP 地址</span></span><br><span class="line">docker inspect -f &#x27;&#123;&#123;range.NetworkSettings.Networks&#125;&#125;&#123;&#123;.IPAddress&#125;&#125;&#123;&#123;end&#125;&#125;&#x27; container_name</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">通过dockerfile构建一个镜像（.表示当前目录）</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">-f 指定某个文件来构建镜像，不指定的话那必须是默认的Dockerfile，名字可以通过-f来更改</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">–target 指定阶段构建，对应多阶段构建的场景</span></span><br><span class="line">docker build -t image_name:tag .</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">在容器中创建Bash对话</span></span><br><span class="line">docker exec -it container_name bash</span><br></pre></td></tr></table></figure>
+
+<h1 id="Dockerfile"><a href="#Dockerfile" class="headerlink" title="Dockerfile"></a>Dockerfile</h1><h2 id=""><a href="#" class="headerlink" title=""></a></h2>]]></content>
+      <categories>
+        <category>常用工具</category>
+      </categories>
+      <tags>
+        <tag>基础操作</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>nacos</title>
+    <url>/2024/02/02/nacos/</url>
+    <content><![CDATA[<h2 id="安装部署"><a href="#安装部署" class="headerlink" title="安装部署"></a>安装部署</h2><h3 id="nacos文档"><a href="#nacos文档" class="headerlink" title="nacos文档"></a><a href="https://nacos.io/zh-cn/docs/v2/quickstart/quick-start.html">nacos文档</a></h3><h3 id="nacos下载，完成下载后解压，进入-nacos-bin-bash"><a href="#nacos下载，完成下载后解压，进入-nacos-bin-bash" class="headerlink" title="nacos下载，完成下载后解压，进入 nacos/bin/bash"></a><a href="https://github.com/alibaba/nacos">nacos下载</a>，完成下载后解压，进入 nacos/bin/bash</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">cd nacos/bin/bash</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">windows下启动（linux则使用startup.sh启动）</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">-m standalone 为单节点模式</span></span><br><span class="line">.\startup.cmd -m standalone</span><br></pre></td></tr></table></figure>
+
+<span id="more"></span>
+
+<p>问题：nacos使用版本为1.4.7，注册服务启动后控制台报错</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">2024-02-02 15:56:26.979 ERROR 23020 --- [           main] c.a.n.c.remote.client.grpc.GrpcClient    : Server check fail, please check server 127.0.0.1 ,port 9848 is available , error =&#123;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>解决办法：spring-cloud-alibaba-dependencies的版本是2021.0.4.0，则nacos下载使用2.2.0版本之后启动就成功了</p>
+<h3 id="使用docker启动nacos更方便"><a href="#使用docker启动nacos更方便" class="headerlink" title="使用docker启动nacos更方便"></a>使用docker启动nacos更方便</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">docker拉取指定版本nacos</span></span><br><span class="line">docker pull nacos/nacos-server:v2.2.3</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">创建本地的Naocs日志挂载目录</span></span><br><span class="line">mkdir -p /root/nacos/logs</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">docker启动nacos</span></span><br><span class="line">docker run --name nacos -d -p 8848:8848 -p 9848:9848 -p 9849:9849 -e MODE=standalone -e PREFER_HOST_MODE=hostname nacos/nacos-server:v2.2.3</span><br></pre></td></tr></table></figure>
+
+<p>问题：<br>nacos装在本地的时候，启动一切正常，但是把nacos装在服务端的时候，报错。<br>Server check fail, please check server 192.168.0.33 ,port 9848 is available , error ={}</p>
+<p>原因：<br>当nacos客户端升级为2.x版本后，新增了gRPC的通信方式，新增了两个端口（9848、9849）</p>
+<p>这两个端口在nacos原先的端口上（默认8848），进行一定偏移量自动生成.。</p>
+<p>因为是用的docker安装的nacos，所以启动的时候，只把宿主机的8848端口和容器的8848端口映射了，所以客户端像服务端发起连接请求的时候会报9948找不到，只要同时把9949，和9849端口也同时暴露出去就行了</p>
+]]></content>
+      <categories>
+        <category>微服务组件</category>
+      </categories>
+      <tags>
+        <tag>nacos</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>虚拟机环境配置</title>
+    <url>/2024/02/02/%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/</url>
+    <content><![CDATA[<h2 id="虚拟机环境"><a href="#虚拟机环境" class="headerlink" title="虚拟机环境"></a>虚拟机环境</h2><h3 id="安装-Centos-7"><a href="#安装-Centos-7" class="headerlink" title="安装 Centos 7"></a>安装 Centos 7</h3><p><a href="https://mirrors.aliyun.com/centos/7/isos/x86_64/">阿里云站点</a> 下载镜像创建虚拟机</p>
+<h3 id="安装Golang"><a href="#安装Golang" class="headerlink" title="安装Golang"></a>安装Golang</h3><p><a href="https://go.dev/dl/">官网下载</a></p>
+<h3 id="安装Java"><a href="#安装Java" class="headerlink" title="安装Java"></a>安装Java</h3><span id="more"></span>
+
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">安装corretto java 17</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">使用 wget 命令下载 RPM 包</span></span><br><span class="line">wget https://corretto.aws/downloads/latest/amazon-corretto-17-x64-linux-jdk.rpm</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">安装 RPM 包</span></span><br><span class="line">yum localinstall amazon-corretto-17-x64-linux-jdk.rpm -y</span><br><span class="line">java -version</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>常用工具</category>
+      </categories>
+      <tags>
+        <tag>环境配置</tag>
       </tags>
   </entry>
 </search>
